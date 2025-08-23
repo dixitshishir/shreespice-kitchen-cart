@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useOrder, OrderStatus, Order } from '@/contexts/OrderContext';
+import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import AdminLogin from '@/components/AdminLogin';
 import OrderHistory from '@/components/OrderHistory';
@@ -44,6 +45,7 @@ const Admin = () => {
   const { state, updateOrderStatus } = useOrder();
   const [selectedStatus, setSelectedStatus] = useState<OrderStatus | 'all'>('all');
   const [currentView, setCurrentView] = useState<'orders' | 'history'>('orders');
+  const { toast } = useToast();
 
   useEffect(() => {
     // For hardcoded auth, just set loading to false
@@ -85,14 +87,33 @@ const Admin = () => {
   };
 
   const sendWhatsAppUpdate = (order: Order) => {
-    const message = `Hello ${order.customerInfo.name}! Your order #${order.id} status has been updated to: ${statusLabels[order.status]}. Total: ₹${order.total + 50}`;
+    const message = `Hello ${order.customerInfo.name}! Your order #${order.id.slice(-8)} status has been updated to: ${statusLabels[order.status]}. Total: ₹${order.total + 50}`;
     // Clean the phone number - remove any non-digits and ensure it starts with country code
     const cleanPhone = order.customerInfo.phone.replace(/\D/g, '');
     const phoneWithCountryCode = cleanPhone.startsWith('91') ? cleanPhone : `91${cleanPhone}`;
     
-    // Use api.whatsapp.com which is more universally accessible
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneWithCountryCode}&text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    // Try wa.me first, then fallback to copying message
+    const waUrl = `https://wa.me/${phoneWithCountryCode}?text=${encodeURIComponent(message)}`;
+    
+    // First try to open WhatsApp
+    const newWindow = window.open(waUrl, '_blank');
+    
+    // Fallback: copy message to clipboard and show instructions
+    setTimeout(() => {
+      navigator.clipboard.writeText(message).then(() => {
+        toast({
+          title: "WhatsApp Message Ready! 📱",
+          description: `Message copied to clipboard. If WhatsApp didn't open, manually send to: ${order.customerInfo.phone}`,
+          duration: 8000,
+        });
+      }).catch(() => {
+        toast({
+          title: `Send to ${order.customerInfo.phone}:`,
+          description: message.substring(0, 100) + "...",
+          duration: 10000,
+        });
+      });
+    }, 1000);
   };
 
   const getStatusBadgeClass = (status: OrderStatus) => {
