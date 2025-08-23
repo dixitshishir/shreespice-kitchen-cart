@@ -133,6 +133,7 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           customer_address: order.customerInfo.address,
           total: order.total,
           status: order.status,
+          user_id: null, // Allow anonymous orders
         })
         .select()
         .single();
