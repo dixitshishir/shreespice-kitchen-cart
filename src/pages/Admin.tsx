@@ -84,7 +84,12 @@ const Admin = () => {
 
   const sendWhatsAppUpdate = (order: Order) => {
     const message = `Hello ${order.customerInfo.name}! Your order #${order.id} status has been updated to: ${statusLabels[order.status]}. Total: ₹${order.total + 50}`;
-    const whatsappUrl = `https://wa.me/91${order.customerInfo.phone}?text=${encodeURIComponent(message)}`;
+    // Clean the phone number - remove any non-digits and ensure it starts with country code
+    const cleanPhone = order.customerInfo.phone.replace(/\D/g, '');
+    const phoneWithCountryCode = cleanPhone.startsWith('91') ? cleanPhone : `91${cleanPhone}`;
+    
+    // Use web.whatsapp.com URL format which is more reliable
+    const whatsappUrl = `https://web.whatsapp.com/send?phone=${phoneWithCountryCode}&text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 
