@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useOrder, OrderStatus, Order } from '@/contexts/OrderContext';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import AdminLogin from '@/components/AdminLogin';
 import { Phone, MapPin, Clock, ShoppingBag, LogOut } from 'lucide-react';
 import type { User } from '@supabase/supabase-js';
