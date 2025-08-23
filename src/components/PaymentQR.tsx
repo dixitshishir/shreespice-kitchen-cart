@@ -41,7 +41,7 @@ const PaymentQR = ({ totalAmount = 0, customerDetails, orderId }: PaymentQRProps
       return;
     }
 
-    const phoneNumber = "919876543210"; // Replace with mother's number
+    const phoneNumber = "919986918992"; // Mother's WhatsApp number
     const itemsList = state.items.map(item => `${item.name} - ₹${item.price} x ${item.quantity}`).join('\n');
     const message = `Hi! I would like to order the following items:\n\n${itemsList}\n\nTotal Amount: ₹${totalAmount}\n\nCustomer Details:\nName: ${customerDetails?.name || 'Not provided'}\nPhone: ${customerDetails?.phone || 'Not provided'}\nAddress: ${customerDetails?.address || 'Not provided'}`;
     
