@@ -20,7 +20,10 @@ const AdminLogin = ({ onLoginSuccess }: AdminLoginProps) => {
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
+    console.log('Login button clicked');
     e.preventDefault();
+    console.log('Form submission prevented');
+    console.log('Phone:', phone, 'Password:', password);
     setIsLoading(true);
 
     try {
@@ -28,13 +31,19 @@ const AdminLogin = ({ onLoginSuccess }: AdminLoginProps) => {
       const validPhones = ['9986918992', '9986048887'];
       const validPassword = 'Dixit@123';
 
+      console.log('Checking credentials...');
+      console.log('Phone in valid list:', validPhones.includes(phone));
+      console.log('Password match:', password === validPassword);
+
       if (validPhones.includes(phone) && password === validPassword) {
+        console.log('Login successful, calling onLoginSuccess');
         toast({
           title: "Login Successful",
           description: "Welcome to the admin dashboard!",
         });
         onLoginSuccess();
       } else {
+        console.log('Login failed - invalid credentials');
         toast({
           title: "Login Failed",
           description: "Invalid phone number or password",
@@ -42,12 +51,14 @@ const AdminLogin = ({ onLoginSuccess }: AdminLoginProps) => {
         });
       }
     } catch (error: any) {
+      console.error('Login error:', error);
       toast({
         title: "Login Error",
         description: error.message || "An unexpected error occurred",
         variant: "destructive",
       });
     } finally {
+      console.log('Setting loading to false');
       setIsLoading(false);
     }
   };
