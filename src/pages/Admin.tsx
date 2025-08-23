@@ -91,34 +91,58 @@ const Admin = () => {
     }
   };
 
-  const sendWhatsAppUpdate = (order: Order) => {
+  const sendWhatsAppUpdate = async (order: Order) => {
     const message = `Hello ${order.customerInfo.name}! Your order #${order.id.slice(-8)} status has been updated to: ${statusLabels[order.status]}. Total: ₹${order.total + 50}`;
+    
     // Clean the phone number - remove any non-digits and ensure it starts with country code
     const cleanPhone = order.customerInfo.phone.replace(/\D/g, '');
     const phoneWithCountryCode = cleanPhone.startsWith('91') ? cleanPhone : `91${cleanPhone}`;
     
-    // Try wa.me first, then fallback to copying message
-    const waUrl = `https://wa.me/${phoneWithCountryCode}?text=${encodeURIComponent(message)}`;
+    // Try multiple WhatsApp URL formats for better compatibility
+    const encodedMessage = encodeURIComponent(message);
     
-    // First try to open WhatsApp
-    const newWindow = window.open(waUrl, '_blank');
+    // Try WhatsApp app first (mobile), then web version
+    const whatsappUrls = [
+      `whatsapp://send?phone=${phoneWithCountryCode}&text=${encodedMessage}`, // Mobile app
+      `https://web.whatsapp.com/send?phone=${phoneWithCountryCode}&text=${encodedMessage}`, // Web version
+      `https://wa.me/${phoneWithCountryCode}?text=${encodedMessage}` // Fallback
+    ];
     
-    // Fallback: copy message to clipboard and show instructions
-    setTimeout(() => {
-      navigator.clipboard.writeText(message).then(() => {
-        toast({
-          title: "WhatsApp Message Ready! 📱",
-          description: `Message copied to clipboard. If WhatsApp didn't open, manually send to: ${order.customerInfo.phone}`,
-          duration: 8000,
-        });
-      }).catch(() => {
-        toast({
-          title: `Send to ${order.customerInfo.phone}:`,
-          description: message.substring(0, 100) + "...",
-          duration: 10000,
-        });
-      });
-    }, 1000);
+    let urlIndex = 0;
+    
+    const tryNextUrl = () => {
+      if (urlIndex < whatsappUrls.length) {
+        const url = whatsappUrls[urlIndex];
+        console.log(`Trying WhatsApp URL ${urlIndex + 1}:`, url);
+        
+        try {
+          window.location.href = url;
+        } catch (error) {
+          console.error(`Error with URL ${urlIndex + 1}:`, error);
+          urlIndex++;
+          if (urlIndex < whatsappUrls.length) {
+            setTimeout(tryNextUrl, 1000); // Try next URL after 1 second
+          } else {
+            // If all fail, copy to clipboard as fallback
+            navigator.clipboard?.writeText(message).then(() => {
+              toast({
+                title: "WhatsApp Message Ready! 📱",
+                description: `Message copied to clipboard. If WhatsApp didn't open, manually send to: ${order.customerInfo.phone}`,
+                duration: 8000,
+              });
+            }).catch(() => {
+              toast({
+                title: `Send to ${order.customerInfo.phone}:`,
+                description: message.substring(0, 100) + "...",
+                duration: 10000,
+              });
+            });
+          }
+        }
+      }
+    };
+    
+    tryNextUrl();
   };
 
   const handleNotifyCustomer = (method: 'whatsapp' | 'sms') => {
