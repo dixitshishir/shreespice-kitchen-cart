@@ -5,13 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useOrder, OrderStatus, Order } from '@/contexts/OrderContext';
-import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import AdminLogin from '@/components/AdminLogin';
 import OrderHistory from '@/components/OrderHistory';
 import { Phone, MapPin, Clock, ShoppingBag, LogOut, History, List } from 'lucide-react';
-import type { User } from '@supabase/supabase-js';
 
 const statusColors = {
   received: 'bg-blue-100 text-blue-800',
@@ -48,33 +46,11 @@ const Admin = () => {
   const [currentView, setCurrentView] = useState<'orders' | 'history'>('orders');
   const [showNotificationDialog, setShowNotificationDialog] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const { user } = useAuth();
   const { toast } = useToast();
 
   useEffect(() => {
-    if (user) {
-      checkAdminAccess();
-    }
     setIsLoading(false);
-  }, [user]);
-
-  const checkAdminAccess = async () => {
-    if (!user) return;
-    
-    try {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('phone')
-        .eq('id', user.id)
-        .single();
-
-      if (profile?.phone === '9986918992' || profile?.phone === '1234567890') {
-        setIsAuthenticated(true);
-      }
-    } catch (error) {
-      console.error('Admin access check failed:', error);
-    }
-  };
+  }, []);
 
   const handleLogout = async () => {
     setIsAuthenticated(false);
