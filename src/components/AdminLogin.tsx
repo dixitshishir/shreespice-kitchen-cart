@@ -23,10 +23,10 @@ const AdminLogin = ({ onLoginSuccess }: AdminLoginProps) => {
 
     try {
       // Hardcoded login credentials
-      const validPhone = '9986918992';
+      const validPhones = ['9986918992', '9986048887'];
       const validPassword = 'Dixit@123';
 
-      if (phone === validPhone && password === validPassword) {
+      if (validPhones.includes(phone) && password === validPassword) {
         toast({
           title: "Login Successful",
           description: "Welcome to the admin dashboard!",
