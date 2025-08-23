@@ -24,6 +24,15 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
     setShowCustomerForm(true);
   };
 
+  const sendWhatsAppNotification = (customerDetails: { name: string; phone: string; address: string }) => {
+    const motherPhone = '9986918992';
+    const itemsList = state.items.map(item => `${item.name} (${item.quantity}x)`).join(', ');
+    const message = `🔔 New Order Alert!\n\nCustomer: ${customerDetails.name}\nPhone: ${customerDetails.phone}\nAddress: ${customerDetails.address}\nItems: ${itemsList}\nTotal: ₹${state.total + 50}\n\nPlease go to admin dashboard and accept the order.`;
+    
+    const whatsappUrl = `https://wa.me/${motherPhone}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   const handleCustomerDetailsSubmit = (details: { name: string; phone: string; address: string }) => {
     // Create order
     addOrder({
@@ -33,9 +42,12 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
       status: 'received'
     });
 
+    // Send WhatsApp notification to mother
+    sendWhatsAppNotification(details);
+
     toast({
       title: "Order Confirmed! 🎉",
-      description: `Thank you ${details.name}! We'll contact you at ${details.phone} to confirm your order and delivery details.`,
+      description: `Thank you ${details.name}! Your order has been notified to our team. We'll contact you at ${details.phone} shortly.`,
       duration: 5000,
     });
     clearCart();
