@@ -3,7 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Minus, Plus, Trash2 } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Minus, Plus, Trash2, CreditCard, Smartphone, CheckCircle } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { useToast } from '@/hooks/use-toast';
 import { useOrder } from '@/contexts/OrderContext';
@@ -19,34 +20,47 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
   const { addOrder } = useOrder();
   const { toast } = useToast();
   const [showCustomerForm, setShowCustomerForm] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
+  const [customerDetails, setCustomerDetails] = useState<{ name: string; phone: string; address: string } | null>(null);
 
   const handleProceedToCheckout = () => {
     setShowCustomerForm(true);
   };
 
-  const sendWhatsAppNotification = (customerDetails: { name: string; phone: string; address: string }) => {
-    const motherPhone = '9986918992';
-    const itemsList = state.items.map(item => `${item.name} (${item.quantity}x)`).join(', ');
-    const message = `🔔 New Order Alert!\n\nCustomer: ${customerDetails.name}\nPhone: ${customerDetails.phone}\nAddress: ${customerDetails.address}\nItems: ${itemsList}\nTotal: ₹${state.total + 50}\n\nPlease go to admin dashboard and accept the order.`;
+  const generateUPILink = (amount: number, customerName: string, orderId: string) => {
+    const upiId = 'nalini.dixit@paytm'; // Dummy UPI ID
+    const payeeName = 'Nalini Dixit';
+    const note = `Order ${orderId} - ${customerName} - Shree Spices`;
     
-    // Copy message to clipboard and show notification
-    navigator.clipboard.writeText(message).then(() => {
-      toast({
-        title: "Message Copied! 📋",
-        description: `WhatsApp message copied to clipboard. Please manually send to ${motherPhone} via WhatsApp.`,
-        duration: 8000,
-      });
-    }).catch(() => {
-      // Fallback if clipboard fails - show message in toast
-      toast({
-        title: "Send this message to 9986918992:",
-        description: message.substring(0, 100) + "...",
-        duration: 10000,
-      });
-    });
+    // UPI payment URL format
+    const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
+    
+    return upiUrl;
   };
 
-  const handleCustomerDetailsSubmit = (details: { name: string; phone: string; address: string }) => {
+  const handlePayNow = () => {
+    if (!customerDetails) return;
+    
+    const totalAmount = state.total + 50;
+    const orderId = Date.now().toString().slice(-8);
+    const upiLink = generateUPILink(totalAmount, customerDetails.name, orderId);
+    
+    // Try to open UPI app
+    window.location.href = upiLink;
+    
+    // Show fallback instructions
+    setTimeout(() => {
+      toast({
+        title: "Payment Instructions 💳",
+        description: "If payment app didn't open, scan QR code or use UPI ID: nalini.dixit@paytm",
+        duration: 10000,
+      });
+    }, 2000);
+  };
+
+  const handlePaymentComplete = () => {
+    if (!customerDetails) return;
+
     // Convert cart items to order items
     const orderItems = state.items.map(item => ({
       id: item.id,
@@ -58,26 +72,53 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
     // Create order
     addOrder({
       items: orderItems,
-      customerInfo: details,
+      customerInfo: customerDetails,
       total: state.total,
       status: 'received'
     });
 
     // Send WhatsApp notification to mother
-    sendWhatsAppNotification(details);
+    sendWhatsAppNotification(customerDetails);
 
     toast({
-      title: "Order Confirmed! 🎉",
-      description: `Thank you ${details.name}! Your order has been notified to our team. We'll contact you at ${details.phone} shortly.`,
+      title: "Payment Received! 🎉",
+      description: `Thank you ${customerDetails.name}! Your order will be processed and we'll contact you soon.`,
       duration: 5000,
     });
+    
     clearCart();
     setShowCustomerForm(false);
+    setShowPayment(false);
+    setCustomerDetails(null);
     onOpenChange(false);
+  };
+
+  const sendWhatsAppNotification = (customerDetails: { name: string; phone: string; address: string }) => {
+    const motherPhone = '9986918992';
+    const itemsList = state.items.map(item => `${item.name} (${item.quantity}x)`).join(', ');
+    const message = `🔔 New Order Alert!\n\nCustomer: ${customerDetails.name}\nPhone: ${customerDetails.phone}\nAddress: ${customerDetails.address}\nItems: ${itemsList}\nTotal: ₹${state.total + 50}\n\nPayment: UPI (Please verify in your UPI app)\nPlease go to admin dashboard and accept the order.`;
+    
+    // Copy message to clipboard and show notification
+    navigator.clipboard.writeText(message).then(() => {
+      toast({
+        title: "Order Alert Copied! 📋",
+        description: `Order notification copied. Please send to ${motherPhone} via WhatsApp.`,
+        duration: 8000,
+      });
+    }).catch(() => {
+      console.log('Clipboard failed');
+    });
+  };
+
+  const handleCustomerDetailsSubmit = (details: { name: string; phone: string; address: string }) => {
+    setCustomerDetails(details);
+    setShowCustomerForm(false);
+    setShowPayment(true);
   };
 
   const handleBackToCart = () => {
     setShowCustomerForm(false);
+    setShowPayment(false);
   };
 
   return (
@@ -85,8 +126,8 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
       <SheetContent className="w-full max-w-md">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
-            {showCustomerForm ? 'Order Details' : 'Shopping Cart'}
-            {!showCustomerForm && state.items.length > 0 && (
+            {showPayment ? 'Complete Payment' : showCustomerForm ? 'Order Details' : 'Shopping Cart'}
+            {!showCustomerForm && !showPayment && state.items.length > 0 && (
               <Badge variant="secondary">
                 {state.items.reduce((sum, item) => sum + item.quantity, 0)} items
               </Badge>
@@ -95,7 +136,75 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
         </SheetHeader>
         
         <div className="flex flex-col h-full">
-          {showCustomerForm ? (
+          {showPayment ? (
+            <div className="flex-1 flex items-center justify-center py-8">
+              <Card className="w-full max-w-sm">
+                <CardHeader className="text-center">
+                  <CardTitle className="flex items-center justify-center gap-2">
+                    <Smartphone className="h-5 w-5" />
+                    UPI Payment
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="text-center space-y-2">
+                    <p className="text-sm text-muted-foreground">Pay to</p>
+                    <p className="font-semibold">Nalini Dixit</p>
+                    <p className="text-sm text-muted-foreground">nalini.dixit@paytm</p>
+                  </div>
+                  
+                  <Separator />
+                  
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span>Items Total</span>
+                      <span>₹{state.total}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>Delivery</span>
+                      <span>₹50</span>
+                    </div>
+                    <Separator />
+                    <div className="flex justify-between font-bold text-lg">
+                      <span>Amount to Pay</span>
+                      <span>₹{state.total + 50}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <Button 
+                      onClick={handlePayNow}
+                      className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
+                    >
+                      <Smartphone className="mr-2 h-4 w-4" />
+                      Pay with UPI
+                    </Button>
+                    
+                    <div className="text-center">
+                      <p className="text-xs text-muted-foreground mb-3">
+                        After completing payment, click below to confirm your order
+                      </p>
+                      <Button 
+                        onClick={handlePaymentComplete}
+                        variant="outline"
+                        className="w-full flex items-center gap-2"
+                      >
+                        <CheckCircle className="h-4 w-4" />
+                        I have completed payment
+                      </Button>
+                    </div>
+                    
+                    <Button 
+                      variant="ghost" 
+                      onClick={handleBackToCart}
+                      className="w-full"
+                    >
+                      Back to Cart
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          ) : showCustomerForm ? (
             <div className="flex-1 flex items-center justify-center py-8">
               <CustomerDetailsForm
                 onSubmit={handleCustomerDetailsSubmit}
