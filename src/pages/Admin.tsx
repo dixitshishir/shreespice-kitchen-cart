@@ -80,9 +80,14 @@ const Admin = () => {
     if (nextStatus) {
       updateOrderStatus(orderId, nextStatus);
       
+      // Send WhatsApp update for status change
+      const order = state.orders.find(o => o.id === orderId);
+      if (order) {
+        sendWhatsAppUpdate(order, nextStatus);
+      }
+      
       // If accepting order, show notification dialog
       if (currentStatus === 'received' && nextStatus === 'accepted') {
-        const order = state.orders.find(o => o.id === orderId);
         if (order) {
           setSelectedOrder(order);
           setShowNotificationDialog(true);
@@ -169,6 +174,13 @@ const Admin = () => {
     };
     
     tryNextUrl();
+    
+    // Show success toast
+    toast({
+      title: "WhatsApp Update Sent! 📱",
+      description: `Status update sent to ${order.customerInfo.name} (${order.customerInfo.phone})`,
+      duration: 3000,
+    });
   };
 
   const handleNotifyCustomer = (method: 'whatsapp' | 'sms') => {
@@ -376,12 +388,12 @@ const Admin = () => {
                         
                         <Button
                           variant="outline"
-                          onClick={() => sendWhatsAppUpdate(order, nextStatusMap[order.status] || undefined)}
+                          onClick={() => sendWhatsAppUpdate(order)}
                           className="flex items-center justify-center gap-2 w-full sm:w-auto"
                           size="sm"
                         >
                           <Phone className="h-3 w-3 sm:h-4 sm:w-4" />
-                          <span className="text-xs sm:text-sm">WhatsApp Update</span>
+                          <span className="text-xs sm:text-sm">Send WhatsApp Update</span>
                         </Button>
                       </div>
                     </CardContent>
