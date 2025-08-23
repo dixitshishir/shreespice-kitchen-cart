@@ -2,41 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Shree Spices Design System - Warm spice-inspired colors */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Warm cream background */
+    --background: 30 40% 98%;
+    --foreground: 25 25% 15%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Card colors with warm tint */
+    --card: 30 50% 97%;
+    --card-foreground: 25 25% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 30 50% 97%;
+    --popover-foreground: 25 25% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Saffron/turmeric primary colors */
+    --primary: 35 85% 55%;
+    --primary-foreground: 30 10% 95%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Warm secondary */
+    --secondary: 25 40% 92%;
+    --secondary-foreground: 25 25% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted warm tones */
+    --muted: 25 30% 90%;
+    --muted-foreground: 25 15% 50%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Paprika accent */
+    --accent: 15 75% 60%;
+    --accent-foreground: 30 10% 95%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 30 10% 95%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Warm borders */
+    --border: 25 30% 85%;
+    --input: 25 30% 85%;
+    --ring: 35 85% 55%;
 
-    --radius: 0.5rem;
+    /* Spice-inspired custom colors */
+    --saffron: 45 95% 65%;
+    --turmeric: 35 85% 55%;
+    --paprika: 15 75% 60%;
+    --cinnamon: 25 45% 35%;
+    --cardamom: 120 20% 45%;
+    
+    /* Beautiful gradients */
+    --gradient-spice: linear-gradient(135deg, hsl(45 95% 65%), hsl(35 85% 55%));
+    --gradient-warm: linear-gradient(180deg, hsl(30 40% 98%), hsl(25 30% 95%));
+    --gradient-hero: linear-gradient(135deg, hsl(35 85% 55%), hsl(15 75% 60%));
+    
+    /* Elegant shadows */
+    --shadow-spice: 0 10px 30px -10px hsl(35 85% 55% / 0.3);
+    --shadow-warm: 0 4px 20px hsl(25 30% 70% / 0.2);
+    
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 

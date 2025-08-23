@@ -52,6 +52,12 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// Spice-inspired colors
+				saffron: 'hsl(var(--saffron))',
+				turmeric: 'hsl(var(--turmeric))',
+				paprika: 'hsl(var(--paprika))',
+				cinnamon: 'hsl(var(--cinnamon))',
+				cardamom: 'hsl(var(--cardamom))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
