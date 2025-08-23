@@ -3,6 +3,8 @@ import { Product } from '@/contexts/CartContext';
 import turmericImage from '@/assets/turmeric-powder.jpg';
 import chiliImage from '@/assets/chili-powder.jpg';
 import corianderImage from '@/assets/coriander-powder.jpg';
+import proteinBarImage from '@/assets/protein-bar.jpg';
+import proteinPowderImage from '@/assets/protein-powder.jpg';
 
 interface ProductCategory {
   name: string;
@@ -10,6 +12,27 @@ interface ProductCategory {
 }
 
 const productCategories: ProductCategory[] = [
+  {
+    name: "New Items",
+    products: [
+      {
+        id: 'n1',
+        name: 'Homemade Protein Bar',
+        price: 150,
+        image: proteinBarImage,
+        description: 'Nutritious homemade protein bar with nuts, dates, and oats. Perfect post-workout snack made with natural ingredients.',
+        weight: '60g each'
+      },
+      {
+        id: 'n2',
+        name: 'Homemade Protein Powder',
+        price: 350,
+        image: proteinPowderImage,
+        description: 'Natural protein powder made from roasted almonds, dates, and seeds. Chemical-free and made fresh daily.',
+        weight: '250g'
+      }
+    ]
+  },
   {
     name: "Powders",
     products: [
@@ -202,37 +225,74 @@ const productCategories: ProductCategory[] = [
 
 const ProductGrid = () => {
   return (
-    <section className="py-16 bg-gradient-to-b from-background to-secondary/20">
-      <div className="container">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-cinnamon to-paprika bg-clip-text text-transparent">
-            Shree Spices - Made with Love
+    <section className="py-20 bg-gradient-to-br from-background via-secondary/20 to-background relative overflow-hidden">
+      {/* Modern background elements */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
+      <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 left-20 w-48 h-48 bg-gradient-to-br from-accent/10 to-primary/10 rounded-full blur-2xl"></div>
+      
+      <div className="container relative z-10">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/10 to-accent/10 backdrop-blur-sm border border-primary/20 rounded-full px-6 py-2 mb-6">
+            <span className="text-primary font-semibold">✨ Fresh & Natural</span>
+          </div>
+          
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+            Shree Spices Collection
           </h2>
-          <div className="space-y-3">
-            <p className="text-minnamon font-semibold text-xl">
-              🍯 All items are made to order for maximum freshness
+          
+          <div className="space-y-4 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground leading-relaxed">
+              From traditional spice blends to modern protein products - all made with love and the finest ingredients
             </p>
-            <p className="text-cinnamon font-semibold text-lg">
-              ✨ All sweets are made with pure ghee
-            </p>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Traditional recipes passed down through generations, made with the finest ingredients 
-              and lots of love in every batch.
-            </p>
+            
+            <div className="flex flex-wrap justify-center gap-6 text-lg">
+              <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-full px-4 py-2 border border-border/50">
+                <span className="text-2xl">🍯</span>
+                <span className="font-medium text-foreground">Made to Order</span>
+              </div>
+              <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-full px-4 py-2 border border-border/50">
+                <span className="text-2xl">🥥</span>
+                <span className="font-medium text-foreground">Pure Ghee</span>
+              </div>
+              <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-full px-4 py-2 border border-border/50">
+                <span className="text-2xl">🌿</span>
+                <span className="font-medium text-foreground">Natural Ingredients</span>
+              </div>
+            </div>
           </div>
         </div>
         
-        <div className="space-y-16">
-          {productCategories.map((category) => (
-            <div key={category.name} className="space-y-8">
-              <div className="text-center">
-                <h3 className="text-2xl md:text-3xl font-bold text-primary mb-2">
-                  {category.name}
-                </h3>
-                <div className="w-24 h-1 bg-gradient-to-r from-cinnamon to-paprika mx-auto rounded-full"></div>
+        <div className="space-y-20">
+          {productCategories.map((category, index) => (
+            <div key={category.name} className="category-section rounded-3xl p-8 md:p-12">
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center gap-3 mb-4">
+                  {category.name === "New Items" && <span className="text-3xl">🆕</span>}
+                  {category.name === "Powders" && <span className="text-3xl">🌶️</span>}
+                  {category.name === "Sweets" && <span className="text-3xl">🍯</span>}
+                  {category.name === "Ready to Eat" && <span className="text-3xl">🍽️</span>}
+                  {category.name === "Snacks" && <span className="text-3xl">🥨</span>}
+                  
+                  <h3 className="text-3xl md:text-4xl font-bold text-foreground category-title">
+                    {category.name}
+                  </h3>
+                  
+                  {category.name === "New Items" && (
+                    <div className="bg-gradient-to-r from-primary to-accent text-primary-foreground px-3 py-1 rounded-full text-sm font-semibold animate-pulse">
+                      NEW
+                    </div>
+                  )}
+                </div>
+                
+                {category.name === "New Items" && (
+                  <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                    Introducing our latest homemade protein products - naturally nutritious and delicious!
+                  </p>
+                )}
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 {category.products.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}

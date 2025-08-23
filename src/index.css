@@ -2,77 +2,75 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Shree Spices Design System - Warm spice-inspired colors */
+/* Shree Spices Design System - Modern warm spice-inspired colors */
 
 @layer base {
   :root {
-    /* Warm cream background */
-    --background: 30 40% 98%;
-    --foreground: 25 25% 15%;
+    /* Modern warm cream background */
+    --background: 32 42% 99%;
+    --foreground: 25 30% 12%;
 
-    /* Card colors with warm tint */
-    --card: 30 50% 97%;
-    --card-foreground: 25 25% 15%;
+    /* Modern card colors with subtle warmth */
+    --card: 32 45% 98%;
+    --card-foreground: 25 30% 12%;
 
-    --popover: 30 50% 97%;
-    --popover-foreground: 25 25% 15%;
+    --popover: 32 45% 98%;
+    --popover-foreground: 25 30% 12%;
 
-    /* Saffron/turmeric primary colors */
-    --primary: 35 85% 55%;
-    --primary-foreground: 30 10% 95%;
+    /* Vibrant saffron/turmeric primary colors */
+    --primary: 38 92% 58%;
+    --primary-foreground: 32 15% 98%;
 
-    /* Warm secondary */
-    --secondary: 25 40% 92%;
-    --secondary-foreground: 25 25% 15%;
+    /* Modern warm secondary */
+    --secondary: 28 35% 95%;
+    --secondary-foreground: 25 30% 12%;
 
-    /* Muted warm tones */
-    --muted: 25 30% 90%;
-    --muted-foreground: 25 15% 50%;
+    /* Contemporary muted tones */
+    --muted: 28 25% 93%;
+    --muted-foreground: 25 20% 45%;
 
-    /* Paprika accent */
-    --accent: 15 75% 60%;
-    --accent-foreground: 30 10% 95%;
+    /* Modern paprika accent */
+    --accent: 18 82% 65%;
+    --accent-foreground: 32 15% 98%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 30 10% 95%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 32 15% 98%;
 
-    /* Warm borders */
-    --border: 25 30% 85%;
-    --input: 25 30% 85%;
-    --ring: 35 85% 55%;
+    /* Clean modern borders */
+    --border: 28 25% 88%;
+    --input: 28 25% 88%;
+    --ring: 38 92% 58%;
 
-    /* Spice-inspired custom colors */
-    --saffron: 45 95% 65%;
-    --turmeric: 35 85% 55%;
-    --paprika: 15 75% 60%;
-    --cinnamon: 25 45% 35%;
-    --cardamom: 120 20% 45%;
+    /* Enhanced spice-inspired custom colors */
+    --saffron: 48 98% 68%;
+    --turmeric: 38 92% 58%;
+    --paprika: 18 82% 65%;
+    --cinnamon: 28 48% 32%;
+    --cardamom: 125 25% 42%;
+    --minnamon: 35 65% 45%;
     
-    /* Beautiful gradients */
-    --gradient-spice: linear-gradient(135deg, hsl(45 95% 65%), hsl(35 85% 55%));
-    --gradient-warm: linear-gradient(180deg, hsl(30 40% 98%), hsl(25 30% 95%));
-    --gradient-hero: linear-gradient(135deg, hsl(35 85% 55%), hsl(15 75% 60%));
+    /* Modern beautiful gradients */
+    --gradient-spice: linear-gradient(135deg, hsl(48 98% 68%), hsl(38 92% 58%));
+    --gradient-warm: linear-gradient(180deg, hsl(32 42% 99%), hsl(28 35% 96%));
+    --gradient-hero: linear-gradient(135deg, hsl(38 92% 58%), hsl(18 82% 65%));
+    --gradient-modern: linear-gradient(135deg, hsl(38 92% 58%), hsl(48 98% 68%), hsl(18 82% 65%));
+    --gradient-card: linear-gradient(145deg, hsl(32 45% 98%), hsl(28 35% 95%));
     
-    /* Elegant shadows */
-    --shadow-spice: 0 10px 30px -10px hsl(35 85% 55% / 0.3);
-    --shadow-warm: 0 4px 20px hsl(25 30% 70% / 0.2);
+    /* Modern elegant shadows */
+    --shadow-spice: 0 12px 35px -8px hsl(38 92% 58% / 0.25);
+    --shadow-warm: 0 6px 25px hsl(28 30% 70% / 0.15);
+    --shadow-modern: 0 8px 30px -5px hsl(25 20% 50% / 0.1);
+    --shadow-card: 0 4px 20px hsl(28 25% 80% / 0.12);
     
-    --radius: 0.75rem;
+    --radius: 0.875rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -122,5 +120,55 @@
 
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  /* Modern card hover effects */
+  .card-modern {
+    @apply bg-gradient-to-br from-card to-secondary/50 backdrop-blur-sm border border-border/50;
+    box-shadow: var(--shadow-card);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .card-modern:hover {
+    @apply border-primary/20;
+    box-shadow: var(--shadow-spice);
+    transform: translateY(-2px);
+  }
+
+  /* Modern category section */
+  .category-section {
+    @apply bg-gradient-to-br from-background via-secondary/30 to-background;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Animated underline for category titles */
+  .category-title {
+    @apply relative;
+  }
+  
+  .category-title::after {
+    content: '';
+    @apply absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-primary to-accent rounded-full;
+    animation: pulse 2s infinite;
+  }
+
+  /* Modern badge styling */
+  .badge-modern {
+    @apply bg-gradient-to-r from-primary/10 to-accent/10 text-primary border border-primary/20 backdrop-blur-sm;
+  }
+
+  /* Enhanced button styling */
+  .btn-modern {
+    @apply bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground font-medium;
+    box-shadow: var(--shadow-warm);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .btn-modern:hover {
+    box-shadow: var(--shadow-spice);
+    transform: translateY(-1px);
   }
 }
