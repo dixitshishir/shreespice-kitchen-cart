@@ -12,7 +12,7 @@ interface AdminLoginProps {
 }
 
 const AdminLogin = ({ onLoginSuccess }: AdminLoginProps) => {
-  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -22,26 +22,22 @@ const AdminLogin = ({ onLoginSuccess }: AdminLoginProps) => {
     setIsLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      // Hardcoded login credentials
+      const validPhone = '9986918992';
+      const validPassword = 'Dixit@123';
 
-      if (error) {
-        toast({
-          title: "Login Failed",
-          description: error.message,
-          variant: "destructive",
-        });
-        return;
-      }
-
-      if (data.user) {
+      if (phone === validPhone && password === validPassword) {
         toast({
           title: "Login Successful",
           description: "Welcome to the admin dashboard!",
         });
         onLoginSuccess();
+      } else {
+        toast({
+          title: "Login Failed",
+          description: "Invalid phone number or password",
+          variant: "destructive",
+        });
       }
     } catch (error) {
       toast({
@@ -69,13 +65,13 @@ const AdminLogin = ({ onLoginSuccess }: AdminLoginProps) => {
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="phone">Phone Number</Label>
               <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@shreespices.com"
+                id="phone"
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="9986918992"
                 required
                 disabled={isLoading}
               />
