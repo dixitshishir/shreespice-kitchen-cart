@@ -39,6 +39,14 @@ const Hero = ({ onShopNow }: HeroProps) => {
           <Button 
             size="lg" 
             variant="outline"
+            onClick={() => window.open('/lovable-uploads/81fbdcac-8037-4723-b27a-cb509e6c64a1.png', '_blank')}
+            className="border-white text-white hover:bg-white hover:text-primary"
+          >
+            View Product List
+          </Button>
+          <Button 
+            size="lg" 
+            variant="outline"
             onClick={() => window.location.href = '/story'}
             className="border-white text-white hover:bg-white hover:text-primary"
           >
