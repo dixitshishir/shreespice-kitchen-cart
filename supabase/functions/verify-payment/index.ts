@@ -60,6 +60,45 @@ const handler = async (req: Request): Promise<Response> => {
       throw orderUpdateError;
     }
 
+    // Get order details for Google Sheets logging
+    const { data: orderData, error: orderError } = await supabase
+      .from("orders")
+      .select(`
+        *,
+        order_items(*)
+      `)
+      .eq("id", orderId)
+      .single();
+
+    if (orderError) {
+      console.error("Error fetching order details:", orderError);
+    }
+
+    // Log payment to Google Sheets
+    if (orderData) {
+      const orderItemsText = orderData.order_items
+        .map((item: any) => `${item.product_name} x${item.quantity}`)
+        .join(', ');
+
+      try {
+        await supabase.functions.invoke('log-payment-to-sheets', {
+          body: {
+            customerName: customerName,
+            customerPhone: customerPhone,
+            amount: amount,
+            transactionId: transactionId,
+            status: 'pending',
+            timestamp: new Date().toISOString(),
+            orderItems: orderItemsText
+          }
+        });
+        console.log('Payment logged to Google Sheets successfully');
+      } catch (error) {
+        console.error('Failed to log payment to Google Sheets:', error);
+        // Don't fail the main payment process if logging fails
+      }
+    }
+
     // Send WhatsApp notification to admin
     const adminPhone = "9986918992";
     const message = `🔔 New Payment Verification Required!\n\n📦 Order ID: ${orderId}\n💳 Transaction ID: ${transactionId}\n💰 Amount: ₹${amount}\n👤 Customer: ${customerName}\n📱 Phone: ${customerPhone}\n\nPlease verify this payment in the admin dashboard.`;
