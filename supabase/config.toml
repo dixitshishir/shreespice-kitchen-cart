@@ -52,3 +52,9 @@ enable_confirmations = false
 
 [functions.verify-payment]
 verify_jwt = false
+
+[functions.log-payment-to-sheets]
+verify_jwt = false
+
+[functions.download-payment-logs]
+verify_jwt = false
