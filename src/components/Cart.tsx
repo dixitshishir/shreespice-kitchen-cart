@@ -29,9 +29,21 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
     const itemsList = state.items.map(item => `${item.name} (${item.quantity}x)`).join(', ');
     const message = `🔔 New Order Alert!\n\nCustomer: ${customerDetails.name}\nPhone: ${customerDetails.phone}\nAddress: ${customerDetails.address}\nItems: ${itemsList}\nTotal: ₹${state.total + 50}\n\nPlease go to admin dashboard and accept the order.`;
     
-    const whatsappUrl = `https://wa.me/${motherPhone}?text=${encodeURIComponent(message)}`;
-    // Use location.href instead of window.open to avoid popup blockers
-    window.location.href = whatsappUrl;
+    // Copy message to clipboard and show notification
+    navigator.clipboard.writeText(message).then(() => {
+      toast({
+        title: "Message Copied! 📋",
+        description: `WhatsApp message copied to clipboard. Please manually send to ${motherPhone} via WhatsApp.`,
+        duration: 8000,
+      });
+    }).catch(() => {
+      // Fallback if clipboard fails - show message in toast
+      toast({
+        title: "Send this message to 9986918992:",
+        description: message.substring(0, 100) + "...",
+        duration: 10000,
+      });
+    });
   };
 
   const handleCustomerDetailsSubmit = (details: { name: string; phone: string; address: string }) => {
