@@ -23,6 +23,7 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
   const [showCustomerForm, setShowCustomerForm] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [customerDetails, setCustomerDetails] = useState<{ name: string; phone: string; address: string } | null>(null);
+  const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
 
   // Reset states when cart opens
   const handleCartOpen = (open: boolean) => {
@@ -30,6 +31,7 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
       setShowCustomerForm(false);
       setShowPayment(false);
       setCustomerDetails(null);
+      setCurrentOrderId(null);
     }
     onOpenChange(open);
   };
@@ -119,10 +121,40 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
     });
   };
 
-  const handleCustomerDetailsSubmit = (details: { name: string; phone: string; address: string }) => {
+  const handleCustomerDetailsSubmit = async (details: { name: string; phone: string; address: string }) => {
     setCustomerDetails(details);
-    setShowCustomerForm(false);
-    setShowPayment(true);
+    
+    // Create the order first to get an order ID
+    const orderItems = state.items.map(item => ({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity
+    }));
+    
+    try {
+      // Create order and get the ID
+      await addOrder({
+        items: orderItems,
+        customerInfo: details,
+        total: state.total,
+        status: 'received'
+      });
+      
+      // Generate a unique order ID for tracking
+      const orderId = `ORD-${Date.now()}`;
+      setCurrentOrderId(orderId);
+      
+      setShowCustomerForm(false);
+      setShowPayment(true);
+    } catch (error) {
+      console.error('Error creating order:', error);
+      toast({
+        title: "Error",
+        description: "Failed to create order. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleBackToCart = () => {
@@ -147,23 +179,13 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
         <div className="flex flex-col h-full">
           {showPayment ? (
             <div className="flex-1 py-4">
-              <PaymentQR totalAmount={state.total + 50} />
+              <PaymentQR 
+                totalAmount={state.total + 50}
+                customerDetails={customerDetails}
+                orderId={currentOrderId}
+              />
               
-              <div className="mt-4 space-y-3">
-                <div className="text-center">
-                  <p className="text-xs text-muted-foreground mb-3">
-                    After completing payment, click below to confirm your order
-                  </p>
-                  <Button 
-                    onClick={handlePaymentComplete}
-                    variant="outline"
-                    className="w-full flex items-center gap-2"
-                  >
-                    <CheckCircle className="h-4 w-4" />
-                    I have completed payment
-                  </Button>
-                </div>
-                
+              <div className="mt-4">
                 <Button 
                   variant="ghost" 
                   onClick={handleBackToCart}

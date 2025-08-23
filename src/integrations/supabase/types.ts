@@ -56,6 +56,7 @@ export type Database = {
           customer_name: string
           customer_phone: string
           id: string
+          payment_id: string | null
           status: string
           total: number
           updated_at: string
@@ -67,6 +68,7 @@ export type Database = {
           customer_name: string
           customer_phone: string
           id?: string
+          payment_id?: string | null
           status?: string
           total: number
           updated_at?: string
@@ -78,12 +80,71 @@ export type Database = {
           customer_name?: string
           customer_phone?: string
           id?: string
+          payment_id?: string | null
           status?: string
           total?: number
           updated_at?: string
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "orders_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          order_id: string | null
+          payment_method: string | null
+          status: string | null
+          transaction_id: string | null
+          updated_at: string
+          user_name: string | null
+          user_phone: string | null
+          verification_notes: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          order_id?: string | null
+          payment_method?: string | null
+          status?: string | null
+          transaction_id?: string | null
+          updated_at?: string
+          user_name?: string | null
+          user_phone?: string | null
+          verification_notes?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          order_id?: string | null
+          payment_method?: string | null
+          status?: string | null
+          transaction_id?: string | null
+          updated_at?: string
+          user_name?: string | null
+          user_phone?: string | null
+          verification_notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
