@@ -163,37 +163,38 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
+      {/* Mobile-Optimized Header */}
       <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-saffron to-accent bg-clip-text text-transparent">
+        <div className="px-4 py-3 flex justify-between items-center">
+          <div className="flex-1 min-w-0">
+            <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-saffron to-accent bg-clip-text text-transparent truncate">
               Shree Spices Admin
             </h1>
-            <p className="text-sm text-muted-foreground">Welcome, Admin (9986918992)</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">Admin (9986918992)</p>
           </div>
           <Button 
             variant="outline" 
             onClick={handleLogout}
-            className="flex items-center gap-2"
+            size="sm"
+            className="flex items-center gap-1 ml-2"
           >
-            <LogOut className="h-4 w-4" />
-            Logout
+            <LogOut className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Logout</span>
           </Button>
         </div>
       </header>
 
-      <div className="container py-8">
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
+      <div className="px-4 py-4 sm:py-8">
+        <div className="mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold mb-2">
-                {currentView === 'orders' ? 'Order Management' : 'Order History & Analytics'}
+              <h1 className="text-xl sm:text-3xl font-bold mb-1 sm:mb-2">
+                {currentView === 'orders' ? 'Orders' : 'History'}
               </h1>
-              <p className="text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 {currentView === 'orders' 
-                  ? 'Manage customer orders and update status' 
-                  : 'View order history and sales analytics'
+                  ? 'Manage orders and update status' 
+                  : 'View order history and analytics'
                 }
               </p>
             </div>
@@ -201,18 +202,20 @@ const Admin = () => {
               <Button
                 variant={currentView === 'orders' ? 'default' : 'outline'}
                 onClick={() => setCurrentView('orders')}
-                className="flex items-center gap-2"
+                size="sm"
+                className="flex items-center gap-1 sm:gap-2"
               >
-                <List className="h-4 w-4" />
-                Orders
+                <List className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="text-xs sm:text-sm">Orders</span>
               </Button>
               <Button
                 variant={currentView === 'history' ? 'default' : 'outline'}
                 onClick={() => setCurrentView('history')}
-                className="flex items-center gap-2"
+                size="sm"
+                className="flex items-center gap-1 sm:gap-2"
               >
-                <History className="h-4 w-4" />
-                History
+                <History className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="text-xs sm:text-sm">History</span>
               </Button>
             </div>
           </div>
@@ -223,25 +226,28 @@ const Admin = () => {
           <OrderHistory />
         ) : (
           <>
-            {/* Status Filter */}
-            <div className="mb-6 flex flex-wrap gap-2">
+            {/* Mobile-Optimized Status Filter */}
+            <div className="mb-4 flex flex-wrap gap-1 sm:gap-2">
               <Button
                 variant={selectedStatus === 'all' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setSelectedStatus('all')}
+                className="text-xs sm:text-sm"
               >
-                All Orders ({state.orders.length})
+                All ({state.orders.length})
               </Button>
               {Object.entries(statusLabels).map(([status, label]) => {
                 const count = state.orders.filter(order => order.status === status).length;
+                const shortLabel = label.replace('Order ', '').replace('for Pickup', '');
                 return (
                   <Button
                     key={status}
                     variant={selectedStatus === status ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => setSelectedStatus(status as OrderStatus)}
+                    className="text-xs sm:text-sm"
                   >
-                    {label} ({count})
+                    {shortLabel} ({count})
                   </Button>
                 );
               })}
@@ -259,47 +265,48 @@ const Admin = () => {
               ) : (
                 filteredOrders.map((order) => (
                   <Card key={order.id} className="w-full">
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-lg">Order #{order.id}</CardTitle>
-                        <Badge className={getStatusBadgeClass(order.status)}>
+                    <CardHeader className="pb-3">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                        <CardTitle className="text-base sm:text-lg truncate">
+                          Order #{order.id.slice(-8)}
+                        </CardTitle>
+                        <Badge className={`${getStatusBadgeClass(order.status)} text-xs`}>
                           {statusLabels[order.status]}
                         </Badge>
                       </div>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                          <Clock className="h-4 w-4" />
-                          {order.createdAt.toLocaleDateString()} {order.createdAt.toLocaleTimeString()}
-                        </div>
+                      <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+                        <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span>{order.createdAt.toLocaleDateString()} {order.createdAt.toLocaleTimeString()}</span>
                       </div>
                     </CardHeader>
 
-                    <CardContent className="space-y-4">
-                      {/* Customer Info */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <CardContent className="space-y-3 sm:space-y-4 pt-0">
+                      {/* Mobile-Optimized Layout */}
+                      <div className="space-y-3">
+                        {/* Customer Info */}
                         <div className="space-y-2">
-                          <h4 className="font-semibold">Customer Details</h4>
+                          <h4 className="font-semibold text-sm">Customer</h4>
                           <div className="space-y-1 text-sm">
                             <p className="font-medium">{order.customerInfo.name}</p>
                             <div className="flex items-center gap-1">
-                              <Phone className="h-3 w-3" />
-                              <span>{order.customerInfo.phone}</span>
+                              <Phone className="h-3 w-3 flex-shrink-0" />
+                              <span className="break-all">{order.customerInfo.phone}</span>
                             </div>
                             <div className="flex items-start gap-1">
-                              <MapPin className="h-3 w-3 mt-0.5" />
-                              <span>{order.customerInfo.address}</span>
+                              <MapPin className="h-3 w-3 mt-0.5 flex-shrink-0" />
+                              <span className="text-xs sm:text-sm">{order.customerInfo.address}</span>
                             </div>
                           </div>
                         </div>
 
                         {/* Order Items */}
                         <div className="space-y-2">
-                          <h4 className="font-semibold">Order Items</h4>
+                          <h4 className="font-semibold text-sm">Items</h4>
                           <div className="space-y-1 text-sm">
                             {order.items.map((item) => (
-                              <div key={item.id} className="flex justify-between">
-                                <span>{item.name} x{item.quantity}</span>
-                                <span>₹{item.price * item.quantity}</span>
+                              <div key={item.id} className="flex justify-between gap-2">
+                                <span className="truncate">{item.name} x{item.quantity}</span>
+                                <span className="font-medium flex-shrink-0">₹{item.price * item.quantity}</span>
                               </div>
                             ))}
                             <Separator className="my-2" />
@@ -311,12 +318,13 @@ const Admin = () => {
                         </div>
                       </div>
 
-                      {/* Action Buttons */}
-                      <div className="flex gap-2 pt-4">
+                      {/* Mobile-Optimized Action Buttons */}
+                      <div className="flex flex-col sm:flex-row gap-2 pt-2">
                         {nextStatusMap[order.status] && (
                           <Button
                             onClick={() => handleStatusUpdate(order.id, order.status)}
-                            className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+                            className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 w-full sm:w-auto"
+                            size="sm"
                           >
                             Mark as {statusLabels[nextStatusMap[order.status]!]}
                           </Button>
@@ -325,10 +333,11 @@ const Admin = () => {
                         <Button
                           variant="outline"
                           onClick={() => sendWhatsAppUpdate(order)}
-                          className="flex items-center gap-2"
+                          className="flex items-center justify-center gap-2 w-full sm:w-auto"
+                          size="sm"
                         >
-                          <Phone className="h-4 w-4" />
-                          Send WhatsApp Update
+                          <Phone className="h-3 w-3 sm:h-4 sm:w-4" />
+                          <span className="text-xs sm:text-sm">WhatsApp Update</span>
                         </Button>
                       </div>
                     </CardContent>
