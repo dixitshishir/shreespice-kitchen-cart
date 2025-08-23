@@ -179,7 +179,7 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
                     </Button>
                     
                     <div className="mt-4">
-                      <PaymentQR />
+                      <PaymentQR totalAmount={state.total + 50} />
                     </div>
                     
                     <div className="text-center">

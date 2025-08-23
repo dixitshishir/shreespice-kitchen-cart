@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Download, Copy } from 'lucide-react';
+import { Download, Copy, Smartphone } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useOrder } from '@/contexts/OrderContext';
 
-const PaymentQR = () => {
+interface PaymentQRProps {
+  totalAmount?: number;
+}
+
+const PaymentQR = ({ totalAmount = 0 }: PaymentQRProps) => {
   const { toast } = useToast();
+  const { addOrder } = useOrder();
   const upiId = 'sdixit2301@okhdfcbank';
 
   const handleDownloadQR = () => {
@@ -27,6 +33,21 @@ const PaymentQR = () => {
       title: "UPI ID Copied",
       description: "UPI ID copied to clipboard",
     });
+  };
+
+  const handlePayWithUPI = () => {
+    const upiUrl = `upi://pay?pa=${upiId}&pn=Shree Spices&am=${totalAmount}&cu=INR`;
+    
+    // Try to open UPI app
+    window.location.href = upiUrl;
+    
+    // Simulate payment notification to admin (in real app, this would be triggered by payment confirmation)
+    setTimeout(() => {
+      toast({
+        title: "Payment Initiated",
+        description: "Please complete the payment in your UPI app. Admin will be notified once payment is confirmed.",
+      });
+    }, 1000);
   };
 
   return (
@@ -53,8 +74,12 @@ const PaymentQR = () => {
           </div>
         </div>
         
-        <div className="flex gap-2">
-          <Button onClick={handleDownloadQR} variant="outline" className="flex-1">
+        <div className="flex flex-col gap-2">
+          <Button onClick={handlePayWithUPI} className="w-full">
+            <Smartphone className="mr-2 h-4 w-4" />
+            Pay with UPI
+          </Button>
+          <Button onClick={handleDownloadQR} variant="outline" className="w-full">
             <Download className="mr-2 h-4 w-4" />
             Download QR
           </Button>
