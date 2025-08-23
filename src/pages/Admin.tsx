@@ -38,33 +38,19 @@ const nextStatusMap: Record<OrderStatus, OrderStatus | null> = {
 
 const Admin = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { state, updateOrderStatus } = useOrder();
   const [selectedStatus, setSelectedStatus] = useState<OrderStatus | 'all'>('all');
 
   useEffect(() => {
-    // Check current session
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
-      setIsLoading(false);
-    };
-
-    checkSession();
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
+    // For hardcoded auth, just set loading to false
+    setIsLoading(false);
   }, []);
 
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (!error) {
-      setUser(null);
-    }
+    setIsAuthenticated(false);
+    setUser(null);
   };
 
   if (isLoading) {
@@ -78,8 +64,11 @@ const Admin = () => {
     );
   }
 
-  if (!user) {
-    return <AdminLogin onLoginSuccess={() => {}} />;
+  if (!isAuthenticated) {
+    return <AdminLogin onLoginSuccess={() => {
+      setIsAuthenticated(true);
+      setUser({ email: '9986918992' } as User);
+    }} />;
   }
 
   const filteredOrders = selectedStatus === 'all' 
@@ -112,7 +101,7 @@ const Admin = () => {
             <h1 className="text-2xl font-bold bg-gradient-to-r from-saffron to-accent bg-clip-text text-transparent">
               Shree Spices Admin
             </h1>
-            <p className="text-sm text-muted-foreground">Welcome, {user.email}</p>
+            <p className="text-sm text-muted-foreground">Welcome, Admin (9986918992)</p>
           </div>
           <Button 
             variant="outline" 
