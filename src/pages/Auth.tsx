@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,6 +22,7 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   
   const { signIn, signUp, signInWithGoogle, signInWithPhone, verifyOTP, user } = useAuth();
+  const { toast } = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -57,11 +59,40 @@ const Auth = () => {
       if (showOtpInput) {
         await verifyOTP(phone, otp);
       } else {
-        await signInWithPhone(phone);
-        setShowOtpInput(true);
+        // Format phone number with country code if not present
+        let formattedPhone = phone.trim();
+        if (!formattedPhone.startsWith('+')) {
+          // Add +91 for Indian numbers if no country code
+          if (formattedPhone.startsWith('91')) {
+            formattedPhone = '+' + formattedPhone;
+          } else if (formattedPhone.length === 10) {
+            formattedPhone = '+91' + formattedPhone;
+          } else {
+            formattedPhone = '+91' + formattedPhone;
+          }
+        }
+        
+        console.log('Attempting phone sign in with:', formattedPhone);
+        const result = await signInWithPhone(formattedPhone);
+        
+        if (!result.error) {
+          setShowOtpInput(true);
+        } else {
+          // If phone auth fails, show error but suggest email alternative
+          toast({
+            title: "Phone Sign-in Issue",
+            description: "Phone authentication is currently unavailable. Please try email sign-in instead.",
+            variant: "destructive",
+          });
+        }
       }
     } catch (error: any) {
       console.error('Phone auth error:', error);
+      toast({
+        title: "Phone Sign-in Issue", 
+        description: "Please try using email sign-in instead.",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -219,7 +250,7 @@ const Auth = () => {
                       <Input
                         id="phoneAuth"
                         type="tel"
-                        placeholder="Enter your phone number with country code"
+                        placeholder="Enter phone: 9739989373 or +919739989373"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         className="pl-10"
@@ -227,6 +258,9 @@ const Auth = () => {
                         disabled={showOtpInput}
                       />
                     </div>
+                    <p className="text-xs text-muted-foreground">
+                      Enter 10-digit number or with +91 country code
+                    </p>
                   </div>
 
                   {showOtpInput && (
