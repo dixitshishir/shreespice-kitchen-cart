@@ -32,12 +32,35 @@ const PaymentQR = ({ totalAmount = 0, customerDetails, orderId }: PaymentQRProps
   };
 
   const handleWhatsAppOrder = () => {
+    if (state.items.length === 0) {
+      toast({
+        title: "Cart Empty",
+        description: "Please add items to cart before ordering",
+        variant: "destructive"
+      });
+      return;
+    }
+
     const phoneNumber = "919876543210"; // Replace with mother's number
     const itemsList = state.items.map(item => `${item.name} - ₹${item.price} x ${item.quantity}`).join('\n');
-    const message = `Hi! I would like to order the following items:\n\n${itemsList}\n\nTotal Amount: ₹${totalAmount}\n\nCustomer Details:\nName: ${customerDetails?.name}\nPhone: ${customerDetails?.phone}\nAddress: ${customerDetails?.address}`;
+    const message = `Hi! I would like to order the following items:\n\n${itemsList}\n\nTotal Amount: ₹${totalAmount}\n\nCustomer Details:\nName: ${customerDetails?.name || 'Not provided'}\nPhone: ${customerDetails?.phone || 'Not provided'}\nAddress: ${customerDetails?.address || 'Not provided'}`;
     
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    console.log('WhatsApp URL:', whatsappUrl); // Debug log
+    
+    // Try different methods to open WhatsApp
+    try {
+      // First try opening in new tab
+      const newWindow = window.open(whatsappUrl, '_blank');
+      if (!newWindow) {
+        // If popup blocked, try direct location change
+        window.location.href = whatsappUrl;
+      }
+    } catch (error) {
+      console.error('Error opening WhatsApp:', error);
+      // Fallback: try direct location change
+      window.location.href = whatsappUrl;
+    }
   };
 
   return (
