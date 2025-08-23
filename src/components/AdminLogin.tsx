@@ -13,11 +13,10 @@ interface AdminLoginProps {
 }
 
 const AdminLogin = ({ onLoginSuccess }: AdminLoginProps) => {
-  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const { signIn } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -25,14 +24,22 @@ const AdminLogin = ({ onLoginSuccess }: AdminLoginProps) => {
     setIsLoading(true);
 
     try {
-      const { error } = await signIn(email, password);
-      
-      if (!error) {
+      // Hardcoded admin credentials using phone numbers
+      const validPhones = ['9986918992', '9986048887'];
+      const validPassword = 'Dixit@123';
+
+      if (validPhones.includes(phone) && password === validPassword) {
         toast({
           title: "Login Successful",
           description: "Welcome to the admin dashboard!",
         });
         onLoginSuccess();
+      } else {
+        toast({
+          title: "Login Failed",
+          description: "Invalid phone number or password",
+          variant: "destructive",
+        });
       }
     } catch (error: any) {
       toast({
@@ -64,19 +71,19 @@ const AdminLogin = ({ onLoginSuccess }: AdminLoginProps) => {
             </div>
             <CardTitle className="text-2xl">Admin Login</CardTitle>
             <CardDescription>
-              Sign in with your admin account to access the dashboard
+              Enter your phone number and password to access the admin dashboard
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="phone">Phone Number</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@shreespices.com"
+                  id="phone"
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="9986918992"
                   required
                   disabled={isLoading}
                 />
@@ -110,7 +117,7 @@ const AdminLogin = ({ onLoginSuccess }: AdminLoginProps) => {
             </form>
             
             <div className="mt-4 text-center text-sm text-muted-foreground">
-              Need an account? Contact the administrator
+              Use phone: 9986918992 or 9986048887 with password: Dixit@123
             </div>
           </CardContent>
         </Card>
