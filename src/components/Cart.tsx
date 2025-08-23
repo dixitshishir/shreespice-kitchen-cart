@@ -6,6 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { useToast } from '@/hooks/use-toast';
+import { useOrder } from '@/contexts/OrderContext';
 import CustomerDetailsForm from './CustomerDetailsForm';
 
 interface CartProps {
@@ -15,6 +16,7 @@ interface CartProps {
 
 const Cart = ({ isOpen, onOpenChange }: CartProps) => {
   const { state, updateQuantity, removeItem, clearCart } = useCart();
+  const { addOrder } = useOrder();
   const { toast } = useToast();
   const [showCustomerForm, setShowCustomerForm] = useState(false);
 
@@ -23,6 +25,14 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
   };
 
   const handleCustomerDetailsSubmit = (details: { name: string; phone: string; address: string }) => {
+    // Create order
+    addOrder({
+      items: state.items,
+      customerInfo: details,
+      total: state.total,
+      status: 'received'
+    });
+
     toast({
       title: "Order Confirmed! 🎉",
       description: `Thank you ${details.name}! We'll contact you at ${details.phone} to confirm your order and delivery details.`,
