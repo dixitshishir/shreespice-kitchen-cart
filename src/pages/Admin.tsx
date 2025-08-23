@@ -88,8 +88,8 @@ const Admin = () => {
     const cleanPhone = order.customerInfo.phone.replace(/\D/g, '');
     const phoneWithCountryCode = cleanPhone.startsWith('91') ? cleanPhone : `91${cleanPhone}`;
     
-    // Use web.whatsapp.com URL format which is more reliable
-    const whatsappUrl = `https://web.whatsapp.com/send?phone=${phoneWithCountryCode}&text=${encodeURIComponent(message)}`;
+    // Use api.whatsapp.com which is more universally accessible
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneWithCountryCode}&text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 
