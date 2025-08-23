@@ -91,8 +91,36 @@ const Admin = () => {
     }
   };
 
-  const sendWhatsAppUpdate = async (order: Order) => {
-    const message = `Hello ${order.customerInfo.name}! Your order #${order.id.slice(-8)} status has been updated to: ${statusLabels[order.status]}. Total: ₹${order.total + 50}`;
+  const sendWhatsAppUpdate = async (order: Order, statusToUpdate?: OrderStatus) => {
+    // Create dynamic message based on the status being updated to
+    let message = "";
+    const orderNumber = order.id.slice(-8);
+    const total = order.total + 50;
+    
+    if (statusToUpdate) {
+      switch (statusToUpdate) {
+        case 'accepted':
+          message = `Hello ${order.customerInfo.name}! 🎉 Your order #${orderNumber} has been accepted and we're preparing your items. Total: ₹${total}. Thank you for choosing Shree Spices!`;
+          break;
+        case 'preparing':
+          message = `Hi ${order.customerInfo.name}! 👨‍🍳 Your order #${orderNumber} is now being prepared with fresh ingredients. Total: ₹${total}. We'll update you once it's ready!`;
+          break;
+        case 'ready':
+          message = `Great news ${order.customerInfo.name}! 📦 Your order #${orderNumber} is ready for pickup/delivery. Total: ₹${total}. Thank you for your patience!`;
+          break;
+        case 'out_for_delivery':
+          message = `Hi ${order.customerInfo.name}! 🚚 Your order #${orderNumber} is out for delivery and will reach you soon. Total: ₹${total}. Please keep your phone handy!`;
+          break;
+        case 'delivered':
+          message = `Thank you ${order.customerInfo.name}! ✅ Your order #${orderNumber} has been delivered successfully. Total: ₹${total}. We hope you enjoy your Shree Spices products!`;
+          break;
+        default:
+          message = `Hello ${order.customerInfo.name}! Your order #${orderNumber} status has been updated to: ${statusLabels[statusToUpdate]}. Total: ₹${total}`;
+      }
+    } else {
+      // Current status message
+      message = `Hello ${order.customerInfo.name}! Your order #${orderNumber} is currently: ${statusLabels[order.status]}. Total: ₹${total}`;
+    }
     
     // Clean the phone number - remove any non-digits and ensure it starts with country code
     const cleanPhone = order.customerInfo.phone.replace(/\D/g, '');
@@ -148,7 +176,7 @@ const Admin = () => {
   const handleNotifyCustomer = (method: 'whatsapp' | 'sms') => {
     if (!selectedOrder) return;
     
-    const message = `Hello ${selectedOrder.customerInfo.name}! Your order #${selectedOrder.id.slice(-8)} has been accepted and is being prepared. Total: ₹${selectedOrder.total + 50}`;
+    const message = `Hello ${selectedOrder.customerInfo.name}! 🎉 Your order #${selectedOrder.id.slice(-8)} has been accepted and is being prepared. Total: ₹${selectedOrder.total + 50}. Thank you for choosing Shree Spices!`;
     const cleanPhone = selectedOrder.customerInfo.phone.replace(/\D/g, '');
     const phoneWithCountryCode = cleanPhone.startsWith('91') ? cleanPhone : `91${cleanPhone}`;
     
@@ -350,7 +378,7 @@ const Admin = () => {
                         
                         <Button
                           variant="outline"
-                          onClick={() => sendWhatsAppUpdate(order)}
+                          onClick={() => sendWhatsAppUpdate(order, nextStatusMap[order.status] || undefined)}
                           className="flex items-center justify-center gap-2 w-full sm:w-auto"
                           size="sm"
                         >
