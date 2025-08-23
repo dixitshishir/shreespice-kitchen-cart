@@ -78,7 +78,7 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
     });
 
     // Send WhatsApp notification to mother
-    sendWhatsAppNotification(customerDetails);
+    sendWhatsAppNotification();
 
     toast({
       title: "Payment Received! 🎉",
@@ -93,20 +93,18 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
     onOpenChange(false);
   };
 
-  const sendWhatsAppNotification = (customerDetails: { name: string; phone: string; address: string }) => {
+  const sendWhatsAppNotification = () => {
     const motherPhone = '9986918992';
-    const itemsList = state.items.map(item => `${item.name} (${item.quantity}x)`).join(', ');
-    const message = `🔔 New Order Alert!\n\nCustomer: ${customerDetails.name}\nPhone: ${customerDetails.phone}\nAddress: ${customerDetails.address}\nItems: ${itemsList}\nTotal: ₹${state.total + 50}\n\nPayment: UPI (Please verify in your UPI app)\nPlease go to admin dashboard and accept the order.`;
+    const message = `🔔 New Order Alert from Shree Spices!\n\nPlease check the admin dashboard - there's a new order waiting for your review.`;
     
-    // Copy message to clipboard and show notification
-    navigator.clipboard.writeText(message).then(() => {
-      toast({
-        title: "Order Alert Copied! 📋",
-        description: `Order notification copied. Please send to ${motherPhone} via WhatsApp.`,
-        duration: 8000,
-      });
-    }).catch(() => {
-      console.log('Clipboard failed');
+    // Open WhatsApp directly
+    const waUrl = `https://wa.me/${motherPhone}?text=${encodeURIComponent(message)}`;
+    window.open(waUrl, '_blank');
+    
+    toast({
+      title: "Admin Notified! 📱",
+      description: "WhatsApp notification sent to admin to check new order.",
+      duration: 5000,
     });
   };
 
