@@ -225,76 +225,71 @@ const productCategories: ProductCategory[] = [
 
 const ProductGrid = () => {
   return (
-    <section className="py-20 bg-gradient-to-br from-background via-secondary/20 to-background relative overflow-hidden">
-      {/* Modern background elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
-      <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 left-20 w-48 h-48 bg-gradient-to-br from-accent/10 to-primary/10 rounded-full blur-2xl"></div>
+    <section className="py-16 relative overflow-hidden">
+      {/* CRAZY animated background */}
+      <div className="absolute inset-0 crazy-bg opacity-20"></div>
+      
+      {/* Floating background elements */}
+      <div className="absolute top-10 right-10 w-32 h-32 bg-gradient-to-br from-primary/30 to-accent/30 rounded-full blur-2xl floating-bg"></div>
+      <div className="absolute bottom-20 left-10 w-24 h-24 bg-gradient-to-br from-accent/30 to-saffron/30 rounded-full blur-xl floating-bg"></div>
+      <div className="absolute top-1/2 left-1/3 w-20 h-20 bg-gradient-to-br from-saffron/30 to-primary/30 rounded-full blur-xl floating-bg"></div>
       
       <div className="container relative z-10">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/10 to-accent/10 backdrop-blur-sm border border-primary/20 rounded-full px-6 py-2 mb-6">
-            <span className="text-primary font-semibold">✨ Fresh & Natural</span>
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-3 bg-gradient-to-r from-primary/20 to-accent/20 backdrop-blur-lg border border-primary/30 rounded-full px-8 py-3 mb-6 shadow-lg">
+            <span className="text-2xl animate-bounce">✨</span>
+            <span className="text-primary font-bold text-lg">FRESH & WILD</span>
+            <span className="text-2xl animate-bounce" style={{animationDelay: '0.5s'}}>🔥</span>
           </div>
           
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-            Shree Spices Collection
+          <h2 className="text-5xl md:text-6xl font-black mb-6 title-crazy">
+            CRAZY SPICES!
           </h2>
           
-          <div className="space-y-4 max-w-3xl mx-auto">
-            <p className="text-xl text-muted-foreground leading-relaxed">
-              From traditional spice blends to modern protein products - all made with love and the finest ingredients
-            </p>
-            
-            <div className="flex flex-wrap justify-center gap-6 text-lg">
-              <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-full px-4 py-2 border border-border/50">
-                <span className="text-2xl">🍯</span>
-                <span className="font-medium text-foreground">Made to Order</span>
-              </div>
-              <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-full px-4 py-2 border border-border/50">
-                <span className="text-2xl">🥥</span>
-                <span className="font-medium text-foreground">Pure Ghee</span>
-              </div>
-              <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-full px-4 py-2 border border-border/50">
-                <span className="text-2xl">🌿</span>
-                <span className="font-medium text-foreground">Natural Ingredients</span>
-              </div>
+          <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
+            <div className="flex items-center gap-2 bg-gradient-to-r from-primary/20 to-accent/20 backdrop-blur-lg rounded-full px-6 py-3 border border-primary/30 shadow-lg animate-pulse">
+              <span className="text-3xl">🍯</span>
+              <span className="font-bold text-lg">MADE TO ORDER</span>
+            </div>
+            <div className="flex items-center gap-2 bg-gradient-to-r from-accent/20 to-saffron/20 backdrop-blur-lg rounded-full px-6 py-3 border border-accent/30 shadow-lg animate-pulse" style={{animationDelay: '0.5s'}}>
+              <span className="text-3xl">🥥</span>
+              <span className="font-bold text-lg">PURE GHEE</span>
+            </div>
+            <div className="flex items-center gap-2 bg-gradient-to-r from-saffron/20 to-primary/20 backdrop-blur-lg rounded-full px-6 py-3 border border-saffron/30 shadow-lg animate-pulse" style={{animationDelay: '1s'}}>
+              <span className="text-3xl">🌿</span>
+              <span className="font-bold text-lg">100% NATURAL</span>
             </div>
           </div>
         </div>
         
-        <div className="space-y-20">
+        <div className="space-y-16">
           {productCategories.map((category, index) => (
-            <div key={category.name} className="category-section rounded-3xl p-8 md:p-12">
-              <div className="text-center mb-12">
-                <div className="inline-flex items-center gap-3 mb-4">
-                  {category.name === "New Items" && <span className="text-3xl">🆕</span>}
-                  {category.name === "Powders" && <span className="text-3xl">🌶️</span>}
-                  {category.name === "Sweets" && <span className="text-3xl">🍯</span>}
-                  {category.name === "Ready to Eat" && <span className="text-3xl">🍽️</span>}
-                  {category.name === "Snacks" && <span className="text-3xl">🥨</span>}
+            <div key={category.name} className="category-crazy p-8 md:p-10" style={{animationDelay: `${index * 0.2}s`}}>
+              <div className="text-center mb-10 relative z-10">
+                <div className="inline-flex items-center gap-4 mb-6">
+                  <div className="text-5xl animate-bounce">
+                    {category.name === "New Items" && "🆕"}
+                    {category.name === "Powders" && "🌶️"}
+                    {category.name === "Sweets" && "🍯"}
+                    {category.name === "Ready to Eat" && "🍽️"}
+                    {category.name === "Snacks" && "🥨"}
+                  </div>
                   
-                  <h3 className="text-3xl md:text-4xl font-bold text-foreground category-title">
-                    {category.name}
+                  <h3 className="text-4xl md:text-5xl font-black title-crazy">
+                    {category.name.toUpperCase()}
                   </h3>
                   
                   {category.name === "New Items" && (
-                    <div className="bg-gradient-to-r from-primary to-accent text-primary-foreground px-3 py-1 rounded-full text-sm font-semibold animate-pulse">
-                      NEW
+                    <div className="bg-gradient-to-r from-primary to-accent text-primary-foreground px-4 py-2 rounded-full text-lg font-black animate-pulse shadow-lg">
+                      HOT! 🔥
                     </div>
                   )}
                 </div>
-                
-                {category.name === "New Items" && (
-                  <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                    Introducing our latest homemade protein products - naturally nutritious and delicious!
-                  </p>
-                )}
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                {category.products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 relative z-10">
+                {category.products.map((product, productIndex) => (
+                  <ProductCard key={product.id} product={product} delay={productIndex * 0.1} />
                 ))}
               </div>
             </div>

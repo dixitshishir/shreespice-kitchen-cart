@@ -7,71 +7,70 @@ import { useToast } from '@/hooks/use-toast';
 
 interface ProductCardProps {
   product: Product;
+  delay?: number;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
   const { addItem } = useCart();
   const { toast } = useToast();
 
   const handleAddToCart = () => {
     addItem(product);
     toast({
-      title: "Added to cart!",
-      description: `${product.name} has been added to your cart.`,
+      title: "🎉 BOOM! Added to cart!",
+      description: `${product.name} is now in your cart! Keep shopping for more awesomeness! 🛒`,
     });
   };
 
   return (
-    <Card className="card-modern overflow-hidden group h-full flex flex-col">
-      <CardHeader className="p-0 relative">
-        <div className="aspect-square overflow-hidden relative">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          
-          {/* New item badge */}
-          {product.id.startsWith('n') && (
-            <div className="absolute top-3 left-3 bg-gradient-to-r from-primary to-accent text-primary-foreground px-3 py-1 rounded-full text-xs font-bold animate-pulse">
-              NEW
-            </div>
-          )}
+    <div 
+      className="card-crazy h-full flex flex-col rounded-2xl overflow-hidden"
+      style={{animationDelay: `${delay}s`}}
+    >
+      {/* Compact image section */}
+      <div className="relative aspect-[4/3] overflow-hidden">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        
+        {/* Crazy new item badge */}
+        {product.id.startsWith('n') && (
+          <div className="absolute top-2 left-2 bg-gradient-to-r from-primary to-accent text-primary-foreground px-3 py-1 rounded-full text-xs font-black animate-pulse shadow-lg">
+            🔥 HOT!
+          </div>
+        )}
+        
+        {/* Price overlay */}
+        <div className="absolute bottom-2 right-2 bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded-full">
+          <span className="text-lg font-black">₹{product.price}</span>
         </div>
-      </CardHeader>
+      </div>
       
-      <CardContent className="p-6 flex-1 flex flex-col">
-        <div className="flex items-start justify-between mb-3">
-          <h3 className="font-bold text-xl text-foreground leading-tight flex-1">{product.name}</h3>
-          <div className="badge-modern ml-3 shrink-0">
+      {/* Compact content */}
+      <div className="p-4 flex-1 flex flex-col">
+        <div className="flex items-start justify-between mb-2">
+          <h3 className="font-black text-base leading-tight flex-1 text-foreground">{product.name}</h3>
+          <div className="badge-crazy ml-2 shrink-0 text-xs px-2 py-1 rounded-full">
             {product.weight}
           </div>
         </div>
         
-        <p className="text-muted-foreground text-sm mb-4 line-clamp-3 leading-relaxed flex-1">
+        <p className="text-muted-foreground text-xs mb-3 line-clamp-2 leading-relaxed flex-1">
           {product.description}
         </p>
         
-        <div className="flex items-center justify-between mt-auto">
-          <div className="flex flex-col">
-            <span className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              ₹{product.price}
-            </span>
-            <span className="text-xs text-muted-foreground">per {product.weight}</span>
-          </div>
-        </div>
-      </CardContent>
-      
-      <CardFooter className="p-6 pt-0">
-        <Button 
+        {/* Crazy button */}
+        <button 
           onClick={handleAddToCart}
-          className="btn-modern w-full text-base font-semibold py-3"
+          className="btn-crazy w-full py-2 px-4 rounded-xl relative z-10 text-primary-foreground text-sm"
         >
-          Add to Cart
-        </Button>
-      </CardFooter>
-    </Card>
+          <span className="relative z-10">ADD TO CART 🛒</span>
+        </button>
+      </div>
+    </div>
   );
 };
 
