@@ -154,15 +154,13 @@ const Admin = () => {
             // If all fail, copy to clipboard as fallback
             navigator.clipboard?.writeText(message).then(() => {
               toast({
-                title: "WhatsApp Message Ready! 📱",
-                description: `Message copied to clipboard. If WhatsApp didn't open, manually send to: ${order.customerInfo.phone}`,
-                duration: 8000,
+                title: "Message Copied",
+                description: "WhatsApp message copied to clipboard. Please paste it manually in WhatsApp.",
               });
             }).catch(() => {
               toast({
-                title: `Send to ${order.customerInfo.phone}:`,
-                description: message.substring(0, 100) + "...",
-                duration: 10000,
+                title: "Manual Message",
+                description: `Please message ${order.customerInfo.phone} manually with the order update.`,
               });
             });
           }
