@@ -28,29 +28,27 @@ const Header = ({ onCartClick }: HeaderProps) => {
         </div>
         
         <div className="flex items-center gap-2">
+          <Button
+            asChild
+            variant="ghost"
+            size="sm"
+          >
+            <Link to="/admin" className="flex items-center gap-2">
+              <Settings className="h-4 w-4" />
+              <span className="hidden sm:inline">Admin</span>
+            </Link>
+          </Button>
+          
           {user ? (
-            <>
-              <Button
-                asChild
-                variant="ghost"
-                size="sm"
-              >
-                <Link to="/admin" className="flex items-center gap-2">
-                  <Settings className="h-4 w-4" />
-                  <span className="hidden sm:inline">Admin</span>
-                </Link>
-              </Button>
-              
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => signOut()}
-                className="flex items-center gap-2"
-              >
-                <LogOut className="h-4 w-4" />
-                <span className="hidden sm:inline">Sign Out</span>
-              </Button>
-            </>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => signOut()}
+              className="flex items-center gap-2"
+            >
+              <LogOut className="h-4 w-4" />
+              <span className="hidden sm:inline">Sign Out</span>
+            </Button>
           ) : (
             <Button
               variant="ghost"
