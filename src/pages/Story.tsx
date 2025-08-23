@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Heart, Globe, Users } from 'lucide-react';
 
+
 const Story = () => {
   const navigate = useNavigate();
 
@@ -36,61 +37,77 @@ const Story = () => {
       {/* Main Story */}
       <section className="py-16">
         <div className="container mx-auto px-4 max-w-6xl">
-          {/* Family Introduction */}
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-            <div className="space-y-6">
-              <div className="flex items-center gap-2 text-saffron">
-                <Heart className="h-5 w-5" />
-                <span className="font-semibold">The Heart Behind Shree Spices</span>
-              </div>
-              <h2 className="text-3xl font-bold">Meet Our Mother - The Soul of Our Kitchen</h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Our story begins with our beloved mother, a passionate cook whose love for experimenting 
-                with flavors and traditional recipes has been the cornerstone of our family for decades. 
-                Her culinary journey started in her childhood, learning age-old techniques from her own 
-                mother and grandmother.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                What sets her apart is not just her skill, but her unwavering passion for perfection. 
-                Every spice blend, every sweet, every powder is crafted with the same love and attention 
-                she would give to feed her own family. Her experimental nature led her to create unique 
-                combinations that have become family favorites for generations.
-              </p>
+          {/* Family Photo Section */}
+          <div className="text-center mb-16">
+            <div className="flex items-center justify-center gap-2 text-saffron mb-6">
+              <Heart className="h-5 w-5" />
+              <span className="font-semibold">Meet Our Family</span>
             </div>
-            <div className="bg-gradient-to-br from-saffron/20 to-accent/20 rounded-2xl p-8 text-center">
-              <div className="w-32 h-32 bg-gradient-to-br from-saffron to-accent rounded-full mx-auto mb-4 flex items-center justify-center text-white text-4xl font-bold">
-                M
+            <div className="max-w-lg mx-auto mb-8">
+              <img 
+                src="/lovable-uploads/81fbdcac-8037-4723-b27a-cb509e6c64a1.png" 
+                alt="Our parents - Mother and Father, the founders of Shree Spices"
+                className="w-full h-auto rounded-2xl shadow-2xl"
+              />
+            </div>
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto text-left">
+              <div className="bg-gradient-to-br from-saffron/10 to-accent/10 rounded-xl p-6">
+                <h3 className="text-xl font-semibold mb-3 text-center">Our Mother - The Creative Soul</h3>
+                <p className="text-muted-foreground">
+                  The passionate cook on the left, whose love for experimenting with flavors and 
+                  traditional recipes has been the cornerstone of our family. Her culinary journey 
+                  combines age-old techniques with innovative approaches to create authentic, 
+                  flavorful spice blends.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Our Mother</h3>
-              <p className="text-muted-foreground">The Passionate Cook & Creator</p>
+              <div className="bg-gradient-to-br from-accent/10 to-saffron/10 rounded-xl p-6">
+                <h3 className="text-xl font-semibold mb-3 text-center">Our Father - The Supportive Partner</h3>
+                <p className="text-muted-foreground">
+                  The encouraging partner on the right, who believed in our mother's vision from day one. 
+                  His unwavering support and practical guidance became the foundation that helped 
+                  transform a kitchen dream into a global business.
+                </p>
+              </div>
             </div>
           </div>
 
-          {/* Father's Support */}
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-            <div className="bg-gradient-to-br from-accent/20 to-saffron/20 rounded-2xl p-8 text-center md:order-1">
-              <div className="w-32 h-32 bg-gradient-to-br from-accent to-saffron rounded-full mx-auto mb-4 flex items-center justify-center text-white text-4xl font-bold">
-                F
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Our Father</h3>
-              <p className="text-muted-foreground">The Supportive Partner & Believer</p>
+          {/* Their Story */}
+          <div className="bg-card rounded-2xl p-8 mb-16">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold mb-4">Their Beautiful Journey</h2>
+              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                What started as our mother's passion for creating perfect spice blends became a 
+                family mission to share authentic Indian flavors with the world.
+              </p>
             </div>
-            <div className="space-y-6 md:order-2">
-              <div className="flex items-center gap-2 text-accent">
-                <Users className="h-5 w-5" />
-                <span className="font-semibold">The Pillar of Support</span>
+            
+            <div className="grid md:grid-cols-2 gap-8 items-center mb-8">
+              <div>
+                <h3 className="text-2xl font-semibold mb-4">A Mother's Passion</h3>
+                <p className="text-muted-foreground leading-relaxed mb-4">
+                  Our mother has always been more than just a cook - she's an artist who paints with spices. 
+                  Her experimental nature and deep understanding of traditional recipes led her to create 
+                  unique combinations that became family treasures for generations.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  Every blend tells a story, every recipe carries the wisdom of her ancestors, and every 
+                  product reflects her commitment to authentic, high-quality ingredients. Her kitchen 
+                  became a laboratory of love where tradition met innovation.
+                </p>
               </div>
-              <h2 className="text-3xl font-bold">Our Father - The Unwavering Support</h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Behind every successful woman is a supportive partner, and our father exemplifies this perfectly. 
-                When our mother first shared her dream of bringing her homemade spices to the world, he didn't 
-                just listen – he believed in her vision wholeheartedly.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                His encouragement, practical support, and unwavering faith in our mother's culinary genius 
-                became the foundation upon which Shree Spices was built. He understood that what she created 
-                in their kitchen was something special that deserved to be shared with the world.
-              </p>
+              <div>
+                <h3 className="text-2xl font-semibold mb-4">A Father's Belief</h3>
+                <p className="text-muted-foreground leading-relaxed mb-4">
+                  When our mother shared her dream of bringing her homemade spices to the world, 
+                  our father didn't just listen - he became her biggest champion. He understood that 
+                  what she created was something truly special that deserved global recognition.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  His practical support, business acumen, and unwavering faith in her culinary genius 
+                  provided the foundation needed to transform a passion project into Shree Spices. 
+                  Together, they make the perfect team.
+                </p>
+              </div>
             </div>
           </div>
 
