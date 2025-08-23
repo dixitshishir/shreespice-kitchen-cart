@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Download, MessageCircle } from 'lucide-react';
+import { Download, MessageCircle, Check } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useCart } from '@/contexts/CartContext';
 import { useOrder } from '@/contexts/OrderContext';
+import { useState } from 'react';
 
 interface PaymentQRProps {
   totalAmount?: number;
@@ -19,6 +20,8 @@ const PaymentQR = ({ totalAmount = 0, customerDetails, orderId }: PaymentQRProps
   const { toast } = useToast();
   const { state } = useCart();
   const { addOrder } = useOrder();
+  const [isOrderConfirmed, setIsOrderConfirmed] = useState(false);
+  const [isConfirming, setIsConfirming] = useState(false);
 
   const handleDownloadQR = () => {
     // Create a temporary link to download the QR code
@@ -33,7 +36,7 @@ const PaymentQR = ({ totalAmount = 0, customerDetails, orderId }: PaymentQRProps
     });
   };
 
-  const handleWhatsAppOrder = async () => {
+  const handleConfirmOrder = async () => {
     if (state.items.length === 0) {
       toast({
         title: "Cart Empty",
@@ -43,38 +46,50 @@ const PaymentQR = ({ totalAmount = 0, customerDetails, orderId }: PaymentQRProps
       return;
     }
 
-    // Create order in database first
-    if (customerDetails) {
-      try {
-        const orderItems = state.items.map(item => ({
-          id: item.id,
-          name: item.name,
-          price: item.price,
-          quantity: item.quantity
-        }));
-        
-        await addOrder({
-          items: orderItems,
-          customerInfo: customerDetails,
-          total: totalAmount,
-          status: 'received'
-        });
-
-        toast({
-          title: "Order Created",
-          description: "Order has been added to the system",
-        });
-      } catch (error) {
-        console.error('Error creating order:', error);
-        toast({
-          title: "Error",
-          description: "Failed to create order in system",
-          variant: "destructive"
-        });
-        return;
-      }
+    if (!customerDetails) {
+      toast({
+        title: "Customer Details Missing",
+        description: "Please provide customer details",
+        variant: "destructive"
+      });
+      return;
     }
 
+    setIsConfirming(true);
+    
+    try {
+      const orderItems = state.items.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity
+      }));
+      
+      await addOrder({
+        items: orderItems,
+        customerInfo: customerDetails,
+        total: totalAmount,
+        status: 'received'
+      });
+
+      setIsOrderConfirmed(true);
+      toast({
+        title: "Order Confirmed",
+        description: "Your order has been confirmed and added to our system",
+      });
+    } catch (error) {
+      console.error('Error creating order:', error);
+      toast({
+        title: "Error",
+        description: "Failed to confirm order. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsConfirming(false);
+    }
+  };
+
+  const handleWhatsAppOrder = async () => {
     const phoneNumber = "919986918992"; // Mother's WhatsApp number
     const itemsList = state.items.map(item => `${item.name} - ₹${item.price} x ${item.quantity}`).join('\n');
     const message = `Hi! I would like to order the following items:\n\n${itemsList}\n\nTotal Amount: ₹${totalAmount}\n\nCustomer Details:\nName: ${customerDetails?.name || 'Not provided'}\nPhone: ${customerDetails?.phone || 'Not provided'}\nAddress: ${customerDetails?.address || 'Not provided'}`;
@@ -149,17 +164,44 @@ const PaymentQR = ({ totalAmount = 0, customerDetails, orderId }: PaymentQRProps
             Download QR
           </Button>
 
-          <div className="pt-3 border-t">
-            <Button 
-              onClick={handleWhatsAppOrder}
-              className="w-full bg-green-600 hover:bg-green-700"
-              size="lg"
-            >
-              <MessageCircle className="mr-2 h-4 w-4" />
-              Send Order via WhatsApp
-            </Button>
+          <div className="pt-3 border-t space-y-3">
+            {!isOrderConfirmed ? (
+              <Button 
+                onClick={handleConfirmOrder}
+                className="w-full bg-primary hover:bg-primary/90"
+                size="lg"
+                disabled={isConfirming}
+              >
+                {isConfirming ? (
+                  "Confirming..."
+                ) : (
+                  <>
+                    <Check className="mr-2 h-4 w-4" />
+                    Confirm Order
+                  </>
+                )}
+              </Button>
+            ) : (
+              <>
+                <div className="flex items-center justify-center text-green-600 font-medium">
+                  <Check className="mr-2 h-4 w-4" />
+                  Order Confirmed!
+                </div>
+                <Button 
+                  onClick={handleWhatsAppOrder}
+                  className="w-full bg-green-600 hover:bg-green-700"
+                  size="lg"
+                >
+                  <MessageCircle className="mr-2 h-4 w-4" />
+                  Send Order via WhatsApp
+                </Button>
+              </>
+            )}
             <p className="text-xs text-muted-foreground mt-2">
-              Send your order details directly to us
+              {!isOrderConfirmed 
+                ? "Confirm your order to proceed with WhatsApp"
+                : "Send your order details directly to us"
+              }
             </p>
           </div>
         </div>
