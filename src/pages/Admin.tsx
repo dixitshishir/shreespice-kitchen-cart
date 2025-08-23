@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useOrder, OrderStatus, Order } from '@/contexts/OrderContext';
-import { Phone, MapPin, Clock, ShoppingBag } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
+import AdminLogin from '@/components/AdminLogin';
+import { Phone, MapPin, Clock, ShoppingBag, LogOut } from 'lucide-react';
+import type { User } from '@supabase/supabase-js';
 
 const statusColors = {
   received: 'bg-blue-100 text-blue-800',
@@ -34,8 +37,50 @@ const nextStatusMap: Record<OrderStatus, OrderStatus | null> = {
 };
 
 const Admin = () => {
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { state, updateOrderStatus } = useOrder();
   const [selectedStatus, setSelectedStatus] = useState<OrderStatus | 'all'>('all');
+
+  useEffect(() => {
+    // Check current session
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      setIsLoading(false);
+    };
+
+    checkSession();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      setUser(null);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-saffron mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <AdminLogin onLoginSuccess={() => {}} />;
+  }
 
   const filteredOrders = selectedStatus === 'all' 
     ? state.orders 
@@ -60,6 +105,26 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-saffron to-accent bg-clip-text text-transparent">
+              Shree Spices Admin
+            </h1>
+            <p className="text-sm text-muted-foreground">Welcome, {user.email}</p>
+          </div>
+          <Button 
+            variant="outline" 
+            onClick={handleLogout}
+            className="flex items-center gap-2"
+          >
+            <LogOut className="h-4 w-4" />
+            Logout
+          </Button>
+        </div>
+      </header>
+
       <div className="container py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">Order Management</h1>
