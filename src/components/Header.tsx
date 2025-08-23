@@ -1,8 +1,13 @@
+import { useState } from 'react';
 import { ShoppingCart, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/contexts/CartContext';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
 
 interface HeaderProps {
   onCartClick: () => void;
@@ -11,6 +16,32 @@ interface HeaderProps {
 const Header = ({ onCartClick }: HeaderProps) => {
   const { state } = useCart();
   const itemCount = state.items.reduce((sum, item) => sum + item.quantity, 0);
+  const [showSecretDialog, setShowSecretDialog] = useState(false);
+  const [secretKey, setSecretKey] = useState('');
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleAdminClick = () => {
+    setShowSecretDialog(true);
+  };
+
+  const handleSecretSubmit = () => {
+    if (secretKey === 'Admin@3112') {
+      setShowSecretDialog(false);
+      setSecretKey('');
+      navigate('/admin');
+      toast({
+        title: "Access Granted",
+        description: "Welcome to admin panel!",
+      });
+    } else {
+      toast({
+        title: "Access Denied",
+        description: "Invalid secret key",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
@@ -26,14 +57,13 @@ const Header = ({ onCartClick }: HeaderProps) => {
         
         <div className="flex items-center gap-2">
           <Button
-            asChild
             variant="ghost"
             size="sm"
+            onClick={handleAdminClick}
+            className="flex items-center gap-2"
           >
-            <Link to="/admin" className="flex items-center gap-2">
-              <Settings className="h-4 w-4" />
-              <span className="hidden sm:inline">Admin</span>
-            </Link>
+            <Settings className="h-4 w-4" />
+            <span className="hidden sm:inline">Admin</span>
           </Button>
           
           <Button
@@ -55,6 +85,38 @@ const Header = ({ onCartClick }: HeaderProps) => {
           </Button>
         </div>
       </div>
+
+      <Dialog open={showSecretDialog} onOpenChange={setShowSecretDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Admin Access</DialogTitle>
+            <DialogDescription>
+              Enter the secret key to access the admin panel
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="secret">Secret Key</Label>
+              <Input
+                id="secret"
+                type="password"
+                value={secretKey}
+                onChange={(e) => setSecretKey(e.target.value)}
+                placeholder="Enter secret key"
+                onKeyDown={(e) => e.key === 'Enter' && handleSecretSubmit()}
+              />
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setShowSecretDialog(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleSecretSubmit}>
+                Access Admin
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </header>
   );
 };

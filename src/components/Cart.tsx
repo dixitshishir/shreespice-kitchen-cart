@@ -4,7 +4,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Minus, Plus, Trash2, CreditCard, Smartphone, CheckCircle } from 'lucide-react';
+import { Minus, Plus, Trash2, CreditCard, Smartphone, CheckCircle, QrCode } from 'lucide-react';
+import PaymentQR from './PaymentQR';
 import { useCart } from '@/contexts/CartContext';
 import { useToast } from '@/hooks/use-toast';
 import { useOrder } from '@/contexts/OrderContext';
@@ -28,8 +29,8 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
   };
 
   const generateUPILink = (amount: number, customerName: string, orderId: string) => {
-    const upiId = 'nalini.dixit@paytm'; // Dummy UPI ID
-    const payeeName = 'Nalini Dixit';
+    const upiId = 'sdixit2301@okhdfcbank';
+    const payeeName = 'Shishir Dixit';
     const note = `Order ${orderId} - ${customerName} - Shree Spices`;
     
     // UPI payment URL format
@@ -52,7 +53,7 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
     setTimeout(() => {
       toast({
         title: "Payment Instructions 💳",
-        description: "If payment app didn't open, scan QR code or use UPI ID: nalini.dixit@paytm",
+        description: "If payment app didn't open, scan QR code or use UPI ID: sdixit2301@okhdfcbank",
         duration: 10000,
       });
     }, 2000);
@@ -146,8 +147,8 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
                 <CardContent className="space-y-4">
                   <div className="text-center space-y-2">
                     <p className="text-sm text-muted-foreground">Pay to</p>
-                    <p className="font-semibold">Nalini Dixit</p>
-                    <p className="text-sm text-muted-foreground">nalini.dixit@paytm</p>
+                    <p className="font-semibold">Shishir Dixit</p>
+                    <p className="text-sm text-muted-foreground">sdixit2301@okhdfcbank</p>
                   </div>
                   
                   <Separator />
@@ -176,6 +177,10 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
                       <Smartphone className="mr-2 h-4 w-4" />
                       Pay with UPI
                     </Button>
+                    
+                    <div className="mt-4">
+                      <PaymentQR />
+                    </div>
                     
                     <div className="text-center">
                       <p className="text-xs text-muted-foreground mb-3">
