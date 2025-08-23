@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer, ReactNode, useEffect } from 'react';
 
 export interface Product {
   id: string;
@@ -88,7 +88,26 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, { items: [], total: 0 });
+  // Initialize state from localStorage or empty cart
+  const getInitialState = (): CartState => {
+    try {
+      const savedCart = localStorage.getItem('shreespice-cart');
+      return savedCart ? JSON.parse(savedCart) : { items: [], total: 0 };
+    } catch {
+      return { items: [], total: 0 };
+    }
+  };
+
+  const [state, dispatch] = useReducer(cartReducer, getInitialState());
+
+  // Save cart to localStorage whenever state changes
+  useEffect(() => {
+    try {
+      localStorage.setItem('shreespice-cart', JSON.stringify(state));
+    } catch (error) {
+      console.error('Failed to save cart to localStorage:', error);
+    }
+  }, [state]);
 
   const addItem = (product: Product) => {
     dispatch({ type: 'ADD_ITEM', payload: product });

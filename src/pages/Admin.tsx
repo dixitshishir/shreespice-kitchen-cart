@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useOrder, OrderStatus, Order } from '@/contexts/OrderContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import AdminLogin from '@/components/AdminLogin';
@@ -40,7 +41,6 @@ const nextStatusMap: Record<OrderStatus, OrderStatus | null> = {
 };
 
 const Admin = () => {
-  const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { state, updateOrderStatus } = useOrder();
@@ -48,16 +48,36 @@ const Admin = () => {
   const [currentView, setCurrentView] = useState<'orders' | 'history'>('orders');
   const [showNotificationDialog, setShowNotificationDialog] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const { user } = useAuth();
   const { toast } = useToast();
 
   useEffect(() => {
-    // For hardcoded auth, just set loading to false
+    if (user) {
+      checkAdminAccess();
+    }
     setIsLoading(false);
-  }, []);
+  }, [user]);
+
+  const checkAdminAccess = async () => {
+    if (!user) return;
+    
+    try {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('phone')
+        .eq('id', user.id)
+        .single();
+
+      if (profile?.phone === '9986918992' || profile?.phone === '1234567890') {
+        setIsAuthenticated(true);
+      }
+    } catch (error) {
+      console.error('Admin access check failed:', error);
+    }
+  };
 
   const handleLogout = async () => {
     setIsAuthenticated(false);
-    setUser(null);
   };
 
   if (isLoading) {
@@ -71,11 +91,8 @@ const Admin = () => {
     );
   }
 
-  if (!isAuthenticated) {
-    return <AdminLogin onLoginSuccess={() => {
-      setIsAuthenticated(true);
-      setUser({ email: '9986918992' } as User);
-    }} />;
+  if (!user || !isAuthenticated) {
+    return <AdminLogin onLoginSuccess={() => setIsAuthenticated(true)} />;
   }
 
   const filteredOrders = selectedStatus === 'all' 

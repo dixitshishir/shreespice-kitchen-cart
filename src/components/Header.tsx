@@ -1,8 +1,9 @@
-import { ShoppingCart, Settings } from 'lucide-react';
+import { ShoppingCart, Settings, User, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/contexts/CartContext';
-import { Link } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
   onCartClick: () => void;
@@ -10,6 +11,8 @@ interface HeaderProps {
 
 const Header = ({ onCartClick }: HeaderProps) => {
   const { state } = useCart();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const itemCount = state.items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
@@ -25,16 +28,40 @@ const Header = ({ onCartClick }: HeaderProps) => {
         </div>
         
         <div className="flex items-center gap-2">
-          <Button
-            asChild
-            variant="ghost"
-            size="sm"
-          >
-            <Link to="/admin" className="flex items-center gap-2">
-              <Settings className="h-4 w-4" />
-              <span className="hidden sm:inline">Admin</span>
-            </Link>
-          </Button>
+          {user ? (
+            <>
+              <Button
+                asChild
+                variant="ghost"
+                size="sm"
+              >
+                <Link to="/admin" className="flex items-center gap-2">
+                  <Settings className="h-4 w-4" />
+                  <span className="hidden sm:inline">Admin</span>
+                </Link>
+              </Button>
+              
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => signOut()}
+                className="flex items-center gap-2"
+              >
+                <LogOut className="h-4 w-4" />
+                <span className="hidden sm:inline">Sign Out</span>
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate('/auth')}
+              className="flex items-center gap-2"
+            >
+              <User className="h-4 w-4" />
+              <span className="hidden sm:inline">Sign In</span>
+            </Button>
+          )}
           
           <Button
             variant="outline"

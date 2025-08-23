@@ -65,7 +65,7 @@ const orderReducer = (state: OrderState, action: OrderAction): OrderState => {
 
 interface OrderContextType {
   state: OrderState;
-  addOrder: (order: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
+  addOrder: (order: Omit<Order, 'id' | 'createdAt' | 'updatedAt'> & { user_id?: string }) => Promise<void>;
   updateOrderStatus: (id: string, status: OrderStatus) => Promise<void>;
   fetchOrders: () => Promise<void>;
 }
@@ -123,7 +123,7 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   };
 
-  const addOrder = async (order: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const addOrder = async (order: Omit<Order, 'id' | 'createdAt' | 'updatedAt'> & { user_id?: string }) => {
     try {
       const { data: orderData, error: orderError } = await supabase
         .from('orders')
@@ -133,6 +133,7 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           customer_address: order.customerInfo.address,
           total: order.total,
           status: order.status,
+          user_id: order.user_id,
         })
         .select()
         .single();

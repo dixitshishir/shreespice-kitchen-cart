@@ -6,8 +6,10 @@ import { Separator } from '@/components/ui/separator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Minus, Plus, Trash2, CreditCard, Smartphone, CheckCircle } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { useOrder } from '@/contexts/OrderContext';
+import { useNavigate } from 'react-router-dom';
 import CustomerDetailsForm from './CustomerDetailsForm';
 
 interface CartProps {
@@ -18,12 +20,24 @@ interface CartProps {
 const Cart = ({ isOpen, onOpenChange }: CartProps) => {
   const { state, updateQuantity, removeItem, clearCart } = useCart();
   const { addOrder } = useOrder();
+  const { user } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [showCustomerForm, setShowCustomerForm] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [customerDetails, setCustomerDetails] = useState<{ name: string; phone: string; address: string } | null>(null);
 
   const handleProceedToCheckout = () => {
+    if (!user) {
+      toast({
+        variant: "destructive",
+        title: "Authentication Required",
+        description: "Please sign in to place an order."
+      });
+      onOpenChange(false);
+      navigate('/auth');
+      return;
+    }
     setShowCustomerForm(true);
   };
 
@@ -59,7 +73,7 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
   };
 
   const handlePaymentComplete = () => {
-    if (!customerDetails) return;
+    if (!customerDetails || !user) return;
 
     // Convert cart items to order items
     const orderItems = state.items.map(item => ({
@@ -74,7 +88,8 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
       items: orderItems,
       customerInfo: customerDetails,
       total: state.total,
-      status: 'received'
+      status: 'received',
+      user_id: user.id
     });
 
     // Send WhatsApp notification to mother
