@@ -169,44 +169,34 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
                     </div>
                   </div>
                   
-                  <div className="space-y-3">
-                    <Button 
-                      onClick={handlePayNow}
-                      className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
-                    >
-                      <Smartphone className="mr-2 h-4 w-4" />
-                      Pay with UPI
-                    </Button>
-                    
-                    <div className="mt-4">
-                      <PaymentQR totalAmount={state.total + 50} />
-                    </div>
-                    
-                    <div className="text-center">
-                      <p className="text-xs text-muted-foreground mb-3">
-                        After completing payment, click below to confirm your order
-                      </p>
-                      <Button 
-                        onClick={handlePaymentComplete}
-                        variant="outline"
-                        className="w-full flex items-center gap-2"
-                      >
-                        <CheckCircle className="h-4 w-4" />
-                        I have completed payment
-                      </Button>
-                    </div>
-                    
-                    <Button 
-                      variant="ghost" 
-                      onClick={handleBackToCart}
-                      className="w-full"
-                    >
-                      Back to Cart
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                   <div className="space-y-3">
+                     <PaymentQR totalAmount={state.total + 50} />
+                     
+                     <div className="text-center">
+                       <p className="text-xs text-muted-foreground mb-3">
+                         After completing payment, click below to confirm your order
+                       </p>
+                       <Button 
+                         onClick={handlePaymentComplete}
+                         variant="outline"
+                         className="w-full flex items-center gap-2"
+                       >
+                         <CheckCircle className="h-4 w-4" />
+                         I have completed payment
+                       </Button>
+                     </div>
+                     
+                     <Button 
+                       variant="ghost" 
+                       onClick={handleBackToCart}
+                       className="w-full"
+                     >
+                       Back to Cart
+                     </Button>
+                   </div>
+                 </CardContent>
+               </Card>
+             </div>
           ) : showCustomerForm ? (
             <div className="flex-1 flex items-center justify-center py-8">
               <CustomerDetailsForm
