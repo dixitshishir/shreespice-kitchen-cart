@@ -6,7 +6,8 @@ import { Separator } from '@/components/ui/separator';
 import { useOrder, OrderStatus, Order } from '@/contexts/OrderContext';
 import { supabase } from '@/integrations/supabase/client';
 import AdminLogin from '@/components/AdminLogin';
-import { Phone, MapPin, Clock, ShoppingBag, LogOut } from 'lucide-react';
+import OrderHistory from '@/components/OrderHistory';
+import { Phone, MapPin, Clock, ShoppingBag, LogOut, History, List } from 'lucide-react';
 import type { User } from '@supabase/supabase-js';
 
 const statusColors = {
@@ -42,6 +43,7 @@ const Admin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { state, updateOrderStatus } = useOrder();
   const [selectedStatus, setSelectedStatus] = useState<OrderStatus | 'all'>('all');
+  const [currentView, setCurrentView] = useState<'orders' | 'history'>('orders');
 
   useEffect(() => {
     // For hardcoded auth, just set loading to false
@@ -121,123 +123,159 @@ const Admin = () => {
 
       <div className="container py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Order Management</h1>
-          <p className="text-muted-foreground">Manage customer orders and update status</p>
-        </div>
-
-        {/* Status Filter */}
-        <div className="mb-6 flex flex-wrap gap-2">
-          <Button
-            variant={selectedStatus === 'all' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setSelectedStatus('all')}
-          >
-            All Orders ({state.orders.length})
-          </Button>
-          {Object.entries(statusLabels).map(([status, label]) => {
-            const count = state.orders.filter(order => order.status === status).length;
-            return (
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">
+                {currentView === 'orders' ? 'Order Management' : 'Order History & Analytics'}
+              </h1>
+              <p className="text-muted-foreground">
+                {currentView === 'orders' 
+                  ? 'Manage customer orders and update status' 
+                  : 'View order history and sales analytics'
+                }
+              </p>
+            </div>
+            <div className="flex gap-2">
               <Button
-                key={status}
-                variant={selectedStatus === status ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setSelectedStatus(status as OrderStatus)}
+                variant={currentView === 'orders' ? 'default' : 'outline'}
+                onClick={() => setCurrentView('orders')}
+                className="flex items-center gap-2"
               >
-                {label} ({count})
+                <List className="h-4 w-4" />
+                Orders
               </Button>
-            );
-          })}
+              <Button
+                variant={currentView === 'history' ? 'default' : 'outline'}
+                onClick={() => setCurrentView('history')}
+                className="flex items-center gap-2"
+              >
+                <History className="h-4 w-4" />
+                History
+              </Button>
+            </div>
+          </div>
         </div>
 
-        {/* Orders List */}
-        <div className="space-y-4">
-          {filteredOrders.length === 0 ? (
-            <Card>
-              <CardContent className="text-center py-8">
-                <ShoppingBag className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <p className="text-muted-foreground">No orders found</p>
-              </CardContent>
-            </Card>
-          ) : (
-            filteredOrders.map((order) => (
-              <Card key={order.id} className="w-full">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">Order #{order.id}</CardTitle>
-                    <Badge className={getStatusBadgeClass(order.status)}>
-                      {statusLabels[order.status]}
-                    </Badge>
-                  </div>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-4 w-4" />
-                      {order.createdAt.toLocaleDateString()} {order.createdAt.toLocaleTimeString()}
-                    </div>
-                  </div>
-                </CardHeader>
+        {/* Conditional Content */}
+        {currentView === 'history' ? (
+          <OrderHistory />
+        ) : (
+          <>
+            {/* Status Filter */}
+            <div className="mb-6 flex flex-wrap gap-2">
+              <Button
+                variant={selectedStatus === 'all' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setSelectedStatus('all')}
+              >
+                All Orders ({state.orders.length})
+              </Button>
+              {Object.entries(statusLabels).map(([status, label]) => {
+                const count = state.orders.filter(order => order.status === status).length;
+                return (
+                  <Button
+                    key={status}
+                    variant={selectedStatus === status ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setSelectedStatus(status as OrderStatus)}
+                  >
+                    {label} ({count})
+                  </Button>
+                );
+              })}
+            </div>
 
-                <CardContent className="space-y-4">
-                  {/* Customer Info */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <h4 className="font-semibold">Customer Details</h4>
-                      <div className="space-y-1 text-sm">
-                        <p className="font-medium">{order.customerInfo.name}</p>
+            {/* Orders List */}
+            <div className="space-y-4">
+              {filteredOrders.length === 0 ? (
+                <Card>
+                  <CardContent className="text-center py-8">
+                    <ShoppingBag className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                    <p className="text-muted-foreground">No orders found</p>
+                  </CardContent>
+                </Card>
+              ) : (
+                filteredOrders.map((order) => (
+                  <Card key={order.id} className="w-full">
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-lg">Order #{order.id}</CardTitle>
+                        <Badge className={getStatusBadgeClass(order.status)}>
+                          {statusLabels[order.status]}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1">
-                          <Phone className="h-3 w-3" />
-                          <span>{order.customerInfo.phone}</span>
-                        </div>
-                        <div className="flex items-start gap-1">
-                          <MapPin className="h-3 w-3 mt-0.5" />
-                          <span>{order.customerInfo.address}</span>
+                          <Clock className="h-4 w-4" />
+                          {order.createdAt.toLocaleDateString()} {order.createdAt.toLocaleTimeString()}
                         </div>
                       </div>
-                    </div>
+                    </CardHeader>
 
-                    {/* Order Items */}
-                    <div className="space-y-2">
-                      <h4 className="font-semibold">Order Items</h4>
-                      <div className="space-y-1 text-sm">
-                        {order.items.map((item) => (
-                          <div key={item.id} className="flex justify-between">
-                            <span>{item.name} x{item.quantity}</span>
-                            <span>₹{item.price * item.quantity}</span>
+                    <CardContent className="space-y-4">
+                      {/* Customer Info */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <h4 className="font-semibold">Customer Details</h4>
+                          <div className="space-y-1 text-sm">
+                            <p className="font-medium">{order.customerInfo.name}</p>
+                            <div className="flex items-center gap-1">
+                              <Phone className="h-3 w-3" />
+                              <span>{order.customerInfo.phone}</span>
+                            </div>
+                            <div className="flex items-start gap-1">
+                              <MapPin className="h-3 w-3 mt-0.5" />
+                              <span>{order.customerInfo.address}</span>
+                            </div>
                           </div>
-                        ))}
-                        <Separator className="my-2" />
-                        <div className="flex justify-between font-semibold">
-                          <span>Total (incl. delivery)</span>
-                          <span>₹{order.total + 50}</span>
+                        </div>
+
+                        {/* Order Items */}
+                        <div className="space-y-2">
+                          <h4 className="font-semibold">Order Items</h4>
+                          <div className="space-y-1 text-sm">
+                            {order.items.map((item) => (
+                              <div key={item.id} className="flex justify-between">
+                                <span>{item.name} x{item.quantity}</span>
+                                <span>₹{item.price * item.quantity}</span>
+                              </div>
+                            ))}
+                            <Separator className="my-2" />
+                            <div className="flex justify-between font-semibold">
+                              <span>Total (incl. delivery)</span>
+                              <span>₹{order.total + 50}</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
 
-                  {/* Action Buttons */}
-                  <div className="flex gap-2 pt-4">
-                    {nextStatusMap[order.status] && (
-                      <Button
-                        onClick={() => handleStatusUpdate(order.id, order.status)}
-                        className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
-                      >
-                        Mark as {statusLabels[nextStatusMap[order.status]!]}
-                      </Button>
-                    )}
-                    
-                    <Button
-                      variant="outline"
-                      onClick={() => sendWhatsAppUpdate(order)}
-                      className="flex items-center gap-2"
-                    >
-                      <Phone className="h-4 w-4" />
-                      Send WhatsApp Update
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
-          )}
-        </div>
+                      {/* Action Buttons */}
+                      <div className="flex gap-2 pt-4">
+                        {nextStatusMap[order.status] && (
+                          <Button
+                            onClick={() => handleStatusUpdate(order.id, order.status)}
+                            className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+                          >
+                            Mark as {statusLabels[nextStatusMap[order.status]!]}
+                          </Button>
+                        )}
+                        
+                        <Button
+                          variant="outline"
+                          onClick={() => sendWhatsAppUpdate(order)}
+                          className="flex items-center gap-2"
+                        >
+                          <Phone className="h-4 w-4" />
+                          Send WhatsApp Update
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -47,9 +47,17 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
   };
 
   const handleCustomerDetailsSubmit = (details: { name: string; phone: string; address: string }) => {
+    // Convert cart items to order items
+    const orderItems = state.items.map(item => ({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity
+    }));
+    
     // Create order
     addOrder({
-      items: state.items,
+      items: orderItems,
       customerInfo: details,
       total: state.total,
       status: 'received'
