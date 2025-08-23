@@ -97,42 +97,46 @@ const Admin = () => {
   };
 
   const sendWhatsAppUpdate = async (order: Order, statusToUpdate?: OrderStatus) => {
-    // Create dynamic message based on the status being updated to
+    // Create dynamic message based on current status or status being updated to
     let message = "";
     const orderNumber = order.id.slice(-8);
     const total = order.total + 50;
+    const currentStatus = statusToUpdate || order.status;
     
-    if (statusToUpdate) {
-      switch (statusToUpdate) {
-        case 'accepted':
-          message = `Hello ${order.customerInfo.name}! 🎉 Your order #${orderNumber} has been accepted and we're preparing your items. Total: ₹${total}. Thank you for choosing Shree Spices!`;
-          break;
-        case 'preparing':
-          message = `Hi ${order.customerInfo.name}! 👨‍🍳 Your order #${orderNumber} is now being prepared with fresh ingredients. Total: ₹${total}. We'll update you once it's ready!`;
-          break;
-        case 'ready':
-          message = `Great news ${order.customerInfo.name}! 📦 Your order #${orderNumber} is ready for pickup/delivery. Total: ₹${total}. Thank you for your patience!`;
-          break;
-        case 'out_for_delivery':
-          message = `Hi ${order.customerInfo.name}! 🚚 Your order #${orderNumber} is out for delivery and will reach you soon. Total: ₹${total}. Please keep your phone handy!`;
-          break;
-        case 'delivered':
-          message = `Thank you ${order.customerInfo.name}! ✅ Your order #${orderNumber} has been delivered successfully. Total: ₹${total}. We hope you enjoy your Shree Spices products!`;
-          break;
-        default:
-          message = `Hello ${order.customerInfo.name}! Your order #${orderNumber} status has been updated to: ${statusLabels[statusToUpdate]}. Total: ₹${total}`;
-      }
-    } else {
-      // Current status message
-      message = `Hello ${order.customerInfo.name}! Your order #${orderNumber} is currently: ${statusLabels[order.status]}. Total: ₹${total}`;
+    // Generate automated status-specific messages
+    switch (currentStatus) {
+      case 'received':
+        message = `Hello ${order.customerInfo.name}! 📝 Thank you for your order #${orderNumber}. We have received your order and will process it shortly. Total: ₹${total}. We'll keep you updated!`;
+        break;
+      case 'accepted':
+        message = `Hello ${order.customerInfo.name}! 🎉 Great news! Your order #${orderNumber} has been accepted and we're now preparing your fresh spices. Total: ₹${total}. Expected preparation time: 30-45 minutes. Thank you for choosing Shree Spices!`;
+        break;
+      case 'preparing':
+        message = `Hi ${order.customerInfo.name}! 👨‍🍳 Your order #${orderNumber} is currently being prepared with the freshest ingredients. Our team is carefully packaging your spices. Total: ₹${total}. We'll notify you once it's ready for delivery!`;
+        break;
+      case 'ready':
+        message = `Excellent news ${order.customerInfo.name}! 📦 Your order #${orderNumber} is ready and packed! We're now arranging for delivery to your location. Total: ₹${total}. Our delivery partner will be with you soon!`;
+        break;
+      case 'out_for_delivery':
+        message = `Hi ${order.customerInfo.name}! 🚚 Your order #${orderNumber} is out for delivery and on its way to you! Our delivery partner should reach you within 30-45 minutes. Total: ₹${total}. Please keep your phone handy and be available at the delivery address.`;
+        break;
+      case 'delivered':
+        message = `Thank you ${order.customerInfo.name}! ✅ Your order #${orderNumber} has been successfully delivered. Total: ₹${total}. We hope you enjoy your fresh Shree Spices products! Please rate your experience and don't hesitate to order again. 🌶️⭐`;
+        break;
+      default:
+        message = `Hello ${order.customerInfo.name}! Your order #${orderNumber} status: ${statusLabels[currentStatus]}. Total: ₹${total}. Thank you for choosing Shree Spices!`;
     }
+    
+    // Add order details for better context
+    const itemsList = order.items.map(item => `• ${item.name} x${item.quantity}`).join('\n');
+    const fullMessage = `${message}\n\n📋 Order Details:\n${itemsList}\n\n🏪 Shree Spices - Fresh & Pure\n📞 Contact: 9986918992`;
     
     // Clean the phone number - remove any non-digits and ensure it starts with country code
     const cleanPhone = order.customerInfo.phone.replace(/\D/g, '');
     const phoneWithCountryCode = cleanPhone.startsWith('91') ? cleanPhone : `91${cleanPhone}`;
     
     // Try multiple WhatsApp URL formats for better compatibility
-    const encodedMessage = encodeURIComponent(message);
+    const encodedMessage = encodeURIComponent(fullMessage);
     
     // Try WhatsApp app first (mobile), then web version
     const whatsappUrls = [
@@ -150,6 +154,16 @@ const Admin = () => {
         
         try {
           window.location.href = url;
+          
+          // Show success message after attempting to open WhatsApp
+          setTimeout(() => {
+            toast({
+              title: "WhatsApp Message Sent! 📱",
+              description: `${statusLabels[currentStatus]} notification sent to ${order.customerInfo.name}`,
+              duration: 4000,
+            });
+          }, 1000);
+          
         } catch (error) {
           console.error(`Error with URL ${urlIndex + 1}:`, error);
           urlIndex++;
@@ -157,15 +171,17 @@ const Admin = () => {
             setTimeout(tryNextUrl, 1000); // Try next URL after 1 second
           } else {
             // If all fail, copy to clipboard as fallback
-            navigator.clipboard?.writeText(message).then(() => {
+            navigator.clipboard?.writeText(fullMessage).then(() => {
               toast({
-                title: "Message Copied",
-                description: "WhatsApp message copied to clipboard. Please paste it manually in WhatsApp.",
+                title: "Message Copied to Clipboard 📋",
+                description: "WhatsApp didn't open automatically. Message copied - please paste it manually in WhatsApp.",
+                duration: 6000,
               });
             }).catch(() => {
               toast({
-                title: "Manual Message",
+                title: "Manual WhatsApp Required 📱",
                 description: `Please message ${order.customerInfo.phone} manually with the order update.`,
+                duration: 6000,
               });
             });
           }
@@ -174,13 +190,6 @@ const Admin = () => {
     };
     
     tryNextUrl();
-    
-    // Show success toast
-    toast({
-      title: "WhatsApp Update Sent! 📱",
-      description: `Status update sent to ${order.customerInfo.name} (${order.customerInfo.phone})`,
-      duration: 3000,
-    });
   };
 
   const handleNotifyCustomer = (method: 'whatsapp' | 'sms') => {
