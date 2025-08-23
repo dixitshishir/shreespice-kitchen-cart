@@ -39,6 +39,7 @@ const Hero = ({ onShopNow }: HeroProps) => {
           <Button 
             size="lg" 
             variant="outline"
+            onClick={() => window.location.href = '/story'}
             className="border-white text-white hover:bg-white hover:text-primary"
           >
             Learn Our Story
