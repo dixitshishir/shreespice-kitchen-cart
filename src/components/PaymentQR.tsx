@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Download, MessageCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useCart } from '@/contexts/CartContext';
+import { useOrder } from '@/contexts/OrderContext';
 
 interface PaymentQRProps {
   totalAmount?: number;
@@ -17,6 +18,7 @@ interface PaymentQRProps {
 const PaymentQR = ({ totalAmount = 0, customerDetails, orderId }: PaymentQRProps) => {
   const { toast } = useToast();
   const { state } = useCart();
+  const { addOrder } = useOrder();
 
   const handleDownloadQR = () => {
     // Create a temporary link to download the QR code
@@ -31,7 +33,7 @@ const PaymentQR = ({ totalAmount = 0, customerDetails, orderId }: PaymentQRProps
     });
   };
 
-  const handleWhatsAppOrder = () => {
+  const handleWhatsAppOrder = async () => {
     if (state.items.length === 0) {
       toast({
         title: "Cart Empty",
@@ -39,6 +41,38 @@ const PaymentQR = ({ totalAmount = 0, customerDetails, orderId }: PaymentQRProps
         variant: "destructive"
       });
       return;
+    }
+
+    // Create order in database first
+    if (customerDetails) {
+      try {
+        const orderItems = state.items.map(item => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity
+        }));
+        
+        await addOrder({
+          items: orderItems,
+          customerInfo: customerDetails,
+          total: totalAmount,
+          status: 'received'
+        });
+
+        toast({
+          title: "Order Created",
+          description: "Order has been added to the system",
+        });
+      } catch (error) {
+        console.error('Error creating order:', error);
+        toast({
+          title: "Error",
+          description: "Failed to create order in system",
+          variant: "destructive"
+        });
+        return;
+      }
     }
 
     const phoneNumber = "919986918992"; // Mother's WhatsApp number
