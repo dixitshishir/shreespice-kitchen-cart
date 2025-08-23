@@ -91,7 +91,7 @@ const Admin = () => {
     );
   }
 
-  if (!user || !isAuthenticated) {
+  if (!isAuthenticated) {
     return <AdminLogin onLoginSuccess={() => setIsAuthenticated(true)} />;
   }
 
