@@ -45,22 +45,49 @@ const PaymentQR = ({ totalAmount = 0, customerDetails, orderId }: PaymentQRProps
     const itemsList = state.items.map(item => `${item.name} - ₹${item.price} x ${item.quantity}`).join('\n');
     const message = `Hi! I would like to order the following items:\n\n${itemsList}\n\nTotal Amount: ₹${totalAmount}\n\nCustomer Details:\nName: ${customerDetails?.name || 'Not provided'}\nPhone: ${customerDetails?.phone || 'Not provided'}\nAddress: ${customerDetails?.address || 'Not provided'}`;
     
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    console.log('WhatsApp URL:', whatsappUrl); // Debug log
+    // Try multiple WhatsApp URL formats for better compatibility
+    const encodedMessage = encodeURIComponent(message);
     
-    // Try different methods to open WhatsApp
-    try {
-      // First try opening in new tab
-      const newWindow = window.open(whatsappUrl, '_blank');
-      if (!newWindow) {
-        // If popup blocked, try direct location change
-        window.location.href = whatsappUrl;
+    // Try WhatsApp app first (mobile), then web version
+    const whatsappUrls = [
+      `whatsapp://send?phone=${phoneNumber}&text=${encodedMessage}`, // Mobile app
+      `https://web.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`, // Web version
+      `https://wa.me/${phoneNumber}?text=${encodedMessage}` // Fallback
+    ];
+    
+    let urlIndex = 0;
+    
+    const tryNextUrl = () => {
+      if (urlIndex < whatsappUrls.length) {
+        const url = whatsappUrls[urlIndex];
+        console.log(`Trying WhatsApp URL ${urlIndex + 1}:`, url);
+        
+        try {
+          window.location.href = url;
+        } catch (error) {
+          console.error(`Error with URL ${urlIndex + 1}:`, error);
+          urlIndex++;
+          if (urlIndex < whatsappUrls.length) {
+            setTimeout(tryNextUrl, 1000); // Try next URL after 1 second
+          } else {
+            // If all fail, copy to clipboard as fallback
+            navigator.clipboard?.writeText(message).then(() => {
+              toast({
+                title: "Message Copied",
+                description: "WhatsApp message copied to clipboard. Please paste it manually in WhatsApp.",
+              });
+            }).catch(() => {
+              toast({
+                title: "Manual Order",
+                description: `Please message ${phoneNumber} manually with your order details.`,
+              });
+            });
+          }
+        }
       }
-    } catch (error) {
-      console.error('Error opening WhatsApp:', error);
-      // Fallback: try direct location change
-      window.location.href = whatsappUrl;
-    }
+    };
+    
+    tryNextUrl();
   };
 
   return (
