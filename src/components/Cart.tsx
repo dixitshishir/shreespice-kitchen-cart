@@ -146,67 +146,33 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
         
         <div className="flex flex-col h-full">
           {showPayment ? (
-            <div className="flex-1 flex items-center justify-center py-8">
-              <Card className="w-full max-w-sm">
-                <CardHeader className="text-center">
-                  <CardTitle className="flex items-center justify-center gap-2">
-                    <Smartphone className="h-5 w-5" />
-                    UPI Payment
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="text-center space-y-2">
-                    <p className="text-sm text-muted-foreground">Pay to</p>
-                    <p className="font-semibold">Shishir Dixit</p>
-                    <p className="text-sm text-muted-foreground">sdixit2301@okhdfcbank</p>
-                  </div>
-                  
-                  <Separator />
-                  
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Items Total</span>
-                      <span>₹{state.total}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Delivery</span>
-                      <span>₹50</span>
-                    </div>
-                    <Separator />
-                    <div className="flex justify-between font-bold text-lg">
-                      <span>Amount to Pay</span>
-                      <span>₹{state.total + 50}</span>
-                    </div>
-                  </div>
-                  
-                   <div className="space-y-3">
-                     <PaymentQR totalAmount={state.total + 50} />
-                     
-                     <div className="text-center">
-                       <p className="text-xs text-muted-foreground mb-3">
-                         After completing payment, click below to confirm your order
-                       </p>
-                       <Button 
-                         onClick={handlePaymentComplete}
-                         variant="outline"
-                         className="w-full flex items-center gap-2"
-                       >
-                         <CheckCircle className="h-4 w-4" />
-                         I have completed payment
-                       </Button>
-                     </div>
-                     
-                     <Button 
-                       variant="ghost" 
-                       onClick={handleBackToCart}
-                       className="w-full"
-                     >
-                       Back to Cart
-                     </Button>
-                   </div>
-                 </CardContent>
-               </Card>
-             </div>
+            <div className="flex-1 py-4">
+              <PaymentQR totalAmount={state.total + 50} />
+              
+              <div className="mt-4 space-y-3">
+                <div className="text-center">
+                  <p className="text-xs text-muted-foreground mb-3">
+                    After completing payment, click below to confirm your order
+                  </p>
+                  <Button 
+                    onClick={handlePaymentComplete}
+                    variant="outline"
+                    className="w-full flex items-center gap-2"
+                  >
+                    <CheckCircle className="h-4 w-4" />
+                    I have completed payment
+                  </Button>
+                </div>
+                
+                <Button 
+                  variant="ghost" 
+                  onClick={handleBackToCart}
+                  className="w-full"
+                >
+                  Back to Cart
+                </Button>
+              </div>
+            </div>
           ) : showCustomerForm ? (
             <div className="flex-1 flex items-center justify-center py-8">
               <CustomerDetailsForm
