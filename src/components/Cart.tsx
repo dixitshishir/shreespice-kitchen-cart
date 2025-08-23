@@ -30,7 +30,8 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
     const message = `🔔 New Order Alert!\n\nCustomer: ${customerDetails.name}\nPhone: ${customerDetails.phone}\nAddress: ${customerDetails.address}\nItems: ${itemsList}\nTotal: ₹${state.total + 50}\n\nPlease go to admin dashboard and accept the order.`;
     
     const whatsappUrl = `https://wa.me/${motherPhone}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    // Use location.href instead of window.open to avoid popup blockers
+    window.location.href = whatsappUrl;
   };
 
   const handleCustomerDetailsSubmit = (details: { name: string; phone: string; address: string }) => {
