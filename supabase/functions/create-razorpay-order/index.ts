@@ -6,7 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-interface PaymentVerificationRequest {
+interface CreateOrderRequest {
   orderId: string;
   amount: number;
   customerName: string;
@@ -14,7 +14,6 @@ interface PaymentVerificationRequest {
 }
 
 const handler = async (req: Request): Promise<Response> => {
-  // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -25,9 +24,45 @@ const handler = async (req: Request): Promise<Response> => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     );
 
-    const { orderId, amount, customerName, customerPhone }: PaymentVerificationRequest = await req.json();
+    const { orderId, amount, customerName, customerPhone }: CreateOrderRequest = await req.json();
 
-    console.log("Payment verification request:", { orderId, amount, customerName, customerPhone });
+    const razorpayKeyId = Deno.env.get("RAZORPAY_KEY_ID");
+    const razorpayKeySecret = Deno.env.get("RAZORPAY_KEY_SECRET");
+
+    if (!razorpayKeyId || !razorpayKeySecret) {
+      throw new Error("Razorpay credentials not configured");
+    }
+
+    // Create Razorpay order
+    const razorpayOrder = {
+      amount: amount * 100, // Convert to paise
+      currency: "INR",
+      receipt: orderId,
+      notes: {
+        order_id: orderId,
+        customer_name: customerName,
+        customer_phone: customerPhone
+      }
+    };
+
+    const authHeader = btoa(`${razorpayKeyId}:${razorpayKeySecret}`);
+
+    const razorpayResponse = await fetch("https://api.razorpay.com/v1/orders", {
+      method: "POST",
+      headers: {
+        "Authorization": `Basic ${authHeader}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(razorpayOrder),
+    });
+
+    if (!razorpayResponse.ok) {
+      const errorText = await razorpayResponse.text();
+      console.error("Razorpay API error:", errorText);
+      throw new Error(`Razorpay API error: ${razorpayResponse.status}`);
+    }
+
+    const razorpayOrderData = await razorpayResponse.json();
 
     // Create payment record
     const { data: payment, error: paymentError } = await supabase
@@ -37,7 +72,8 @@ const handler = async (req: Request): Promise<Response> => {
         amount: amount,
         user_name: customerName,
         user_phone: customerPhone,
-        status: "pending"
+        status: "pending",
+        verification_notes: `Razorpay Order ID: ${razorpayOrderData.id}`
       })
       .select()
       .single();
@@ -58,43 +94,17 @@ const handler = async (req: Request): Promise<Response> => {
       throw orderUpdateError;
     }
 
-    // Get order details for Google Sheets logging
-    const { data: orderData, error: orderError } = await supabase
-      .from("orders")
-      .select(`
-        *,
-        order_items(*)
-      `)
-      .eq("id", orderId)
-      .single();
-
-    if (orderError) {
-      console.error("Error fetching order details:", orderError);
-    }
-
-    // Payment verification will now be handled by Razorpay webhook
-
-    // Send WhatsApp notification to admin
-    const adminPhone = "9986918992";
-    const message = `🔔 New Payment Verification Required!\n\n📦 Order ID: ${orderId}\n💰 Amount: ₹${amount}\n👤 Customer: ${customerName}\n📱 Phone: ${customerPhone}\n\nPlease verify this payment in the admin dashboard.`;
-    
-    const waUrl = `https://wa.me/${adminPhone}?text=${encodeURIComponent(message)}`;
-    
-    console.log("WhatsApp notification URL generated:", waUrl);
-
-    // Return success response with WhatsApp URL
     return new Response(JSON.stringify({ 
-      success: true, 
-      paymentId: payment.id,
-      whatsappUrl: waUrl,
-      message: "Payment verification request submitted successfully" 
+      success: true,
+      razorpayOrder: razorpayOrderData,
+      paymentId: payment.id
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
 
   } catch (error) {
-    console.error("Error in verify-payment function:", error);
+    console.error("Error in create-razorpay-order function:", error);
     return new Response(JSON.stringify({ 
       error: error.message,
       success: false 

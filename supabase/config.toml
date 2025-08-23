@@ -50,11 +50,8 @@ enable_signup = true
 double_confirm_changes = true
 enable_confirmations = false
 
-[functions.verify-payment]
+[functions.razorpay-webhook]
 verify_jwt = false
 
-[functions.log-payment-to-sheets]
-verify_jwt = false
-
-[functions.download-payment-logs]
+[functions.create-razorpay-order]
 verify_jwt = false

@@ -9,7 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import AdminLogin from '@/components/AdminLogin';
 import OrderHistory from '@/components/OrderHistory';
-import { Phone, MapPin, Clock, ShoppingBag, LogOut, History, List, FileSpreadsheet, Download, ExternalLink } from 'lucide-react';
+import { Phone, MapPin, Clock, ShoppingBag, LogOut, History, List } from 'lucide-react';
 
 const statusColors = {
   received: 'bg-blue-100 text-blue-800',
@@ -43,7 +43,7 @@ const Admin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { state, updateOrderStatus } = useOrder();
   const [selectedStatus, setSelectedStatus] = useState<OrderStatus | 'all'>('all');
-  const [currentView, setCurrentView] = useState<'orders' | 'history' | 'payment-logs'>('orders');
+  const [currentView, setCurrentView] = useState<'orders' | 'history'>('orders');
   const [showNotificationDialog, setShowNotificationDialog] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const { toast } = useToast();
@@ -154,48 +154,6 @@ const Admin = () => {
     return `${statusColors[status]} hover:opacity-80`;
   };
 
-  const handleViewGoogleSheet = () => {
-    const spreadsheetId = 'your-spreadsheet-id'; // This will be set from the secret
-    const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit`;
-    window.open(url, '_blank');
-    toast({
-      title: "Google Sheet Opened",
-      description: "Payment logs sheet opened in a new tab",
-    });
-  };
-
-  const handleDownloadLogs = async () => {
-    try {
-      const response = await supabase.functions.invoke('download-payment-logs');
-      
-      if (response.error) {
-        throw response.error;
-      }
-
-      // Create download link
-      const blob = new Blob([response.data], { type: 'text/csv' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `payment-logs-${new Date().toISOString().split('T')[0]}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-
-      toast({
-        title: "Download Complete",
-        description: "Payment logs downloaded successfully",
-      });
-    } catch (error) {
-      console.error('Error downloading payment logs:', error);
-      toast({
-        title: "Download Failed",
-        description: "Failed to download payment logs. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -225,14 +183,12 @@ const Admin = () => {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h1 className="text-xl sm:text-3xl font-bold mb-1 sm:mb-2">
-                {currentView === 'orders' ? 'Orders' : currentView === 'history' ? 'History' : 'Payment Logs'}
+                {currentView === 'orders' ? 'Orders' : 'History'}
               </h1>
               <p className="text-sm text-muted-foreground">
                 {currentView === 'orders' 
                   ? 'Manage orders and update status' 
-                  : currentView === 'history'
-                  ? 'View order history and analytics'
-                  : 'View and manage payment logs'
+                  : 'View order history and analytics'
                 }
               </p>
             </div>
@@ -255,15 +211,6 @@ const Admin = () => {
                 <History className="h-3 w-3 sm:h-4 sm:w-4" />
                 <span className="text-xs sm:text-sm">History</span>
               </Button>
-              <Button
-                variant={currentView === 'payment-logs' ? 'default' : 'outline'}
-                onClick={() => setCurrentView('payment-logs')}
-                size="sm"
-                className="flex items-center gap-1 sm:gap-2"
-              >
-                <FileSpreadsheet className="h-3 w-3 sm:h-4 sm:w-4" />
-                <span className="text-xs sm:text-sm">Payment Logs</span>
-              </Button>
             </div>
           </div>
         </div>
@@ -271,44 +218,6 @@ const Admin = () => {
         {/* Conditional Content */}
         {currentView === 'history' ? (
           <OrderHistory />
-        ) : currentView === 'payment-logs' ? (
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileSpreadsheet className="h-5 w-5" />
-                  Payment Logs Management
-                </CardTitle>
-                <p className="text-sm text-muted-foreground">
-                  View and download payment logs stored in Google Sheets
-                </p>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Button
-                    onClick={handleViewGoogleSheet}
-                    className="flex items-center gap-2 justify-center"
-                    variant="outline"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                    View Google Sheet
-                  </Button>
-                  <Button
-                    onClick={handleDownloadLogs}
-                    className="flex items-center gap-2 justify-center"
-                    variant="outline"
-                  >
-                    <Download className="h-4 w-4" />
-                    Download CSV
-                  </Button>
-                </div>
-                <div className="text-sm text-muted-foreground space-y-2">
-                  <p><strong>View Google Sheet:</strong> Opens the payment logs sheet in Google Sheets for real-time viewing and collaboration.</p>
-                  <p><strong>Download CSV:</strong> Downloads all payment logs as a CSV file for offline analysis and record keeping.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
         ) : (
           <>
             {/* Mobile-Optimized Status Filter */}

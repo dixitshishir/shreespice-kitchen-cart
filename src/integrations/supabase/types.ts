@@ -104,7 +104,6 @@ export type Database = {
           order_id: string | null
           payment_method: string | null
           status: string | null
-          transaction_id: string | null
           updated_at: string
           user_name: string | null
           user_phone: string | null
@@ -117,7 +116,6 @@ export type Database = {
           order_id?: string | null
           payment_method?: string | null
           status?: string | null
-          transaction_id?: string | null
           updated_at?: string
           user_name?: string | null
           user_phone?: string | null
@@ -130,7 +128,6 @@ export type Database = {
           order_id?: string | null
           payment_method?: string | null
           status?: string | null
-          transaction_id?: string | null
           updated_at?: string
           user_name?: string | null
           user_phone?: string | null
