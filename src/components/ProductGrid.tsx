@@ -229,7 +229,7 @@ const ProductGrid = () => {
       {/* CRAZY animated background */}
       <div className="absolute inset-0 crazy-bg opacity-20"></div>
       
-      {/* Floating background elements */}
+      {/* Static background elements */}
       <div className="absolute top-10 right-10 w-32 h-32 bg-gradient-to-br from-primary/30 to-accent/30 rounded-full blur-2xl floating-bg"></div>
       <div className="absolute bottom-20 left-10 w-24 h-24 bg-gradient-to-br from-accent/30 to-saffron/30 rounded-full blur-xl floating-bg"></div>
       <div className="absolute top-1/2 left-1/3 w-20 h-20 bg-gradient-to-br from-saffron/30 to-primary/30 rounded-full blur-xl floating-bg"></div>
@@ -237,9 +237,9 @@ const ProductGrid = () => {
       <div className="container relative z-10">
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-3 bg-gradient-to-r from-primary/20 to-accent/20 backdrop-blur-lg border border-primary/30 rounded-full px-8 py-3 mb-6 shadow-lg">
-            <span className="text-2xl animate-bounce">✨</span>
+            <span className="text-2xl">✨</span>
             <span className="text-primary font-bold text-lg">FRESH & WILD</span>
-            <span className="text-2xl animate-bounce" style={{animationDelay: '0.5s'}}>🔥</span>
+            <span className="text-2xl">🔥</span>
           </div>
           
           <h2 className="text-5xl md:text-6xl font-black mb-6 title-crazy">
@@ -267,7 +267,7 @@ const ProductGrid = () => {
             <div key={category.name} className="category-crazy p-8 md:p-10" style={{animationDelay: `${index * 0.2}s`}}>
               <div className="text-center mb-10 relative z-10">
                 <div className="inline-flex items-center gap-4 mb-6">
-                  <div className="text-5xl animate-bounce">
+                  <div className="text-5xl">
                     {category.name === "New Items" && "🆕"}
                     {category.name === "Powders" && "🌶️"}
                     {category.name === "Sweets" && "🍯"}
