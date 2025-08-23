@@ -24,6 +24,16 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
   const [showPayment, setShowPayment] = useState(false);
   const [customerDetails, setCustomerDetails] = useState<{ name: string; phone: string; address: string } | null>(null);
 
+  // Reset states when cart opens
+  const handleCartOpen = (open: boolean) => {
+    if (open) {
+      setShowCustomerForm(false);
+      setShowPayment(false);
+      setCustomerDetails(null);
+    }
+    onOpenChange(open);
+  };
+
   const handleProceedToCheckout = () => {
     setShowCustomerForm(true);
   };
@@ -121,7 +131,7 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={onOpenChange}>
+    <Sheet open={isOpen} onOpenChange={handleCartOpen}>
       <SheetContent className="w-full max-w-md">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
