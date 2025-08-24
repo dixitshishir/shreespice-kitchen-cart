@@ -44,8 +44,6 @@ const Admin = () => {
   const { state, updateOrderStatus } = useOrder();
   const [selectedStatus, setSelectedStatus] = useState<OrderStatus | 'all'>('all');
   const [currentView, setCurrentView] = useState<'orders' | 'history'>('orders');
-  const [showNotificationDialog, setShowNotificationDialog] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -86,13 +84,6 @@ const Admin = () => {
         sendWhatsAppUpdate(order, nextStatus);
       }
       
-      // If accepting order, show notification dialog
-      if (currentStatus === 'received' && nextStatus === 'accepted') {
-        if (order) {
-          setSelectedOrder(order);
-          setShowNotificationDialog(true);
-        }
-      }
     }
   };
 
@@ -192,34 +183,6 @@ const Admin = () => {
     tryNextUrl();
   };
 
-  const handleNotifyCustomer = (method: 'whatsapp' | 'sms') => {
-    if (!selectedOrder) return;
-    
-    const message = `Hello ${selectedOrder.customerInfo.name}! 🎉 Your order #${selectedOrder.id.slice(-8)} has been accepted and is being prepared. Total: ₹${selectedOrder.total + 50}. Thank you for choosing Shree Spices!`;
-    const cleanPhone = selectedOrder.customerInfo.phone.replace(/\D/g, '');
-    const phoneWithCountryCode = cleanPhone.startsWith('91') ? cleanPhone : `91${cleanPhone}`;
-    
-    if (method === 'whatsapp') {
-      const waUrl = `https://wa.me/${phoneWithCountryCode}?text=${encodeURIComponent(message)}`;
-      window.open(waUrl, '_blank');
-      toast({
-        title: "WhatsApp Notification Sent! 📱",
-        description: `Order acceptance notification sent to ${selectedOrder.customerInfo.name}`,
-        duration: 5000,
-      });
-    } else {
-      // SMS fallback - copy message
-      navigator.clipboard.writeText(`SMS to ${selectedOrder.customerInfo.phone}: ${message}`);
-      toast({
-        title: "SMS Message Copied! 📋",
-        description: `SMS message copied. Send to: ${selectedOrder.customerInfo.phone}`,
-        duration: 8000,
-      });
-    }
-    
-    setShowNotificationDialog(false);
-    setSelectedOrder(null);
-  };
 
   const getStatusBadgeClass = (status: OrderStatus) => {
     return `${statusColors[status]} hover:opacity-80`;
@@ -414,36 +377,6 @@ const Admin = () => {
         )}
       </div>
 
-      {/* Notification Dialog */}
-      <AlertDialog open={showNotificationDialog} onOpenChange={setShowNotificationDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Notify Customer</AlertDialogTitle>
-            <AlertDialogDescription>
-              Order has been accepted! How would you like to notify {selectedOrder?.customerInfo.name}?
-              <br />
-              <span className="font-medium">Phone: {selectedOrder?.customerInfo.phone}</span>
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="flex-col sm:flex-row gap-2">
-            <AlertDialogCancel onClick={() => setShowNotificationDialog(false)}>
-              Skip Notification
-            </AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={() => handleNotifyCustomer('sms')}
-              className="bg-blue-600 hover:bg-blue-700"
-            >
-              Send SMS
-            </AlertDialogAction>
-            <AlertDialogAction 
-              onClick={() => handleNotifyCustomer('whatsapp')}
-              className="bg-green-600 hover:bg-green-700"
-            >
-              Send WhatsApp
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 };

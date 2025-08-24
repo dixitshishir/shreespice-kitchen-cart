@@ -45,7 +45,7 @@ const Header = ({ onCartClick }: HeaderProps) => {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container flex flex-col gap-3 py-3 sm:flex-row sm:h-16 sm:items-center sm:justify-between sm:py-0">
         <div className="flex items-center space-x-2">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-saffron to-paprika bg-clip-text text-transparent">
             Shree Spices
@@ -55,22 +55,22 @@ const Header = ({ onCartClick }: HeaderProps) => {
           </span>
         </div>
         
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-2">
           <Button
             variant="ghost"
             size="sm"
             onClick={handleAdminClick}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 w-full sm:w-auto"
           >
             <Settings className="h-4 w-4" />
-            <span className="hidden sm:inline">Admin</span>
+            <span>Admin</span>
           </Button>
           
           <Button
             variant="outline"
             size="sm"
             onClick={onCartClick}
-            className="relative"
+            className="relative w-full sm:w-auto"
           >
             <ShoppingCart className="h-4 w-4" />
             {itemCount > 0 && (
@@ -81,7 +81,7 @@ const Header = ({ onCartClick }: HeaderProps) => {
                 {itemCount}
               </Badge>
             )}
-            <span className="ml-2 hidden sm:inline">Cart</span>
+            <span className="ml-2">Cart</span>
           </Button>
         </div>
       </div>
