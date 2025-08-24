@@ -94,33 +94,45 @@ const Admin = () => {
     const total = order.total + 50;
     const currentStatus = statusToUpdate || order.status;
     
+    // Check if delivery location is Davangere for special instructions
+    const isDavangere = order.customerInfo.address.toLowerCase().includes('davangere') || 
+                        order.customerInfo.address.toLowerCase().includes('davanagere');
+    
     // Generate automated status-specific messages
     switch (currentStatus) {
       case 'received':
-        message = `Hello ${order.customerInfo.name}! 📝 Thank you for your order #${orderNumber}. We have received your order and will process it shortly. Total: ₹${total}. We'll keep you updated!`;
+        message = `Hello ${order.customerInfo.name}! 📝 Thank you for your order #${orderNumber}. We have received your order and will process it shortly. Total: ₹${total}. Preparation time: 1-2 days. We'll keep you updated!`;
         break;
       case 'accepted':
-        message = `Hello ${order.customerInfo.name}! 🎉 Great news! Your order #${orderNumber} has been accepted and we're now preparing your fresh spices. Total: ₹${total}. Expected preparation time: 30-45 minutes. Thank you for choosing Shree Spices!`;
+        message = `Hello ${order.customerInfo.name}! 🎉 Great news! Your order #${orderNumber} has been accepted and we're now preparing your fresh spices. Total: ₹${total}. Expected preparation time: 1-2 days. Thank you for choosing Nalini Dixit's Shree Spices!`;
         break;
       case 'preparing':
-        message = `Hi ${order.customerInfo.name}! 👨‍🍳 Your order #${orderNumber} is currently being prepared with the freshest ingredients. Our team is carefully packaging your spices. Total: ₹${total}. We'll notify you once it's ready for delivery!`;
+        message = `Hi ${order.customerInfo.name}! 👨‍🍳 Your order #${orderNumber} is currently being prepared with the freshest ingredients. Our team is carefully packaging your spices. Total: ₹${total}. We'll notify you once it's ready for courier dispatch!`;
         break;
       case 'ready':
-        message = `Excellent news ${order.customerInfo.name}! 📦 Your order #${orderNumber} is ready and packed! We're now arranging for delivery to your location. Total: ₹${total}. Our delivery partner will be with you soon!`;
+        if (isDavangere) {
+          message = `Excellent news ${order.customerInfo.name}! 📦 Your order #${orderNumber} is ready and packed! Total: ₹${total}. For Davangere delivery: You can collect from Dixit Offset Printers or we can arrange home collection. Please let us know your preference.`;
+        } else {
+          message = `Excellent news ${order.customerInfo.name}! 📦 Your order #${orderNumber} is ready and packed! Total: ₹${total}. We're now arranging courier dispatch to your location. Courier charges vary by location and will be informed separately.`;
+        }
         break;
       case 'out_for_delivery':
-        message = `Hi ${order.customerInfo.name}! 🚚 Your order #${orderNumber} is out for delivery and on its way to you! Our delivery partner should reach you within 30-45 minutes. Total: ₹${total}. Please keep your phone handy and be available at the delivery address.`;
+        if (isDavangere) {
+          message = `Hi ${order.customerInfo.name}! 📍 Your order #${orderNumber} is ready for collection/delivery in Davangere. Total: ₹${total}. Please coordinate with us for pickup from Dixit Offset Printers or home delivery.`;
+        } else {
+          message = `Hi ${order.customerInfo.name}! 🚚 Your order #${orderNumber} has been dispatched via courier and is on its way to you! Total: ₹${total}. You should receive it within 2-3 working days. Courier will contact you directly.`;
+        }
         break;
       case 'delivered':
-        message = `Thank you ${order.customerInfo.name}! ✅ Your order #${orderNumber} has been successfully delivered. Total: ₹${total}. We hope you enjoy your fresh Shree Spices products! Please rate your experience and don't hesitate to order again. 🌶️⭐`;
+        message = `Thank you ${order.customerInfo.name}! ✅ Your order #${orderNumber} has been successfully delivered. Total: ₹${total}. We hope you enjoy your fresh Nalini Dixit's Shree Spices products! Please share your feedback and don't hesitate to order again. 🌶️⭐`;
         break;
       default:
-        message = `Hello ${order.customerInfo.name}! Your order #${orderNumber} status: ${statusLabels[currentStatus]}. Total: ₹${total}. Thank you for choosing Shree Spices!`;
+        message = `Hello ${order.customerInfo.name}! Your order #${orderNumber} status: ${statusLabels[currentStatus]}. Total: ₹${total}. Thank you for choosing Nalini Dixit's Shree Spices!`;
     }
     
     // Add order details for better context
     const itemsList = order.items.map(item => `• ${item.name} x${item.quantity}`).join('\n');
-    const fullMessage = `${message}\n\n📋 Order Details:\n${itemsList}\n\n🏪 Shree Spices - Fresh & Pure\n📞 Contact: 9986918992`;
+    const fullMessage = `${message}\n\n📋 Order Details:\n${itemsList}\n\n🏪 Nalini Dixit's Shree Spices - Fresh & Pure\n📞 Contact: 9986918992`;
     
     // Clean the phone number - remove any non-digits and ensure it starts with country code
     const cleanPhone = order.customerInfo.phone.replace(/\D/g, '');
