@@ -61,35 +61,35 @@ const CustomerDetailsForm = ({ onSubmit, onBack }: CustomerDetailsFormProps) => 
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle className="text-xl font-semibold text-center">
+    <Card className="w-full max-w-sm sm:max-w-md mx-auto">
+      <CardHeader className="pb-4 sm:pb-6">
+        <CardTitle className="text-lg sm:text-xl font-semibold text-center">
           Customer Details
         </CardTitle>
-        <p className="text-sm text-muted-foreground text-center">
+        <p className="text-xs sm:text-sm text-muted-foreground text-center">
           Please provide your details to complete the order
         </p>
       </CardHeader>
       
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="name">Full Name *</Label>
+      <CardContent className="px-4 sm:px-6">
+        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+          <div className="space-y-1 sm:space-y-2">
+            <Label htmlFor="name" className="text-sm">Full Name *</Label>
             <Input
               id="name"
               type="text"
               value={formData.name}
               onChange={(e) => handleInputChange('name', e.target.value)}
               placeholder="Enter your full name"
-              className={errors.name ? 'border-destructive' : ''}
+              className={`text-sm sm:text-base ${errors.name ? 'border-destructive' : ''}`}
             />
             {errors.name && (
-              <p className="text-sm text-destructive">{errors.name}</p>
+              <p className="text-xs sm:text-sm text-destructive">{errors.name}</p>
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="phone">Phone Number *</Label>
+          <div className="space-y-1 sm:space-y-2">
+            <Label htmlFor="phone" className="text-sm">Phone Number *</Label>
             <Input
               id="phone"
               type="tel"
@@ -97,40 +97,40 @@ const CustomerDetailsForm = ({ onSubmit, onBack }: CustomerDetailsFormProps) => 
               onChange={(e) => handleInputChange('phone', e.target.value)}
               placeholder="Enter 10-digit phone number"
               maxLength={10}
-              className={errors.phone ? 'border-destructive' : ''}
+              className={`text-sm sm:text-base ${errors.phone ? 'border-destructive' : ''}`}
             />
             {errors.phone && (
-              <p className="text-sm text-destructive">{errors.phone}</p>
+              <p className="text-xs sm:text-sm text-destructive">{errors.phone}</p>
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="address">Delivery Address *</Label>
+          <div className="space-y-1 sm:space-y-2">
+            <Label htmlFor="address" className="text-sm">Delivery Address *</Label>
             <Textarea
               id="address"
               value={formData.address}
               onChange={(e) => handleInputChange('address', e.target.value)}
               placeholder="Enter your complete address for delivery"
               rows={3}
-              className={errors.address ? 'border-destructive' : ''}
+              className={`text-sm sm:text-base ${errors.address ? 'border-destructive' : ''}`}
             />
             {errors.address && (
-              <p className="text-sm text-destructive">{errors.address}</p>
+              <p className="text-xs sm:text-sm text-destructive">{errors.address}</p>
             )}
           </div>
 
-          <div className="flex gap-3 pt-4">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-3 sm:pt-4">
             <Button
               type="button"
               variant="outline"
               onClick={onBack}
-              className="flex-1"
+              className="w-full sm:flex-1 text-sm sm:text-base py-2 sm:py-3"
             >
               Back to Cart
             </Button>
             <Button
               type="submit"
-              className="flex-1 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+              className="w-full sm:flex-1 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-sm sm:text-base py-2 sm:py-3"
             >
               Confirm Order
             </Button>

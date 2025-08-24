@@ -164,7 +164,7 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
 
   return (
     <Sheet open={isOpen} onOpenChange={handleCartOpen}>
-      <SheetContent className="w-full max-w-md">
+      <SheetContent className="w-full max-w-md sm:max-w-lg overflow-y-auto">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
             {showPayment ? 'Complete Payment' : showCustomerForm ? 'Order Details' : 'Shopping Cart'}
@@ -217,13 +217,13 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
                     </Button>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {state.items.map((item) => (
-                      <div key={item.id} className="flex items-center space-x-3 p-3 border rounded-lg">
+                      <div key={item.id} className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 border rounded-lg">
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="w-16 h-16 object-cover rounded"
+                          className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded"
                         />
                         
                         <div className="flex-1 min-w-0">
@@ -232,17 +232,17 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
                           <p className="font-semibold text-primary">₹{item.price}</p>
                         </div>
                         
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-1 sm:space-x-2">
                           <Button
                             size="sm"
                             variant="outline"
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="h-8 w-8 p-0"
+                            className="h-6 w-6 sm:h-8 sm:w-8 p-0"
                           >
-                            <Minus className="h-3 w-3" />
+                            <Minus className="h-2 w-2 sm:h-3 sm:w-3" />
                           </Button>
                           
-                          <span className="w-8 text-center text-sm font-medium">
+                          <span className="w-6 sm:w-8 text-center text-xs sm:text-sm font-medium">
                             {item.quantity}
                           </span>
                           
@@ -250,18 +250,18 @@ const Cart = ({ isOpen, onOpenChange }: CartProps) => {
                             size="sm"
                             variant="outline"
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="h-8 w-8 p-0"
+                            className="h-6 w-6 sm:h-8 sm:w-8 p-0"
                           >
-                            <Plus className="h-3 w-3" />
+                            <Plus className="h-2 w-2 sm:h-3 sm:w-3" />
                           </Button>
                           
                           <Button
                             size="sm"
                             variant="ghost"
                             onClick={() => removeItem(item.id)}
-                            className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                            className="h-6 w-6 sm:h-8 sm:w-8 p-0 text-destructive hover:text-destructive ml-1"
                           >
-                            <Trash2 className="h-3 w-3" />
+                            <Trash2 className="h-2 w-2 sm:h-3 sm:w-3" />
                           </Button>
                         </div>
                       </div>

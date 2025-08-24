@@ -140,35 +140,35 @@ const PaymentQR = ({ totalAmount = 0, customerDetails, orderId }: PaymentQRProps
   };
 
   return (
-    <Card className="w-full max-w-sm mx-auto">
-      <CardHeader className="text-center">
-        <CardTitle>Payment via UPI</CardTitle>
+    <Card className="w-full max-w-xs sm:max-w-sm mx-auto">
+      <CardHeader className="text-center pb-3">
+        <CardTitle className="text-lg sm:text-xl">Payment via UPI</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-3 sm:space-y-4 px-3 sm:px-6">
         <div className="text-center">
-          <p className="text-2xl font-bold text-primary">₹{totalAmount}</p>
-          <p className="text-sm text-muted-foreground mt-1">Scan QR code with any UPI app</p>
+          <p className="text-xl sm:text-2xl font-bold text-primary">₹{totalAmount}</p>
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">Scan QR code with any UPI app</p>
         </div>
 
-        <div className="text-center space-y-3">
+        <div className="text-center space-y-2 sm:space-y-3">
           <div className="flex justify-center">
             <img 
               src="/lovable-uploads/2ff3c361-c4f3-4e90-9c2c-82eb07c05f3b.png" 
               alt="Payment QR Code"
-              className="w-48 h-48 object-contain border rounded-lg"
+              className="w-36 h-36 sm:w-48 sm:h-48 object-contain border rounded-lg"
             />
           </div>
           
-          <Button onClick={handleDownloadQR} variant="outline" size="sm" className="mr-2">
-            <Download className="mr-2 h-3 w-3" />
+          <Button onClick={handleDownloadQR} variant="outline" size="sm" className="text-xs sm:text-sm px-3 py-2">
+            <Download className="mr-1 sm:mr-2 h-3 w-3" />
             Download QR
           </Button>
 
-          <div className="pt-3 border-t space-y-3">
+          <div className="pt-2 sm:pt-3 border-t space-y-2 sm:space-y-3">
             {!isOrderConfirmed ? (
               <Button 
                 onClick={handleConfirmOrder}
-                className="w-full bg-primary hover:bg-primary/90"
+                className="w-full bg-primary hover:bg-primary/90 text-sm sm:text-base py-2 sm:py-3"
                 size="lg"
                 disabled={isConfirming}
               >
@@ -176,7 +176,7 @@ const PaymentQR = ({ totalAmount = 0, customerDetails, orderId }: PaymentQRProps
                   "Confirming..."
                 ) : (
                   <>
-                    <Check className="mr-2 h-4 w-4" />
+                    <Check className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                     Confirm Order
                   </>
                 )}
@@ -189,10 +189,10 @@ const PaymentQR = ({ totalAmount = 0, customerDetails, orderId }: PaymentQRProps
                 </div>
                 <Button 
                   onClick={handleWhatsAppOrder}
-                  className="w-full bg-green-600 hover:bg-green-700"
+                  className="w-full bg-green-600 hover:bg-green-700 text-sm sm:text-base py-2 sm:py-3"
                   size="lg"
                 >
-                  <MessageCircle className="mr-2 h-4 w-4" />
+                  <MessageCircle className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                   Send Order via WhatsApp
                 </Button>
               </>

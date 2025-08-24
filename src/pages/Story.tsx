@@ -10,59 +10,60 @@ const Story = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
           <Button 
             variant="ghost" 
             onClick={() => navigate('/')}
-            className="flex items-center gap-2"
+            className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base"
+            size="sm"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4" />
             Back to Home
           </Button>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-br from-saffron/10 to-accent/10">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-saffron to-accent bg-clip-text text-transparent">
+      <section className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-saffron/10 to-accent/10">
+        <div className="container mx-auto px-3 sm:px-4 text-center">
+          <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-saffron to-accent bg-clip-text text-transparent">
             Our Family Story
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
             A journey of passion, tradition, and flavors that spans continents
           </p>
         </div>
       </section>
 
       {/* Main Story */}
-      <section className="py-16">
-        <div className="container mx-auto px-4 max-w-6xl">
+      <section className="py-8 sm:py-12 md:py-16">
+        <div className="container mx-auto px-3 sm:px-4 max-w-6xl">
           {/* Family Photo Section */}
-          <div className="text-center mb-16">
-            <div className="flex items-center justify-center gap-2 text-saffron mb-6">
-              <Heart className="h-5 w-5" />
-              <span className="font-semibold">Meet Our Family</span>
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
+            <div className="flex items-center justify-center gap-2 text-saffron mb-4 sm:mb-6">
+              <Heart className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="font-semibold text-sm sm:text-base">Meet Our Family</span>
             </div>
-            <div className="max-w-lg mx-auto mb-8">
+            <div className="max-w-sm sm:max-w-md md:max-w-lg mx-auto mb-6 sm:mb-8">
               <img 
                 src="/lovable-uploads/81fbdcac-8037-4723-b27a-cb509e6c64a1.png" 
                 alt="Our parents - Mother and Father, the founders of Shree Spices"
-                className="w-full h-auto rounded-2xl shadow-2xl"
+                className="w-full h-auto rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl"
               />
             </div>
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto text-left">
-              <div className="bg-gradient-to-br from-saffron/10 to-accent/10 rounded-xl p-6">
-                <h3 className="text-xl font-semibold mb-3 text-center">Our Mother - The Creative Soul</h3>
-                <p className="text-muted-foreground">
+            <div className="grid gap-4 sm:gap-6 md:gap-8 md:grid-cols-2 max-w-4xl mx-auto text-left">
+              <div className="bg-gradient-to-br from-saffron/10 to-accent/10 rounded-lg sm:rounded-xl p-4 sm:p-6">
+                <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-center">Our Mother - The Creative Soul</h3>
+                <p className="text-sm sm:text-base text-muted-foreground">
                   The passionate cook on the left, whose love for experimenting with flavors and 
                   traditional recipes has been the cornerstone of our family. Her culinary journey 
                   combines age-old techniques with innovative approaches to create authentic, 
                   flavorful spice blends.
                 </p>
               </div>
-              <div className="bg-gradient-to-br from-accent/10 to-saffron/10 rounded-xl p-6">
-                <h3 className="text-xl font-semibold mb-3 text-center">Our Father - The Supportive Partner</h3>
-                <p className="text-muted-foreground">
+              <div className="bg-gradient-to-br from-accent/10 to-saffron/10 rounded-lg sm:rounded-xl p-4 sm:p-6">
+                <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-center">Our Father - The Supportive Partner</h3>
+                <p className="text-sm sm:text-base text-muted-foreground">
                   The encouraging partner on the right, who believed in our mother's vision from day one. 
                   His unwavering support and practical guidance became the foundation that helped 
                   transform a kitchen dream into a global business.
@@ -159,9 +160,9 @@ const Story = () => {
           </div>
 
           {/* Mission Statement */}
-          <div className="text-center bg-gradient-to-br from-saffron/10 to-accent/10 rounded-2xl p-12">
-            <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
-            <p className="text-xl text-muted-foreground leading-relaxed max-w-4xl mx-auto mb-8">
+          <div className="text-center bg-gradient-to-br from-saffron/10 to-accent/10 rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-12">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Our Mission</h2>
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-4xl mx-auto mb-6 sm:mb-8">
               Every product from Shree Spices carries the love, tradition, and passion of our mother's kitchen. 
               We believe that authentic flavors should not be compromised, which is why everything is made fresh 
               to order using traditional methods and the finest ingredients. Our sweets are made with pure ghee, 
@@ -170,7 +171,7 @@ const Story = () => {
             <Button 
               size="lg" 
               onClick={() => navigate('/')}
-              className="bg-gradient-to-r from-saffron to-accent hover:from-saffron/90 hover:to-accent/90"
+              className="bg-gradient-to-r from-saffron to-accent hover:from-saffron/90 hover:to-accent/90 text-sm sm:text-base px-6 sm:px-8 py-2 sm:py-3"
             >
               Taste Our Story - Shop Now
             </Button>
