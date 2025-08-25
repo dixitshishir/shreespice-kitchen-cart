@@ -1,5 +1,4 @@
-import ProductCard from './ProductCard';
-import { Product } from '@/contexts/CartContext';
+import ProductCard, { Product } from './ProductCard';
 import turmericImage from '@/assets/turmeric-powder.jpg';
 import chiliImage from '@/assets/chili-powder.jpg';
 import corianderImage from '@/assets/coriander-powder.jpg';

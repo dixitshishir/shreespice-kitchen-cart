@@ -1,14 +1,11 @@
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import heroImage from '@/assets/hero-spices.jpg';
-import ProductListModal from '@/components/ProductListModal';
 
 interface HeroProps {
   onShopNow: () => void;
 }
 
 const Hero = ({ onShopNow }: HeroProps) => {
-  const [isProductListOpen, setIsProductListOpen] = useState(false);
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
       <div 
@@ -37,14 +34,7 @@ const Hero = ({ onShopNow }: HeroProps) => {
             onClick={onShopNow}
             className="w-full sm:w-auto bg-gradient-to-r from-saffron to-accent hover:from-saffron/90 hover:to-accent/90 text-white shadow-lg text-sm sm:text-base px-6 py-3"
           >
-            Shop Our Spices
-          </Button>
-          <Button 
-            size="lg" 
-            onClick={() => setIsProductListOpen(true)}
-            className="w-full sm:w-auto bg-gradient-to-r from-saffron to-accent hover:from-saffron/90 hover:to-accent/90 text-white shadow-lg text-sm sm:text-base px-6 py-3"
-          >
-            View Product List
+            Browse Our Catalog
           </Button>
           <Button 
             size="lg" 
@@ -54,11 +44,6 @@ const Hero = ({ onShopNow }: HeroProps) => {
             Learn Our Story
           </Button>
         </div>
-        
-        <ProductListModal 
-          isOpen={isProductListOpen} 
-          onClose={() => setIsProductListOpen(false)} 
-        />
       </div>
     </section>
   );

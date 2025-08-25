@@ -1,11 +1,9 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import ProductGrid from '@/components/ProductGrid';
-import Cart from '@/components/Cart';
 
 const Index = () => {
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const productsRef = useRef<HTMLDivElement>(null);
 
   const scrollToProducts = () => {
@@ -14,12 +12,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header onCartClick={() => setIsCartOpen(true)} />
+      <Header />
       <Hero onShopNow={scrollToProducts} />
       <div ref={productsRef}>
         <ProductGrid />
       </div>
-      <Cart isOpen={isCartOpen} onOpenChange={setIsCartOpen} />
     </div>
   );
 };
