@@ -1,7 +1,13 @@
-import { MessageCircle } from 'lucide-react';
+import { MessageCircle, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useCart } from '@/contexts/CartContext';
+import { useState } from 'react';
+import Cart from './Cart';
 
 const Header = () => {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { getItemCount } = useCart();
+  
   const handleWhatsAppContact = () => {
     const motherPhone = '9986918992';
     const message = '👋 Hello! I would like to know more about Shree Spices products and place an order.';
@@ -21,17 +27,32 @@ const Header = () => {
           </span>
         </div>
         
-        <div className="flex justify-center sm:justify-end">
+        <div className="flex items-center gap-2 justify-center sm:justify-end">
+          <Button
+            onClick={() => setIsCartOpen(true)}
+            variant="outline"
+            className="flex items-center gap-2 relative"
+          >
+            <ShoppingCart className="h-4 w-4" />
+            <span className="hidden sm:inline">Cart</span>
+            {getItemCount() > 0 && (
+              <span className="absolute -top-2 -right-2 bg-accent text-accent-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                {getItemCount()}
+              </span>
+            )}
+          </Button>
+          
           <Button
             onClick={handleWhatsAppContact}
             className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white"
           >
             <MessageCircle className="h-4 w-4" />
-            <span>Contact Us</span>
+            <span>Contact</span>
           </Button>
         </div>
       </div>
-
+      
+      <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </header>
   );
 };

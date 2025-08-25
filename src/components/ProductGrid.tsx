@@ -20,7 +20,7 @@ const productCategories: ProductCategory[] = [
         price: 150,
         image: proteinBarImage,
         description: 'Nutritious homemade protein bar with nuts, dates, and oats. Perfect post-workout snack made with natural ingredients.',
-        weight: '60g each'
+        weight: '500g'
       },
       {
         id: 'n2',
@@ -28,7 +28,7 @@ const productCategories: ProductCategory[] = [
         price: 350,
         image: proteinPowderImage,
         description: 'Natural protein powder made from roasted almonds, dates, and seeds. Chemical-free and made fresh daily.',
-        weight: '250g'
+        weight: '500g'
       }
     ]
   },
@@ -41,7 +41,7 @@ const productCategories: ProductCategory[] = [
         price: 150,
         image: turmericImage,
         description: 'Traditional Karnataka style bisibelebath powder blend. Made with authentic spices for perfect flavor.',
-        weight: '200g'
+        weight: '500g'
       },
       {
         id: 'p2',
@@ -49,7 +49,7 @@ const productCategories: ProductCategory[] = [
         price: 140,
         image: chiliImage,
         description: 'Aromatic vangibath powder for delicious brinjal rice. Traditional recipe with perfect spice balance.',
-        weight: '200g'
+        weight: '500g'
       },
       {
         id: 'p3',
@@ -57,7 +57,7 @@ const productCategories: ProductCategory[] = [
         price: 130,
         image: corianderImage,
         description: 'Tangy and spicy hulipudi powder perfect for mixing with rice. Traditional South Indian flavor.',
-        weight: '200g'
+        weight: '500g'
       },
       {
         id: 'p4',
@@ -65,7 +65,7 @@ const productCategories: ProductCategory[] = [
         price: 120,
         image: turmericImage,
         description: 'Authentic rasam powder blend for perfect South Indian rasam. Made with traditional spices.',
-        weight: '200g'
+        weight: '500g'
       },
       {
         id: 'p5',
@@ -73,7 +73,7 @@ const productCategories: ProductCategory[] = [
         price: 110,
         image: chiliImage,
         description: 'Traditional kootu powder for delicious vegetable kootu. Made with roasted spices.',
-        weight: '150g'
+        weight: '500g'
       }
     ]
   },
@@ -86,7 +86,7 @@ const productCategories: ProductCategory[] = [
         price: 200,
         image: corianderImage,
         description: 'Traditional sesame seed laddus made with pure ghee. Rich in flavor and nutrition.',
-        weight: '250g'
+        weight: '500g'
       },
       {
         id: 's2',
@@ -94,7 +94,7 @@ const productCategories: ProductCategory[] = [
         price: 180,
         image: turmericImage,
         description: 'Steamed rice dumplings with jaggery filling. Made with pure ghee and traditional recipe.',
-        weight: '300g'
+        weight: '500g'
       },
       {
         id: 's3',
@@ -102,7 +102,7 @@ const productCategories: ProductCategory[] = [
         price: 190,
         image: chiliImage,
         description: 'Sweet steamed rice dumplings with coconut and jaggery. Made with pure ghee.',
-        weight: '300g'
+        weight: '500g'
       },
       {
         id: 's4',
@@ -110,7 +110,7 @@ const productCategories: ProductCategory[] = [
         price: 250,
         image: corianderImage,
         description: 'Famous Mysore pak made with pure ghee and gram flour. Melts in your mouth.',
-        weight: '250g'
+        weight: '500g'
       },
       {
         id: 's5',
@@ -118,7 +118,7 @@ const productCategories: ProductCategory[] = [
         price: 220,
         image: turmericImage,
         description: 'Classic besan laddus made with pure ghee and roasted gram flour. Traditional taste.',
-        weight: '250g'
+        weight: '500g'
       },
       {
         id: 's6',
@@ -126,7 +126,7 @@ const productCategories: ProductCategory[] = [
         price: 240,
         image: chiliImage,
         description: 'Nutritious peanut laddus made with jaggery and pure ghee. Healthy and delicious.',
-        weight: '250g'
+        weight: '500g'
       },
       {
         id: 's7',
@@ -134,7 +134,7 @@ const productCategories: ProductCategory[] = [
         price: 200,
         image: corianderImage,
         description: 'Traditional festival sweet made with rice flour and jaggery. Prepared with pure ghee.',
-        weight: '300g'
+        weight: '500g'
       }
     ]
   },
@@ -147,7 +147,7 @@ const productCategories: ProductCategory[] = [
         price: 160,
         image: turmericImage,
         description: 'Ready to eat fenugreek powder mix. Just add hot rice and ghee for instant meal.',
-        weight: '200g'
+        weight: '500g'
       },
       {
         id: 'r2',
@@ -155,7 +155,7 @@ const productCategories: ProductCategory[] = [
         price: 140,
         image: chiliImage,
         description: 'Tangy tamarind rice paste. Perfect for making instant puliyogre with rice.',
-        weight: '250g'
+        weight: '500g'
       },
       {
         id: 'r3',
@@ -163,7 +163,7 @@ const productCategories: ProductCategory[] = [
         price: 120,
         image: corianderImage,
         description: 'Roasted peanut chutney powder. Mix with oil for instant chutney.',
-        weight: '200g'
+        weight: '500g'
       },
       {
         id: 'r4',
@@ -171,7 +171,7 @@ const productCategories: ProductCategory[] = [
         price: 110,
         image: turmericImage,
         description: 'Roasted horse gram chutney powder. Nutritious and flavorful instant chutney mix.',
-        weight: '200g'
+        weight: '500g'
       },
       {
         id: 'r5',
@@ -179,7 +179,7 @@ const productCategories: ProductCategory[] = [
         price: 100,
         image: chiliImage,
         description: 'Mixed dal chutney powder. Protein-rich instant chutney mix for daily meals.',
-        weight: '200g'
+        weight: '500g'
       }
     ]
   },
@@ -192,7 +192,7 @@ const productCategories: ProductCategory[] = [
         price: 180,
         image: corianderImage,
         description: 'Traditional ring-shaped snacks made with rice flour and spices. Crispy and delicious.',
-        weight: '200g'
+        weight: '500g'
       },
       {
         id: 'sn2',
@@ -208,7 +208,7 @@ const productCategories: ProductCategory[] = [
         price: 200,
         image: chiliImage,
         description: 'Crispy masala-flavored traditional snack. Perfect tea-time companion.',
-        weight: '200g'
+        weight: '500g'
       },
       {
         id: 'sn4',
@@ -216,7 +216,7 @@ const productCategories: ProductCategory[] = [
         price: 220,
         image: corianderImage,
         description: 'Sweet version of traditional shankar pole made with jaggery. Crispy and sweet.',
-        weight: '200g'
+        weight: '500g'
       }
     ]
   }
