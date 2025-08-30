@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { MessageCircle } from 'lucide-react';
 import heroImage from '@/assets/hero-spices.jpg';
 
 interface HeroProps {
@@ -28,7 +29,7 @@ const Hero = ({ onShopNow }: HeroProps) => {
           crafted with love using time-honored family recipes.
         </p>
         
-        <div className="flex justify-center">
+        <div className="flex flex-col gap-4 justify-center items-center max-w-sm mx-auto sm:max-w-none">
           <Button 
             size="lg" 
             onClick={() => window.location.href = '/story'}
@@ -36,6 +37,28 @@ const Hero = ({ onShopNow }: HeroProps) => {
           >
             Learn Our Story
           </Button>
+          
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <Button
+              onClick={() => window.open('https://chat.whatsapp.com/K2G6FniggftGsF7G1fh51D?mode=ems_copy_h_t', '_blank')}
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3"
+            >
+              <MessageCircle className="h-4 w-4" />
+              <span>Join Community</span>
+            </Button>
+            
+            <Button
+              onClick={() => {
+                const motherPhone = '9986918992';
+                const message = '👋 Hello! I would like to know more about Shree Spices products and place an order.';
+                window.open(`https://wa.me/${motherPhone}?text=${encodeURIComponent(message)}`, '_blank');
+              }}
+              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3"
+            >
+              <MessageCircle className="h-4 w-4" />
+              <span>Contact Us</span>
+            </Button>
+          </div>
         </div>
       </div>
     </section>
