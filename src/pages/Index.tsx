@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import ProductGrid from '@/components/ProductGrid';
+import Footer from '@/components/Footer';
 
 const Index = () => {
   const productsRef = useRef<HTMLDivElement>(null);
@@ -11,12 +12,13 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Header />
       <Hero onShopNow={scrollToProducts} />
-      <div ref={productsRef}>
+      <div ref={productsRef} className="flex-1">
         <ProductGrid />
       </div>
+      <Footer />
     </div>
   );
 };

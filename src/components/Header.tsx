@@ -43,6 +43,15 @@ const Header = () => {
           </Button>
           
           <Button
+            onClick={() => window.open('https://chat.whatsapp.com/K2G6FniggftGsF7G1fh51D?mode=ems_copy_h_t', '_blank')}
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"
+          >
+            <MessageCircle className="h-4 w-4" />
+            <span className="hidden sm:inline">Join Community</span>
+            <span className="sm:hidden">Community</span>
+          </Button>
+          
+          <Button
             onClick={handleWhatsAppContact}
             className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white"
           >

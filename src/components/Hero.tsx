@@ -28,14 +28,7 @@ const Hero = ({ onShopNow }: HeroProps) => {
           crafted with love using time-honored family recipes.
         </p>
         
-        <div className="flex flex-col gap-3 justify-center items-center max-w-sm mx-auto sm:max-w-none sm:flex-row sm:gap-4">
-          <Button 
-            size="lg" 
-            onClick={onShopNow}
-            className="w-full sm:w-auto bg-gradient-to-r from-saffron to-accent hover:from-saffron/90 hover:to-accent/90 text-white shadow-lg text-sm sm:text-base px-6 py-3"
-          >
-            Browse Our Catalog
-          </Button>
+        <div className="flex justify-center">
           <Button 
             size="lg" 
             onClick={() => window.location.href = '/story'}
