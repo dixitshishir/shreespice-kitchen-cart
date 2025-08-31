@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { MessageCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import heroImage from '@/assets/hero-spices.jpg';
 
 interface HeroProps {
@@ -7,6 +8,7 @@ interface HeroProps {
 }
 
 const Hero = ({ onShopNow }: HeroProps) => {
+  const navigate = useNavigate();
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
       <div 
@@ -32,7 +34,7 @@ const Hero = ({ onShopNow }: HeroProps) => {
         <div className="flex flex-col gap-4 justify-center items-center max-w-sm mx-auto sm:max-w-none">
           <Button 
             size="lg" 
-            onClick={() => window.location.href = '/story'}
+            onClick={() => navigate('/story')}
             className="w-full sm:w-auto bg-gradient-to-r from-saffron to-accent hover:from-saffron/90 hover:to-accent/90 text-white shadow-lg text-sm sm:text-base px-6 py-3"
           >
             Learn Our Story
