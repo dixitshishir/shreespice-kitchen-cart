@@ -237,26 +237,30 @@ const ProductGrid = () => {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-3 bg-gradient-to-r from-primary/20 to-accent/20 backdrop-blur-lg border border-primary/30 rounded-full px-8 py-3 mb-6 shadow-lg">
             <span className="text-2xl">✨</span>
-            <span className="text-primary font-bold text-lg">FRESH & WILD</span>
-            <span className="text-2xl">🔥</span>
+            <span className="text-primary font-bold text-lg">PREMIUM QUALITY</span>
+            <span className="text-2xl">🌿</span>
           </div>
           
-          <h2 className="text-5xl md:text-6xl font-black mb-6 title-crazy">
-            CRAZY SPICES!
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            Authentic Spice Collection
           </h2>
           
           <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
-            <div className="flex items-center gap-2 bg-gradient-to-r from-primary/20 to-accent/20 backdrop-blur-lg rounded-full px-6 py-3 border border-primary/30 shadow-lg animate-pulse">
-              <span className="text-3xl">🍯</span>
-              <span className="font-bold text-lg">MADE TO ORDER</span>
+            <div className="flex items-center gap-2 bg-gradient-to-r from-primary/10 to-accent/10 backdrop-blur-lg rounded-full px-6 py-3 border border-primary/20 shadow-md hover:shadow-lg transition-shadow">
+              <span className="text-2xl">🍯</span>
+              <span className="font-semibold text-base">Made to Order</span>
             </div>
-            <div className="flex items-center gap-2 bg-gradient-to-r from-accent/20 to-saffron/20 backdrop-blur-lg rounded-full px-6 py-3 border border-accent/30 shadow-lg animate-pulse" style={{animationDelay: '0.5s'}}>
-              <span className="text-3xl">🥥</span>
-              <span className="font-bold text-lg">PURE GHEE</span>
+            <div className="flex items-center gap-2 bg-gradient-to-r from-accent/10 to-saffron/10 backdrop-blur-lg rounded-full px-6 py-3 border border-accent/20 shadow-md hover:shadow-lg transition-shadow">
+              <span className="text-2xl">🥥</span>
+              <span className="font-semibold text-base">Pure Ghee</span>
             </div>
-            <div className="flex items-center gap-2 bg-gradient-to-r from-saffron/20 to-primary/20 backdrop-blur-lg rounded-full px-6 py-3 border border-saffron/30 shadow-lg animate-pulse" style={{animationDelay: '1s'}}>
-              <span className="text-3xl">🌿</span>
-              <span className="font-bold text-lg">100% NATURAL</span>
+            <div className="flex items-center gap-2 bg-gradient-to-r from-saffron/10 to-primary/10 backdrop-blur-lg rounded-full px-6 py-3 border border-saffron/20 shadow-md hover:shadow-lg transition-shadow">
+              <span className="text-2xl">🌿</span>
+              <span className="font-semibold text-base">100% Natural</span>
+            </div>
+            <div className="flex items-center gap-2 bg-gradient-to-r from-primary/10 to-saffron/10 backdrop-blur-lg rounded-full px-6 py-3 border border-primary/20 shadow-md hover:shadow-lg transition-shadow">
+              <span className="text-2xl">🏠</span>
+              <span className="font-semibold text-base">Homemade</span>
             </div>
           </div>
         </div>
