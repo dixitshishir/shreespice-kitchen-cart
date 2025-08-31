@@ -5,6 +5,14 @@ import corianderImage from '@/assets/coriander-powder.jpg';
 import proteinBarImage from '@/assets/protein-bar.jpg';
 import proteinPowderImage from '@/assets/protein-powder.jpg';
 
+// New product images
+const antinaUndeImage = '/lovable-uploads/741092ef-8516-4c06-a248-501226c1d1a8.png';
+const kodbeleImage = '/lovable-uploads/d32d5353-5824-44ba-8f2d-0e0c4873b84a.png';
+const mysorePakImage = '/lovable-uploads/4b3d4695-6627-4e32-94dc-e5ab58b683c1.png';
+const proteinBarNewImage = '/lovable-uploads/66876d8e-c178-483e-b3f7-ca4a53aa9ba8.png';
+const puliyogreGojjuImage = '/lovable-uploads/b798d09e-8bd7-4b0a-8181-2fba1cbdbce5.png';
+const shengaUndeImage = '/lovable-uploads/e0bcbd87-ebca-48d6-a329-6147be495905.png';
+
 interface ProductCategory {
   name: string;
   products: Product[];
@@ -18,7 +26,7 @@ const productCategories: ProductCategory[] = [
         id: 'n1',
         name: 'Homemade Protein Bar',
         price: 150,
-        image: proteinBarImage,
+        image: proteinBarNewImage,
         description: 'Nutritious homemade protein bar with nuts, dates, and oats. Perfect post-workout snack made with natural ingredients.',
         weight: '500g'
       },
@@ -84,7 +92,7 @@ const productCategories: ProductCategory[] = [
         id: 's1',
         name: 'Antina Unde',
         price: 200,
-        image: corianderImage,
+        image: antinaUndeImage,
         description: 'Traditional sesame seed laddus made with pure ghee. Rich in flavor and nutrition.',
         weight: '500g'
       },
@@ -108,7 +116,7 @@ const productCategories: ProductCategory[] = [
         id: 's4',
         name: 'Mysore Pak',
         price: 250,
-        image: corianderImage,
+        image: mysorePakImage,
         description: 'Famous Mysore pak made with pure ghee and gram flour. Melts in your mouth.',
         weight: '500g'
       },
@@ -124,7 +132,7 @@ const productCategories: ProductCategory[] = [
         id: 's6',
         name: 'Shenga Ladoo',
         price: 240,
-        image: chiliImage,
+        image: shengaUndeImage,
         description: 'Nutritious peanut laddus made with jaggery and pure ghee. Healthy and delicious.',
         weight: '500g'
       },
@@ -153,7 +161,7 @@ const productCategories: ProductCategory[] = [
         id: 'r2',
         name: 'Puliyogre Gojju',
         price: 140,
-        image: chiliImage,
+        image: puliyogreGojjuImage,
         description: 'Tangy tamarind rice paste. Perfect for making instant puliyogre with rice.',
         weight: '500g'
       },
@@ -190,7 +198,7 @@ const productCategories: ProductCategory[] = [
         id: 'sn1',
         name: 'Kodbele',
         price: 180,
-        image: corianderImage,
+        image: kodbeleImage,
         description: 'Traditional ring-shaped snacks made with rice flour and spices. Crispy and delicious.',
         weight: '500g'
       },
