@@ -18,10 +18,12 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
       <div className="container flex flex-col gap-3 py-3 sm:flex-row sm:h-16 sm:items-center sm:justify-between sm:py-0">
-        <div className="flex items-center space-x-2">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-saffron to-paprika bg-clip-text text-transparent">
-            Shree Spices
-          </h1>
+        <div className="flex items-center space-x-3">
+          <img 
+            src="/lovable-uploads/05148b4c-384e-4f07-b92c-aefaecb972fb.png" 
+            alt="Shree Spices" 
+            className="h-12 w-auto sm:h-14"
+          />
           <span className="text-sm text-muted-foreground hidden sm:inline">
             Authentic Homemade Spices
           </span>
