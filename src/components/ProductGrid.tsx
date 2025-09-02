@@ -12,6 +12,9 @@ const mysorePakImage = '/lovable-uploads/4b3d4695-6627-4e32-94dc-e5ab58b683c1.pn
 const proteinBarNewImage = '/lovable-uploads/66876d8e-c178-483e-b3f7-ca4a53aa9ba8.png';
 const puliyogreGojjuImage = '/lovable-uploads/b798d09e-8bd7-4b0a-8181-2fba1cbdbce5.png';
 const shengaUndeImage = '/lovable-uploads/e0bcbd87-ebca-48d6-a329-6147be495905.png';
+const shankarPoleSweetImage = '/lovable-uploads/50463df5-e800-4af7-ac70-fad23e5cf1c6.png';
+const shankarPoleMasalaImage = '/lovable-uploads/b21f3641-802d-4844-b080-241af1d5ce79.png';
+const tambittuImage = '/lovable-uploads/490f588b-bb7e-4241-baed-e2ee28714aab.png';
 
 interface ProductCategory {
   name: string;
@@ -140,7 +143,7 @@ const productCategories: ProductCategory[] = [
         id: 's7',
         name: 'Tambittu',
         price: 200,
-        image: corianderImage,
+        image: tambittuImage,
         description: 'Traditional festival sweet made with rice flour and jaggery. Prepared with pure ghee.',
         weight: '500g'
       }
@@ -214,7 +217,7 @@ const productCategories: ProductCategory[] = [
         id: 'sn3',
         name: 'Shankar Pole (Masala)',
         price: 200,
-        image: chiliImage,
+        image: shankarPoleMasalaImage,
         description: 'Crispy masala-flavored traditional snack. Perfect tea-time companion.',
         weight: '500g'
       },
@@ -222,7 +225,7 @@ const productCategories: ProductCategory[] = [
         id: 'sn4',
         name: 'Shankar Pole (Sweet)',
         price: 220,
-        image: corianderImage,
+        image: shankarPoleSweetImage,
         description: 'Sweet version of traditional shankar pole made with jaggery. Crispy and sweet.',
         weight: '500g'
       }
