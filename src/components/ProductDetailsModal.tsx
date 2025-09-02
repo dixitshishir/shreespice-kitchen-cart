@@ -30,7 +30,7 @@ const ProductDetailsModal = ({ product, isOpen, onClose }: ProductDetailsModalPr
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md mx-auto bg-background border border-border">
+      <DialogContent className="w-[calc(100vw-1rem)] sm:w-full max-w-md mx-auto my-4 bg-background border border-border">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold text-foreground">
             {product.name}

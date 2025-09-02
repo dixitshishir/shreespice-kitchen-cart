@@ -18,6 +18,9 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'sans': ['Nunito', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+			},
 			screens: {
 				'xs': '475px',
 			},
