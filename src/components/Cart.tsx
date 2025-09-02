@@ -103,7 +103,7 @@ ${isDavangere ?
   if (showCustomerForm) {
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto w-[calc(100vw-1rem)] sm:w-full max-w-sm sm:max-w-md mx-auto my-4">
+        <DialogContent className="sm:max-w-md max-h-[85vh] overflow-y-auto w-[calc(100vw-3rem)] sm:w-full max-w-xs sm:max-w-md mx-auto my-6">
           <DialogHeader>
             <DialogTitle>Customer Details</DialogTitle>
           </DialogHeader>
@@ -221,7 +221,7 @@ ${isDavangere ?
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto w-[calc(100vw-1rem)] sm:w-full max-w-sm sm:max-w-md mx-auto my-4">
+      <DialogContent className="sm:max-w-md max-h-[85vh] overflow-y-auto w-[calc(100vw-3rem)] sm:w-full max-w-xs sm:max-w-md mx-auto my-6">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <ShoppingCart className="h-5 w-5" />
