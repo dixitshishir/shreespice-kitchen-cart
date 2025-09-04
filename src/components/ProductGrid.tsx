@@ -8,6 +8,8 @@ import proteinPowderImage from '@/assets/protein-powder.jpg';
 // New uploaded product images
 const huliPudiImage = '/lovable-uploads/4f53a027-9364-4f1e-8d47-4c92685d1b6a.png';
 const rasamPowderImage = '/lovable-uploads/8fcc586e-1f7b-4e1a-9d02-a1a821a80da1.png';
+const besanLadooImage = '/lovable-uploads/366b966e-6748-4230-81b7-55f98da0ad64.png';
+const avalakkiImage = '/lovable-uploads/b13f6e3a-40d0-4d54-bfcf-beee8db96f65.png';
 
 // New product images
 const antinaUndeImage = '/lovable-uploads/741092ef-8516-4c06-a248-501226c1d1a8.png';
@@ -131,7 +133,7 @@ const productCategories: ProductCategory[] = [
         id: 's5',
         name: 'Besan Ladoo',
         price: 220,
-        image: turmericImage,
+        image: besanLadooImage,
         description: 'Classic besan laddus made with pure ghee and roasted gram flour. Traditional taste.',
         weight: '500g'
       },
@@ -213,7 +215,7 @@ const productCategories: ProductCategory[] = [
         id: 'sn2',
         name: 'Avalakki',
         price: 80,
-        image: turmericImage,
+        image: avalakkiImage,
         description: 'Premium quality beaten rice flakes. Perfect for breakfast and snacks.',
         weight: '500g'
       },
