@@ -5,6 +5,10 @@ import corianderImage from '@/assets/coriander-powder.jpg';
 import proteinBarImage from '@/assets/protein-bar.jpg';
 import proteinPowderImage from '@/assets/protein-powder.jpg';
 
+// New uploaded product images
+const huliPudiImage = '/lovable-uploads/4f53a027-9364-4f1e-8d47-4c92685d1b6a.png';
+const rasamPowderImage = '/lovable-uploads/8fcc586e-1f7b-4e1a-9d02-a1a821a80da1.png';
+
 // New product images
 const antinaUndeImage = '/lovable-uploads/741092ef-8516-4c06-a248-501226c1d1a8.png';
 const kodbeleImage = '/lovable-uploads/d32d5353-5824-44ba-8f2d-0e0c4873b84a.png';
@@ -66,7 +70,7 @@ const productCategories: ProductCategory[] = [
         id: 'p3',
         name: 'Hulipudi Powder',
         price: 130,
-        image: corianderImage,
+        image: huliPudiImage,
         description: 'Tangy and spicy hulipudi powder perfect for mixing with rice. Traditional South Indian flavor.',
         weight: '500g'
       },
@@ -74,7 +78,7 @@ const productCategories: ProductCategory[] = [
         id: 'p4',
         name: 'Rasam Powder',
         price: 120,
-        image: turmericImage,
+        image: rasamPowderImage,
         description: 'Authentic rasam powder blend for perfect South Indian rasam. Made with traditional spices.',
         weight: '500g'
       },
