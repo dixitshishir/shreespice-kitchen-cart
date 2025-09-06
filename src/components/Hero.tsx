@@ -10,7 +10,7 @@ interface HeroProps {
 const Hero = ({ onShopNow }: HeroProps) => {
   const navigate = useNavigate();
   return (
-    <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[60vh] sm:min-h-[70vh] flex items-center justify-center overflow-hidden">
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${heroImage})` }}
@@ -18,20 +18,20 @@ const Hero = ({ onShopNow }: HeroProps) => {
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30" />
       </div>
       
-      <div className="relative z-10 container text-center text-white max-w-4xl">
-        <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+      <div className="relative z-10 container text-center text-white max-w-4xl px-4">
+        <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
           Authentic Spices from
           <span className="block bg-gradient-to-r from-saffron to-accent bg-clip-text text-transparent">
             Our Family Kitchen
           </span>
         </h1>
         
-        <p className="text-lg md:text-xl mb-8 text-gray-200 max-w-2xl mx-auto">
+        <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-gray-200 max-w-2xl mx-auto">
           Experience the rich flavors of traditional homemade spice powders, 
           crafted with love using time-honored family recipes.
         </p>
         
-        <div className="flex flex-col gap-4 justify-center items-center max-w-sm mx-auto sm:max-w-none">
+        <div className="flex flex-col gap-3 sm:gap-4 justify-center items-center max-w-sm mx-auto sm:max-w-none">
           <Button 
             size="lg" 
             onClick={() => navigate('/story')}

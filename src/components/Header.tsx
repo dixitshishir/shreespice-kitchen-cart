@@ -17,9 +17,9 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
-      <div className="container flex flex-col gap-3 py-3 sm:flex-row sm:h-16 sm:items-center sm:justify-between sm:py-0">
+      <div className="container flex h-14 sm:h-16 items-center justify-between py-2 sm:py-0">
         <div className="flex items-center space-x-2">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-saffron to-paprika bg-clip-text text-transparent">
+          <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-saffron to-paprika bg-clip-text text-transparent">
             Shree Spices
           </h1>
           <span className="text-sm text-muted-foreground hidden sm:inline">
@@ -27,7 +27,7 @@ const Header = () => {
           </span>
         </div>
         
-        <div className="flex items-center gap-2 justify-center sm:justify-end">
+        <div className="flex items-center gap-2">
           <Button
             onClick={() => setIsCartOpen(true)}
             variant="outline"
