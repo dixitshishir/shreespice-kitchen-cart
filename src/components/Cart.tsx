@@ -108,10 +108,10 @@ ${isDavangere ?
             <DialogTitle>Customer Details</DialogTitle>
           </DialogHeader>
           
-          <div className="space-y-4">
-            <div className="bg-muted p-3 rounded-lg">
-              <p className="font-medium">Order Summary</p>
-              <div className="text-sm space-y-1 mt-2">
+          <div className="space-y-3">
+            <div className="bg-muted p-2 rounded-lg">
+              <p className="font-medium text-sm">Order Summary</p>
+              <div className="text-xs space-y-1 mt-2">
                 {items.map(item => (
                   <div key={item.product.id} className="flex justify-between">
                     <span>{item.product.name} x{item.quantity}</span>
@@ -125,91 +125,91 @@ ${isDavangere ?
               </div>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               <div>
-                <Label htmlFor="name">Full Name *</Label>
+                <Label htmlFor="name" className="text-sm">Full Name *</Label>
                 <Input
                   id="name"
                   value={customerDetails.name}
                   onChange={(e) => setCustomerDetails({...customerDetails, name: e.target.value})}
                   placeholder="Enter your full name"
-                  className="mt-1"
+                  className="mt-1 h-8 text-sm"
                 />
               </div>
 
               <div>
-                <Label htmlFor="phone">Phone Number *</Label>
+                <Label htmlFor="phone" className="text-sm">Phone Number *</Label>
                 <Input
                   id="phone"
                   value={customerDetails.phone}
                   onChange={(e) => setCustomerDetails({...customerDetails, phone: e.target.value})}
                   placeholder="Enter your phone number"
-                  className="mt-1"
+                  className="mt-1 h-8 text-sm"
                 />
               </div>
 
               <div>
-                <Label htmlFor="address">Full Address *</Label>
+                <Label htmlFor="address" className="text-sm">Full Address *</Label>
                 <Textarea
                   id="address"
                   value={customerDetails.address}
                   onChange={(e) => setCustomerDetails({...customerDetails, address: e.target.value})}
                   placeholder="House/Flat No, Street, Area"
-                  className="mt-1"
+                  className="mt-1 text-sm"
                   rows={2}
                 />
               </div>
 
               <div>
-                <Label htmlFor="landmark">Landmark (Optional)</Label>
+                <Label htmlFor="landmark" className="text-sm">Landmark (Optional)</Label>
                 <Input
                   id="landmark"
                   value={customerDetails.landmark}
                   onChange={(e) => setCustomerDetails({...customerDetails, landmark: e.target.value})}
                   placeholder="Nearby landmark"
-                  className="mt-1"
+                  className="mt-1 h-8 text-sm"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <Label htmlFor="city">City *</Label>
+                  <Label htmlFor="city" className="text-sm">City *</Label>
                   <Input
                     id="city"
                     value={customerDetails.city}
                     onChange={(e) => setCustomerDetails({...customerDetails, city: e.target.value})}
                     placeholder="City"
-                    className="mt-1"
+                    className="mt-1 h-8 text-sm"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="pincode">PIN Code</Label>
+                  <Label htmlFor="pincode" className="text-sm">PIN Code</Label>
                   <Input
                     id="pincode"
                     value={customerDetails.pincode}
                     onChange={(e) => setCustomerDetails({...customerDetails, pincode: e.target.value})}
                     placeholder="PIN Code"
-                    className="mt-1"
+                    className="mt-1 h-8 text-sm"
                   />
                 </div>
               </div>
 
-              <div className="bg-blue-50 p-3 rounded-lg">
-                <p className="text-sm text-blue-800 font-medium">📍 Delivery Information:</p>
+              <div className="bg-blue-50 p-2 rounded-lg">
+                <p className="text-xs text-blue-800 font-medium">📍 Delivery Information:</p>
                 <p className="text-xs text-blue-700 mt-1">
-                  <strong>Non-Davangere customers:</strong> Orders will be couriered to your address. Courier charges vary by location and will be confirmed separately. Order preparation takes 1-2 days.
+                  <strong>Non-Davangere customers:</strong> Orders will be couriered. Courier charges vary by location.
                 </p>
-                <p className="text-xs text-blue-700 mt-2 font-medium">
-                  ✅ <strong>Davangere customers:</strong> You can collect from Dixit Offset Printers or home delivery available.
+                <p className="text-xs text-blue-700 mt-1 font-medium">
+                  ✅ <strong>Davangere customers:</strong> Collect from Dixit Offset Printers or home delivery available.
                 </p>
               </div>
             </div>
 
-            <div className="flex gap-2 pt-4">
-              <Button variant="outline" onClick={() => setShowCustomerForm(false)} className="flex-1">
+            <div className="flex gap-2 pt-3">
+              <Button variant="outline" onClick={() => setShowCustomerForm(false)} className="flex-1 text-sm py-2">
                 Back to Cart
               </Button>
-              <Button onClick={handleSubmitOrder} className="flex-1 bg-green-600 hover:bg-green-700">
+              <Button onClick={handleSubmitOrder} className="flex-1 bg-green-600 hover:bg-green-700 text-sm py-2">
                 Send Order via WhatsApp
               </Button>
             </div>
