@@ -103,7 +103,7 @@ ${isDavangere ?
   if (showCustomerForm) {
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="w-[90vw] max-w-xs max-h-[80vh] overflow-y-auto fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-auto" style={{ touchAction: 'none' }}>
+        <DialogContent className="w-[85vw] max-w-xs max-h-[75vh] overflow-y-auto p-4">
           <DialogHeader>
             <DialogTitle>Customer Details</DialogTitle>
           </DialogHeader>
@@ -221,7 +221,7 @@ ${isDavangere ?
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[90vw] max-w-xs max-h-[80vh] overflow-y-auto fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-auto" style={{ touchAction: 'none' }}>
+      <DialogContent className="w-[85vw] max-w-xs max-h-[75vh] overflow-y-auto p-4">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <ShoppingCart className="h-5 w-5" />
@@ -238,61 +238,61 @@ ${isDavangere ?
             </div>
           ) : (
             <>
-              <div className="space-y-3 max-h-60 overflow-y-auto">
+              <div className="space-y-2 max-h-48 overflow-y-auto">
                 {items.map(item => (
-                  <div key={item.product.id} className="flex items-center gap-3 p-3 border rounded-lg">
+                  <div key={item.product.id} className="flex items-center gap-2 p-2 border rounded-lg text-xs">
                     <img 
                       src={item.product.image} 
                       alt={item.product.name}
-                      className="w-12 h-12 object-cover rounded"
+                      className="w-8 h-8 object-cover rounded"
                     />
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-sm truncate">{item.product.name}</h4>
-                      <p className="text-xs text-muted-foreground">₹{item.product.price} per 500g</p>
+                      <h4 className="font-medium text-xs truncate">{item.product.name}</h4>
+                      <p className="text-xs text-muted-foreground">₹{item.product.price}/500g</p>
                       <p className="text-xs text-primary font-medium">
                         {item.quantity * 500}g = ₹{item.product.price * item.quantity}
                       </p>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
                       <Button
                         size="sm"
                         variant="outline"
                         onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                        className="h-8 w-8 p-0"
+                        className="h-6 w-6 p-0"
                       >
-                        <Minus className="h-3 w-3" />
+                        <Minus className="h-2 w-2" />
                       </Button>
-                      <span className="text-sm font-medium w-8 text-center">{item.quantity}</span>
+                      <span className="text-xs font-medium w-6 text-center">{item.quantity}</span>
                       <Button
                         size="sm"
                         variant="outline"
                         onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                        className="h-8 w-8 p-0"
+                        className="h-6 w-6 p-0"
                       >
-                        <Plus className="h-3 w-3" />
+                        <Plus className="h-2 w-2" />
                       </Button>
                       <Button
                         size="sm"
                         variant="destructive"
                         onClick={() => removeFromCart(item.product.id)}
-                        className="h-8 w-8 p-0"
+                        className="h-6 w-6 p-0"
                       >
-                        <Trash2 className="h-3 w-3" />
+                        <Trash2 className="h-2 w-2" />
                       </Button>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="border-t pt-4">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="font-medium">Total:</span>
-                  <span className="text-xl font-bold text-primary">₹{getTotal()}</span>
+              <div className="border-t pt-3">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="font-medium text-sm">Total:</span>
+                  <span className="text-lg font-bold text-primary">₹{getTotal()}</span>
                 </div>
-                <p className="text-xs text-muted-foreground mb-4">
-                  All items are 500g units. Total weight: {items.reduce((total, item) => total + (item.quantity * 500), 0)}g
+                <p className="text-xs text-muted-foreground mb-3">
+                  Total weight: {items.reduce((total, item) => total + (item.quantity * 500), 0)}g
                 </p>
-                <Button onClick={handleProceedToOrder} className="w-full bg-green-600 hover:bg-green-700">
+                <Button onClick={handleProceedToOrder} className="w-full bg-green-600 hover:bg-green-700 text-sm py-2">
                   Proceed to Order
                 </Button>
               </div>
