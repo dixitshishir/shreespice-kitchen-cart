@@ -52,15 +52,13 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
     const isDavangere = customerDetails.city.toLowerCase().includes('davangere');
     
     const orderItems = items.map(item => 
-      `${item.product.name} - ${item.quantity} unit(s) (${item.quantity * 500}g) = ₹${item.product.price * item.quantity}`
+      `${item.product.name} - ${item.quantity} unit(s) (${item.quantity * 500}g)`
     ).join('\n');
 
     const orderMessage = `🛒 *New Order - Shree Spices*
 
 📦 *Order Items:*
 ${orderItems}
-
-💰 *Total Amount:* ₹${getTotal()}
 
 👤 *Customer Details:*
 Name: ${customerDetails.name}
