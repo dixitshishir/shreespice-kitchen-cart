@@ -10,56 +10,65 @@ interface HeroProps {
 const Hero = ({ onShopNow }: HeroProps) => {
   const navigate = useNavigate();
   return (
-    <section className="relative min-h-[60vh] sm:min-h-[70vh] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${heroImage})` }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-black/40" />
       </div>
       
-      <div className="relative z-10 container text-center text-white max-w-4xl px-4">
-        <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-          Authentic Spices from
-          <span className="block bg-gradient-to-r from-saffron to-accent bg-clip-text text-transparent">
-            Our Family Kitchen
-          </span>
-        </h1>
-        
-        <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-gray-200 max-w-2xl mx-auto">
-          Experience the rich flavors of traditional homemade spice powders, 
-          crafted with love using time-honored family recipes.
-        </p>
-        
-        <div className="flex flex-col gap-3 sm:gap-4 justify-center items-center max-w-sm mx-auto sm:max-w-none">
-          <Button 
-            size="lg" 
-            onClick={() => navigate('/story')}
-            className="w-full sm:w-auto bg-gradient-to-r from-saffron to-accent hover:from-saffron/90 hover:to-accent/90 text-white shadow-lg text-sm sm:text-base px-6 py-3"
-          >
-            Learn Our Story
-          </Button>
+      <div className="relative z-10 container text-center text-white max-w-5xl px-6">
+        <div className="space-y-8 animate-fade-in">
+          <div className="space-y-4">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-sm font-medium">
+              <span>🌿</span>
+              <span>100% Natural & Homemade</span>
+            </div>
+            
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight">
+              Authentic Spices from
+              <span className="block bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+                Our Family Kitchen
+              </span>
+            </h1>
+          </div>
           
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-            <Button
-              onClick={() => window.open('https://chat.whatsapp.com/K2G6FniggftGsF7G1fh51D?mode=ems_copy_h_t', '_blank')}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3"
+          <p className="text-lg sm:text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+            Experience the rich flavors of traditional homemade spice powders, 
+            crafted with love using time-honored family recipes.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto sm:max-w-none pt-4">
+            <Button 
+              size="lg" 
+              onClick={() => navigate('/story')}
+              className="w-full sm:w-auto bg-white text-black hover:bg-white/90 font-semibold text-base px-8 py-4 rounded-xl"
             >
-              <MessageCircle className="h-4 w-4" />
-              <span>Join Community</span>
+              Learn Our Story
             </Button>
             
-            <Button
-              onClick={() => {
-                const motherPhone = '9986918992';
-                const message = '👋 Hello! I would like to know more about Shree Spices products and place an order.';
-                window.open(`https://wa.me/${motherPhone}?text=${encodeURIComponent(message)}`, '_blank');
-              }}
-              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3"
-            >
-              <MessageCircle className="h-4 w-4" />
-              <span>Contact Us</span>
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+              <Button
+                onClick={() => window.open('https://chat.whatsapp.com/K2G6FniggftGsF7G1fh51D?mode=ems_copy_h_t', '_blank')}
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl font-medium"
+              >
+                <MessageCircle className="h-5 w-5" />
+                <span>Join Community</span>
+              </Button>
+              
+              <Button
+                onClick={() => {
+                  const motherPhone = '9986918992';
+                  const message = '👋 Hello! I would like to know more about Shree Spices products and place an order.';
+                  window.open(`https://wa.me/${motherPhone}?text=${encodeURIComponent(message)}`, '_blank');
+                }}
+                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-4 rounded-xl font-medium"
+              >
+                <MessageCircle className="h-5 w-5" />
+                <span>Contact Us</span>
+              </Button>
+            </div>
           </div>
         </div>
       </div>

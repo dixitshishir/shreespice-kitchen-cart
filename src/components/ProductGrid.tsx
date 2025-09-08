@@ -241,53 +241,45 @@ const productCategories: ProductCategory[] = [
 
 const ProductGrid = () => {
   return (
-    <section className="py-16 relative overflow-hidden">
-      {/* CRAZY animated background */}
-      <div className="absolute inset-0 crazy-bg opacity-20"></div>
-      
-      {/* Static background elements */}
-      <div className="absolute top-10 right-10 w-32 h-32 bg-gradient-to-br from-primary/30 to-accent/30 rounded-full blur-2xl floating-bg"></div>
-      <div className="absolute bottom-20 left-10 w-24 h-24 bg-gradient-to-br from-accent/30 to-saffron/30 rounded-full blur-xl floating-bg"></div>
-      <div className="absolute top-1/2 left-1/3 w-20 h-20 bg-gradient-to-br from-saffron/30 to-primary/30 rounded-full blur-xl floating-bg"></div>
-      
-      <div className="container relative z-10">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-3 bg-gradient-to-r from-primary/20 to-accent/20 backdrop-blur-lg border border-primary/30 rounded-full px-8 py-3 mb-6 shadow-lg">
-            <span className="text-2xl">✨</span>
-            <span className="text-primary font-bold text-lg">PREMIUM QUALITY</span>
+    <section className="py-20 bg-gradient-to-b from-background to-secondary/30">
+      <div className="container px-6">
+        <div className="text-center mb-16 space-y-6">
+          <div className="inline-flex items-center gap-3 glass-effect rounded-full px-6 py-3 border border-border/50">
             <span className="text-2xl">🌿</span>
+            <span className="text-primary font-semibold text-lg">Premium Quality</span>
+            <span className="text-2xl">✨</span>
           </div>
           
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          <h2 className="text-4xl lg:text-6xl font-bold text-foreground mb-6">
             Authentic Spice Collection
           </h2>
           
           <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
-            <div className="flex items-center gap-2 bg-gradient-to-r from-primary/10 to-accent/10 backdrop-blur-lg rounded-full px-6 py-3 border border-primary/20 shadow-md hover:shadow-lg transition-shadow">
-              <span className="text-2xl">🍯</span>
-              <span className="font-semibold text-base">Made to Order</span>
+            <div className="figma-card px-6 py-3 flex items-center gap-2">
+              <span className="text-xl">🍯</span>
+              <span className="font-medium">Made to Order</span>
             </div>
-            <div className="flex items-center gap-2 bg-gradient-to-r from-accent/10 to-saffron/10 backdrop-blur-lg rounded-full px-6 py-3 border border-accent/20 shadow-md hover:shadow-lg transition-shadow">
-              <span className="text-2xl">🥥</span>
-              <span className="font-semibold text-base">Pure Ghee</span>
+            <div className="figma-card px-6 py-3 flex items-center gap-2">
+              <span className="text-xl">🥥</span>
+              <span className="font-medium">Pure Ghee</span>
             </div>
-            <div className="flex items-center gap-2 bg-gradient-to-r from-saffron/10 to-primary/10 backdrop-blur-lg rounded-full px-6 py-3 border border-saffron/20 shadow-md hover:shadow-lg transition-shadow">
-              <span className="text-2xl">🌿</span>
-              <span className="font-semibold text-base">100% Natural</span>
+            <div className="figma-card px-6 py-3 flex items-center gap-2">
+              <span className="text-xl">🌿</span>
+              <span className="font-medium">100% Natural</span>
             </div>
-            <div className="flex items-center gap-2 bg-gradient-to-r from-primary/10 to-saffron/10 backdrop-blur-lg rounded-full px-6 py-3 border border-primary/20 shadow-md hover:shadow-lg transition-shadow">
-              <span className="text-2xl">🏠</span>
-              <span className="font-semibold text-base">Homemade</span>
+            <div className="figma-card px-6 py-3 flex items-center gap-2">
+              <span className="text-xl">🏠</span>
+              <span className="font-medium">Homemade</span>
             </div>
           </div>
         </div>
         
-        <div className="space-y-16">
+        <div className="space-y-20">
           {productCategories.map((category, index) => (
-            <div key={category.name} className="category-crazy p-8 md:p-10" style={{animationDelay: `${index * 0.2}s`}}>
-              <div className="text-center mb-10 relative z-10">
+            <div key={category.name} className="category-section animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
+              <div className="text-center mb-12">
                 <div className="inline-flex items-center gap-4 mb-6">
-                  <div className="text-5xl">
+                  <div className="text-4xl">
                     {category.name === "New Items" && "🆕"}
                     {category.name === "Powders" && "🌶️"}
                     {category.name === "Sweets" && "🍯"}
@@ -295,21 +287,25 @@ const ProductGrid = () => {
                     {category.name === "Snacks" && "🥨"}
                   </div>
                   
-                  <h3 className="text-4xl md:text-5xl font-black title-crazy">
-                    {category.name.toUpperCase()}
+                  <h3 className="text-3xl lg:text-4xl font-bold text-foreground">
+                    {category.name}
                   </h3>
                   
                   {category.name === "New Items" && (
-                    <div className="bg-gradient-to-r from-primary to-accent text-primary-foreground px-4 py-2 rounded-full text-lg font-black animate-pulse shadow-lg">
-                      HOT! 🔥
+                    <div className="modern-badge bg-accent/20 text-accent border-accent/30">
+                      New
                     </div>
                   )}
                 </div>
               </div>
               
-              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-6 relative z-10">
+              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
                 {category.products.map((product, productIndex) => (
-                  <ProductCard key={product.id} product={product} delay={productIndex * 0.1} />
+                  <ProductCard 
+                    key={product.id} 
+                    product={product} 
+                    delay={productIndex * 0.1} 
+                  />
                 ))}
               </div>
             </div>

@@ -101,113 +101,118 @@ ${isDavangere ?
   if (showCustomerForm) {
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="w-[85vw] max-w-xs max-h-[75vh] overflow-y-auto p-4">
+        <DialogContent className="w-[92vw] max-w-sm max-h-[85vh] overflow-y-auto p-4 rounded-xl border-border/50 bg-card/95 backdrop-blur-sm">
           <DialogHeader>
-            <DialogTitle>Customer Details</DialogTitle>
+            <DialogTitle className="text-lg font-semibold">Customer Details</DialogTitle>
           </DialogHeader>
           
-          <div className="space-y-3">
-            <div className="bg-muted p-2 rounded-lg">
-              <p className="font-medium text-sm">Order Summary</p>
-              <div className="text-xs space-y-1 mt-2">
+          <div className="space-y-4">
+            <div className="figma-card p-4">
+              <p className="font-medium text-sm mb-3">Order Summary</p>
+              <div className="text-sm space-y-2">
                 {items.map(item => (
-                  <div key={item.product.id} className="flex justify-between">
-                    <span>{item.product.name} x{item.quantity}</span>
-                    <span>₹{item.product.price * item.quantity}</span>
+                  <div key={item.product.id} className="flex justify-between items-center">
+                    <span className="text-muted-foreground">{item.product.name} x{item.quantity}</span>
+                    <span className="font-medium">₹{item.product.price * item.quantity}</span>
                   </div>
                 ))}
-                <div className="border-t pt-1 font-medium flex justify-between">
+                <div className="border-t pt-2 font-semibold flex justify-between">
                   <span>Total:</span>
-                  <span>₹{getTotal()}</span>
+                  <span className="text-primary">₹{getTotal()}</span>
                 </div>
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div>
-                <Label htmlFor="name" className="text-sm">Full Name *</Label>
+                <Label htmlFor="name" className="text-sm font-medium">Full Name *</Label>
                 <Input
                   id="name"
                   value={customerDetails.name}
                   onChange={(e) => setCustomerDetails({...customerDetails, name: e.target.value})}
                   placeholder="Enter your full name"
-                  className="mt-1 h-8 text-sm"
+                  className="mt-1 h-10 rounded-lg border-border"
                 />
               </div>
 
               <div>
-                <Label htmlFor="phone" className="text-sm">Phone Number *</Label>
+                <Label htmlFor="phone" className="text-sm font-medium">Phone Number *</Label>
                 <Input
                   id="phone"
                   value={customerDetails.phone}
                   onChange={(e) => setCustomerDetails({...customerDetails, phone: e.target.value})}
                   placeholder="Enter your phone number"
-                  className="mt-1 h-8 text-sm"
+                  className="mt-1 h-10 rounded-lg border-border"
                 />
               </div>
 
               <div>
-                <Label htmlFor="address" className="text-sm">Full Address *</Label>
+                <Label htmlFor="address" className="text-sm font-medium">Full Address *</Label>
                 <Textarea
                   id="address"
                   value={customerDetails.address}
                   onChange={(e) => setCustomerDetails({...customerDetails, address: e.target.value})}
                   placeholder="House/Flat No, Street, Area"
-                  className="mt-1 text-sm"
-                  rows={2}
+                  className="mt-1 rounded-lg border-border resize-none"
+                  rows={3}
                 />
               </div>
 
               <div>
-                <Label htmlFor="landmark" className="text-sm">Landmark (Optional)</Label>
+                <Label htmlFor="landmark" className="text-sm font-medium">Landmark (Optional)</Label>
                 <Input
                   id="landmark"
                   value={customerDetails.landmark}
                   onChange={(e) => setCustomerDetails({...customerDetails, landmark: e.target.value})}
                   placeholder="Nearby landmark"
-                  className="mt-1 h-8 text-sm"
+                  className="mt-1 h-10 rounded-lg border-border"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label htmlFor="city" className="text-sm">City *</Label>
+                  <Label htmlFor="city" className="text-sm font-medium">City *</Label>
                   <Input
                     id="city"
                     value={customerDetails.city}
                     onChange={(e) => setCustomerDetails({...customerDetails, city: e.target.value})}
                     placeholder="City"
-                    className="mt-1 h-8 text-sm"
+                    className="mt-1 h-10 rounded-lg border-border"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="pincode" className="text-sm">PIN Code</Label>
+                  <Label htmlFor="pincode" className="text-sm font-medium">PIN Code</Label>
                   <Input
                     id="pincode"
                     value={customerDetails.pincode}
                     onChange={(e) => setCustomerDetails({...customerDetails, pincode: e.target.value})}
                     placeholder="PIN Code"
-                    className="mt-1 h-8 text-sm"
+                    className="mt-1 h-10 rounded-lg border-border"
                   />
                 </div>
               </div>
 
-              <div className="bg-blue-50 p-2 rounded-lg">
-                <p className="text-xs text-blue-800 font-medium">📍 Delivery Information:</p>
-                <p className="text-xs text-blue-700 mt-1">
-                  <strong>Non-Davangere customers:</strong> Orders will be couriered. Courier charges vary by location.
-                </p>
-                <p className="text-xs text-blue-700 mt-1 font-medium">
-                  ✅ <strong>Davangere customers:</strong> Collect from Dixit Offset Printers or home delivery available.
-                </p>
+              <div className="figma-card p-4 bg-blue-50/50 border-blue-200/50">
+                <p className="text-sm font-medium text-blue-800 mb-2">📍 Delivery Information</p>
+                <div className="space-y-1 text-xs text-blue-700">
+                  <p><strong>Non-Davangere customers:</strong> Orders will be couriered. Charges vary by location.</p>
+                  <p><strong>Davangere customers:</strong> Collect from Dixit Offset Printers or home delivery available.</p>
+                </div>
               </div>
             </div>
 
-            <div className="flex gap-2 pt-3">
-              <Button variant="outline" onClick={() => setShowCustomerForm(false)} className="flex-1 text-sm py-2">
+            <div className="flex gap-3 pt-2">
+              <Button 
+                variant="outline" 
+                onClick={() => setShowCustomerForm(false)} 
+                className="flex-1 rounded-lg border-border hover:bg-secondary"
+              >
                 Back to Cart
               </Button>
-              <Button onClick={handleSubmitOrder} className="flex-1 bg-green-600 hover:bg-green-700 text-sm py-2">
+              <Button 
+                onClick={handleSubmitOrder} 
+                className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-lg"
+              >
                 Send Order via WhatsApp
               </Button>
             </div>
@@ -219,9 +224,9 @@ ${isDavangere ?
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[85vw] max-w-xs max-h-[75vh] overflow-y-auto p-4">
+      <DialogContent className="w-[92vw] max-w-sm max-h-[85vh] overflow-y-auto p-4 rounded-xl border-border/50 bg-card/95 backdrop-blur-sm">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
+          <DialogTitle className="flex items-center gap-2 text-lg font-semibold">
             <ShoppingCart className="h-5 w-5" />
             Your Cart ({items.length} items)
           </DialogTitle>
@@ -229,68 +234,71 @@ ${isDavangere ?
         
         <div className="space-y-4">
           {items.length === 0 ? (
-            <div className="text-center py-8">
-              <ShoppingCart className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">Your cart is empty</p>
+            <div className="text-center py-12">
+              <ShoppingCart className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
+              <p className="text-muted-foreground font-medium">Your cart is empty</p>
               <p className="text-sm text-muted-foreground">Add some delicious items to get started!</p>
             </div>
           ) : (
             <>
-              <div className="space-y-2 max-h-48 overflow-y-auto">
+              <div className="space-y-3 max-h-64 overflow-y-auto">
                 {items.map(item => (
-                  <div key={item.product.id} className="flex items-center gap-2 p-2 border rounded-lg text-xs">
+                  <div key={item.product.id} className="figma-card p-3 flex items-center gap-3">
                     <img 
                       src={item.product.image} 
                       alt={item.product.name}
-                      className="w-8 h-8 object-cover rounded"
+                      className="w-12 h-12 object-cover rounded-lg"
                     />
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-xs truncate">{item.product.name}</h4>
+                      <h4 className="font-medium text-sm truncate">{item.product.name}</h4>
                       <p className="text-xs text-muted-foreground">₹{item.product.price}/500g</p>
-                      <p className="text-xs text-primary font-medium">
+                      <p className="text-sm font-medium text-primary">
                         {item.quantity * 500}g = ₹{item.product.price * item.quantity}
                       </p>
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2">
                       <Button
                         size="sm"
                         variant="outline"
                         onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                        className="h-6 w-6 p-0"
+                        className="h-8 w-8 p-0 rounded-lg"
                       >
-                        <Minus className="h-2 w-2" />
+                        <Minus className="h-3 w-3" />
                       </Button>
-                      <span className="text-xs font-medium w-6 text-center">{item.quantity}</span>
+                      <span className="text-sm font-medium w-8 text-center">{item.quantity}</span>
                       <Button
                         size="sm"
                         variant="outline"
                         onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                        className="h-6 w-6 p-0"
+                        className="h-8 w-8 p-0 rounded-lg"
                       >
-                        <Plus className="h-2 w-2" />
+                        <Plus className="h-3 w-3" />
                       </Button>
                       <Button
                         size="sm"
                         variant="destructive"
                         onClick={() => removeFromCart(item.product.id)}
-                        className="h-6 w-6 p-0"
+                        className="h-8 w-8 p-0 rounded-lg"
                       >
-                        <Trash2 className="h-2 w-2" />
+                        <Trash2 className="h-3 w-3" />
                       </Button>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="border-t pt-3">
+              <div className="border-t pt-4">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="font-medium text-sm">Total:</span>
-                  <span className="text-lg font-bold text-primary">₹{getTotal()}</span>
+                  <span className="font-medium">Total:</span>
+                  <span className="text-xl font-bold text-primary">₹{getTotal()}</span>
                 </div>
-                <p className="text-xs text-muted-foreground mb-3">
+                <p className="text-sm text-muted-foreground mb-4">
                   Total weight: {items.reduce((total, item) => total + (item.quantity * 500), 0)}g
                 </p>
-                <Button onClick={handleProceedToOrder} className="w-full bg-green-600 hover:bg-green-700 text-sm py-2">
+                <Button 
+                  onClick={handleProceedToOrder} 
+                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium"
+                >
                   Proceed to Order
                 </Button>
               </div>

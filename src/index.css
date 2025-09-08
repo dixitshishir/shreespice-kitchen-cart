@@ -2,67 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Shree Spices Design System - Modern warm spice-inspired colors */
+/* Figma-Style Modern Design System */
 
 @layer base {
   :root {
-    /* Modern warm cream background */
-    --background: 32 42% 99%;
-    --foreground: 25 30% 12%;
+    /* Modern neutral backgrounds */
+    --background: 0 0% 99%;
+    --foreground: 222 47% 11%;
 
-    /* Modern card colors with subtle warmth */
-    --card: 32 45% 98%;
-    --card-foreground: 25 30% 12%;
+    /* Clean card system */
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
 
-    --popover: 32 45% 98%;
-    --popover-foreground: 25 30% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
 
-    /* Vibrant saffron/turmeric primary colors */
-    --primary: 38 92% 58%;
-    --primary-foreground: 32 15% 98%;
+    /* Modern primary - sophisticated blue */
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 98%;
 
-    /* Modern warm secondary */
-    --secondary: 28 35% 95%;
-    --secondary-foreground: 25 30% 12%;
+    /* Subtle secondary tones */
+    --secondary: 210 40% 98%;
+    --secondary-foreground: 222 47% 11%;
 
-    /* Contemporary muted tones */
-    --muted: 28 25% 93%;
-    --muted-foreground: 25 20% 45%;
+    /* Professional muted palette */
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    /* Modern paprika accent */
-    --accent: 18 82% 65%;
-    --accent-foreground: 32 15% 98%;
+    /* Clean accent - modern orange */
+    --accent: 25 95% 53%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 32 15% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    /* Clean modern borders */
-    --border: 28 25% 88%;
-    --input: 28 25% 88%;
-    --ring: 38 92% 58%;
+    /* Figma-style borders */
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
 
-    /* Enhanced spice-inspired custom colors */
-    --saffron: 48 98% 68%;
-    --turmeric: 38 92% 58%;
-    --paprika: 18 82% 65%;
-    --cinnamon: 28 48% 32%;
-    --cardamom: 125 25% 42%;
-    --minnamon: 35 65% 45%;
+    /* Design tokens */
+    --success: 142 76% 36%;
+    --warning: 38 92% 50%;
+    --info: 199 89% 48%;
     
-    /* Modern beautiful gradients */
-    --gradient-spice: linear-gradient(135deg, hsl(48 98% 68%), hsl(38 92% 58%));
-    --gradient-warm: linear-gradient(180deg, hsl(32 42% 99%), hsl(28 35% 96%));
-    --gradient-hero: linear-gradient(135deg, hsl(38 92% 58%), hsl(18 82% 65%));
-    --gradient-modern: linear-gradient(135deg, hsl(38 92% 58%), hsl(48 98% 68%), hsl(18 82% 65%));
-    --gradient-card: linear-gradient(145deg, hsl(32 45% 98%), hsl(28 35% 95%));
+    /* Modern gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(221 83% 53%), hsl(221 83% 63%));
+    --gradient-secondary: linear-gradient(135deg, hsl(210 40% 98%), hsl(210 40% 94%));
+    --gradient-accent: linear-gradient(135deg, hsl(25 95% 53%), hsl(25 95% 63%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 99%), hsl(210 40% 98%));
+    --gradient-glass: linear-gradient(135deg, hsl(0 0% 100% / 0.25), hsl(0 0% 100% / 0.05));
     
-    /* Modern elegant shadows */
-    --shadow-spice: 0 12px 35px -8px hsl(38 92% 58% / 0.25);
-    --shadow-warm: 0 6px 25px hsl(28 30% 70% / 0.15);
-    --shadow-modern: 0 8px 30px -5px hsl(25 20% 50% / 0.1);
-    --shadow-card: 0 4px 20px hsl(28 25% 80% / 0.12);
+    /* Figma-style shadows */
+    --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.05);
+    --shadow-sm: 0 1px 3px hsl(0 0% 0% / 0.1), 0 1px 2px hsl(0 0% 0% / 0.06);
+    --shadow-md: 0 4px 6px hsl(0 0% 0% / 0.07), 0 2px 4px hsl(0 0% 0% / 0.06);
+    --shadow-lg: 0 10px 15px hsl(0 0% 0% / 0.1), 0 4px 6px hsl(0 0% 0% / 0.05);
+    --shadow-xl: 0 20px 25px hsl(0 0% 0% / 0.1), 0 10px 10px hsl(0 0% 0% / 0.04);
+    --shadow-2xl: 0 25px 50px hsl(0 0% 0% / 0.25);
     
-    --radius: 0.875rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -125,143 +124,88 @@
 }
 
 @layer components {
-  /* CRAZY animated background */
-  .crazy-bg {
-    background: linear-gradient(-45deg, 
-      hsl(var(--primary)), 
-      hsl(var(--accent)), 
-      hsl(var(--primary)), 
-      hsl(var(--accent))
-    );
-    background-size: 400% 400%;
-    animation: gradientShift 3s ease infinite;
-  }
-
-  @keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  /* Floating animations - REMOVED */
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-5px) rotate(1deg); }
-  }
-
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-3px); }
-  }
-
-  @keyframes pulse-rainbow {
-    0% { box-shadow: 0 0 20px hsl(var(--primary) / 0.5); }
-    33% { box-shadow: 0 0 20px hsl(var(--accent) / 0.5); }
-    66% { box-shadow: 0 0 20px hsl(var(--saffron) / 0.5); }
-    100% { box-shadow: 0 0 20px hsl(var(--primary) / 0.5); }
-  }
-
-  /* Modern compact card */
-  .card-crazy {
-    @apply bg-gradient-to-br from-card via-card to-secondary/30 backdrop-blur-md border-2 border-primary/20;
-    box-shadow: 0 8px 25px hsl(var(--primary) / 0.15);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Figma-style glass morphism card */
+  .figma-card {
+    @apply bg-card/80 backdrop-blur-sm border border-border rounded-xl;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
-  .card-crazy:hover {
-    @apply border-primary/40 scale-105;
-    box-shadow: 0 15px 40px hsl(var(--primary) / 0.25);
-    animation: pulse-rainbow 2s ease-in-out infinite;
+  .figma-card:hover {
+    @apply border-border/60;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
   }
 
-  /* Crazy category section */
-  .category-crazy {
-    @apply relative overflow-hidden rounded-3xl;
-    background: linear-gradient(135deg, 
-      hsl(var(--background) / 0.8), 
-      hsl(var(--secondary) / 0.4),
-      hsl(var(--primary) / 0.1)
-    );
-    backdrop-filter: blur(20px);
-    border: 1px solid hsl(var(--border) / 0.3);
-  }
-
-  .category-crazy::before {
-    content: '';
-    @apply absolute inset-0 opacity-30;
-    background: linear-gradient(45deg, 
-      transparent 25%, 
-      hsl(var(--primary) / 0.1) 25%, 
-      hsl(var(--primary) / 0.1) 50%, 
-      transparent 50%, 
-      transparent 75%, 
-      hsl(var(--accent) / 0.1) 75%
-    );
-    background-size: 30px 30px;
-    animation: slidePattern 10s linear infinite;
-  }
-
-  @keyframes slidePattern {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(30px); }
-  }
-
-  /* Animated title with rainbow effect */
-  .title-crazy {
-    @apply relative inline-block;
-    background: linear-gradient(45deg, 
-      hsl(var(--primary)), 
-      hsl(var(--accent)), 
-      hsl(var(--saffron)), 
-      hsl(var(--primary))
-    );
-    background-size: 300% 300%;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: rainbowText 3s ease-in-out infinite;
-  }
-
-  @keyframes rainbowText {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
-
-  /* Enhanced button with crazy effects */
-  .btn-crazy {
-    @apply relative overflow-hidden font-bold text-lg;
-    background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--accent)));
-    box-shadow: 0 5px 15px hsl(var(--primary) / 0.4);
-    transition: all 0.3s ease;
+  /* Modern product card */
+  .product-card {
+    @apply bg-card border border-border rounded-xl overflow-hidden;
+    box-shadow: var(--shadow-xs);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
-  .btn-crazy::before {
-    content: '';
-    @apply absolute inset-0 opacity-0;
-    background: linear-gradient(45deg, hsl(var(--accent)), hsl(var(--saffron)));
-    transition: opacity 0.3s ease;
-  }
-  
-  .btn-crazy:hover::before {
-    @apply opacity-100;
-  }
-  
-  .btn-crazy:hover {
-    @apply scale-110;
-    box-shadow: 0 10px 30px hsl(var(--primary) / 0.6);
-    animation: none;
+  .product-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
   }
 
-  /* Badge with crazy animations */
-  .badge-crazy {
-    @apply relative;
-    background: linear-gradient(45deg, hsl(var(--primary) / 0.2), hsl(var(--accent) / 0.2));
-    border: 2px solid hsl(var(--primary) / 0.3);
-    animation: pulse 2s ease-in-out infinite;
+  /* Professional section container */
+  .section-container {
+    @apply bg-gradient-to-b from-background to-secondary/30 rounded-2xl border border-border/50;
+    backdrop-filter: blur(10px);
   }
 
-  /* Static background elements */
-  .floating-bg {
-    /* No animation - static now */
+  /* Modern button styles */
+  .btn-primary {
+    @apply bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-lg;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+  }
+  
+  .btn-primary:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    @apply bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-lg border border-border;
+    transition: all 0.2s ease;
+  }
+
+  /* Glass effect for overlays */
+  .glass-effect {
+    background: var(--gradient-glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(0 0% 100% / 0.2);
+  }
+
+  /* Subtle animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-slide-in {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  /* Modern badge */
+  .modern-badge {
+    @apply bg-accent/10 text-accent border border-accent/20 rounded-full px-3 py-1 text-sm font-medium;
+  }
+
+  /* Professional category section */
+  .category-section {
+    @apply bg-gradient-to-br from-card to-secondary/50 rounded-2xl border border-border/50 p-6;
+    box-shadow: var(--shadow-sm);
   }
 }
