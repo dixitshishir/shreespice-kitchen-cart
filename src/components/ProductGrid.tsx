@@ -241,45 +241,45 @@ const productCategories: ProductCategory[] = [
 
 const ProductGrid = () => {
   return (
-    <section className="py-20 bg-gradient-to-b from-background to-secondary/30">
+    <section className="py-20 bg-gradient-to-b from-background via-secondary/20 to-muted/30 spice-pattern">
       <div className="container px-6">
         <div className="text-center mb-16 space-y-6">
-          <div className="inline-flex items-center gap-3 glass-effect rounded-full px-6 py-3 border border-border/50">
-            <span className="text-2xl">🌿</span>
-            <span className="text-primary font-semibold text-lg">Premium Quality</span>
-            <span className="text-2xl">✨</span>
+          <div className="inline-flex items-center gap-3 spice-badge rounded-full px-8 py-4 border-2 border-primary/30 bg-gradient-to-r from-primary/10 to-accent/10">
+            <span className="text-3xl animate-spice-float">🌿</span>
+            <span className="text-primary font-bold text-xl">Premium South Indian Spices</span>
+            <span className="text-3xl animate-spice-float" style={{animationDelay: '1s'}}>✨</span>
           </div>
           
-          <h2 className="text-4xl lg:text-6xl font-bold text-foreground mb-6">
+          <h2 className="text-4xl lg:text-6xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-6">
             Authentic Spice Collection
           </h2>
           
           <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
-            <div className="figma-card px-6 py-3 flex items-center gap-2">
+            <div className="spice-badge px-6 py-3 flex items-center gap-2 bg-gradient-to-r from-turmeric/10 to-paprika/10 border-turmeric/30">
               <span className="text-xl">🍯</span>
-              <span className="font-medium">Made to Order</span>
+              <span className="font-medium text-cumin">Made to Order</span>
             </div>
-            <div className="figma-card px-6 py-3 flex items-center gap-2">
+            <div className="spice-badge px-6 py-3 flex items-center gap-2 bg-gradient-to-r from-cardamom/10 to-coriander/10 border-cardamom/30">
               <span className="text-xl">🥥</span>
-              <span className="font-medium">Pure Ghee</span>
+              <span className="font-medium text-cumin">Pure Ghee</span>
             </div>
-            <div className="figma-card px-6 py-3 flex items-center gap-2">
+            <div className="spice-badge px-6 py-3 flex items-center gap-2 bg-gradient-to-r from-coriander/10 to-turmeric/10 border-coriander/30">
               <span className="text-xl">🌿</span>
-              <span className="font-medium">100% Natural</span>
+              <span className="font-medium text-cumin">100% Natural</span>
             </div>
-            <div className="figma-card px-6 py-3 flex items-center gap-2">
+            <div className="spice-badge px-6 py-3 flex items-center gap-2 bg-gradient-to-r from-cinnamon/10 to-clove/10 border-cinnamon/30">
               <span className="text-xl">🏠</span>
-              <span className="font-medium">Homemade</span>
+              <span className="font-medium text-cumin">Homemade</span>
             </div>
           </div>
         </div>
         
         <div className="space-y-20">
           {productCategories.map((category, index) => (
-            <div key={category.name} className="category-section animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
+            <div key={category.name} className="category-section animate-fade-in traditional-border" style={{animationDelay: `${index * 0.1}s`}}>
               <div className="text-center mb-12">
                 <div className="inline-flex items-center gap-4 mb-6">
-                  <div className="text-4xl">
+                  <div className="text-5xl animate-spice-float" style={{animationDelay: `${index * 0.5}s`}}>
                     {category.name === "New Items" && "🆕"}
                     {category.name === "Powders" && "🌶️"}
                     {category.name === "Sweets" && "🍯"}
@@ -287,12 +287,12 @@ const ProductGrid = () => {
                     {category.name === "Snacks" && "🥨"}
                   </div>
                   
-                  <h3 className="text-3xl lg:text-4xl font-bold text-foreground">
+                  <h3 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                     {category.name}
                   </h3>
                   
                   {category.name === "New Items" && (
-                    <div className="modern-badge bg-accent/20 text-accent border-accent/30">
+                    <div className="spice-badge bg-saffron/20 text-saffron border-saffron/40 animate-warm-pulse">
                       New
                     </div>
                   )}

@@ -6,52 +6,64 @@
 
 @layer base {
   :root {
-    /* Modern neutral backgrounds */
-    --background: 0 0% 99%;
-    --foreground: 222 47% 11%;
+    /* Warm spice-inspired backgrounds */
+    --background: 45 15% 97%;
+    --foreground: 25 25% 15%;
 
-    /* Clean card system */
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    /* Spice card system */
+    --card: 45 20% 99%;
+    --card-foreground: 25 25% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 45 20% 99%;
+    --popover-foreground: 25 25% 15%;
 
-    /* Modern primary - sophisticated blue */
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 98%;
+    /* Primary - warm turmeric gold */
+    --primary: 45 85% 55%;
+    --primary-foreground: 25 25% 15%;
 
-    /* Subtle secondary tones */
-    --secondary: 210 40% 98%;
-    --secondary-foreground: 222 47% 11%;
+    /* Secondary - gentle cardamom green */
+    --secondary: 120 15% 95%;
+    --secondary-foreground: 25 25% 15%;
 
-    /* Professional muted palette */
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    /* Muted - soft beige tones */
+    --muted: 40 20% 92%;
+    --muted-foreground: 25 15% 45%;
 
-    /* Clean accent - modern orange */
-    --accent: 25 95% 53%;
-    --accent-foreground: 0 0% 98%;
+    /* Accent - vibrant paprika red */
+    --accent: 15 75% 58%;
+    --accent-foreground: 45 20% 99%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 45 20% 99%;
 
-    /* Figma-style borders */
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 221 83% 53%;
+    /* Spice-inspired borders */
+    --border: 40 25% 88%;
+    --input: 40 25% 88%;
+    --ring: 45 85% 55%;
 
-    /* Design tokens */
-    --success: 142 76% 36%;
-    --warning: 38 92% 50%;
-    --info: 199 89% 48%;
+    /* Spice design tokens */
+    --success: 110 45% 45%;
+    --warning: 45 95% 50%;
+    --info: 200 75% 55%;
     
-    /* Modern gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(221 83% 53%), hsl(221 83% 63%));
-    --gradient-secondary: linear-gradient(135deg, hsl(210 40% 98%), hsl(210 40% 94%));
-    --gradient-accent: linear-gradient(135deg, hsl(25 95% 53%), hsl(25 95% 63%));
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 99%), hsl(210 40% 98%));
-    --gradient-glass: linear-gradient(135deg, hsl(0 0% 100% / 0.25), hsl(0 0% 100% / 0.05));
+    /* South Indian spice colors */
+    --turmeric: 45 85% 55%;
+    --paprika: 15 75% 58%;
+    --coriander: 75 25% 45%;
+    --cumin: 35 35% 35%;
+    --cardamom: 120 15% 65%;
+    --cinnamon: 25 45% 45%;
+    --clove: 20 25% 25%;
+    --saffron: 50 95% 65%;
+    
+    /* Warm spice gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(45 85% 55%), hsl(50 90% 65%));
+    --gradient-secondary: linear-gradient(135deg, hsl(40 20% 92%), hsl(45 25% 88%));
+    --gradient-accent: linear-gradient(135deg, hsl(15 75% 58%), hsl(20 80% 68%));
+    --gradient-subtle: linear-gradient(180deg, hsl(45 15% 97%), hsl(40 20% 94%));
+    --gradient-glass: linear-gradient(135deg, hsl(45 20% 99% / 0.25), hsl(45 15% 97% / 0.05));
+    --gradient-spice: linear-gradient(135deg, hsl(45 85% 55%), hsl(15 75% 58%), hsl(25 45% 45%));
+    --gradient-warm: linear-gradient(180deg, hsl(45 15% 97%), hsl(35 25% 92%));
     
     /* Figma-style shadows */
     --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.05);
@@ -118,94 +130,135 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground spice-pattern;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
 @layer components {
-  /* Figma-style glass morphism card */
+  /* South Indian spice-themed components */
+  
+  /* Spice-inspired glass morphism card */
   .figma-card {
-    @apply bg-card/80 backdrop-blur-sm border border-border rounded-xl;
+    @apply bg-card/90 backdrop-blur-sm border border-border rounded-xl;
     box-shadow: var(--shadow-sm);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(135deg, hsl(var(--card) / 0.9), hsl(var(--secondary) / 0.3));
   }
   
   .figma-card:hover {
-    @apply border-border/60;
+    @apply border-primary/30;
     box-shadow: var(--shadow-md);
     transform: translateY(-2px);
+    background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--secondary) / 0.5));
   }
 
-  /* Modern product card */
+  /* Warm spice product card */
   .product-card {
-    @apply bg-card border border-border rounded-xl overflow-hidden;
+    @apply bg-card border border-border/60 rounded-xl overflow-hidden;
     box-shadow: var(--shadow-xs);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(145deg, hsl(var(--card)), hsl(var(--secondary) / 0.4));
   }
   
   .product-card:hover {
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-4px);
+    box-shadow: 0 10px 25px hsl(var(--primary) / 0.15), 0 4px 10px hsl(var(--accent) / 0.1);
+    transform: translateY(-6px) scale(1.02);
+    border-color: hsl(var(--primary) / 0.4);
   }
 
-  /* Professional section container */
+  /* Spice-themed section container */
   .section-container {
-    @apply bg-gradient-to-b from-background to-secondary/30 rounded-2xl border border-border/50;
+    @apply bg-gradient-to-br from-background via-secondary/20 to-muted/40 rounded-2xl border border-border/40;
     backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 hsl(var(--card) / 0.5);
   }
 
-  /* Modern button styles */
+  /* Warm spice button styles */
   .btn-primary {
     @apply bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-lg;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 4px 12px hsl(var(--primary) / 0.3), inset 0 1px 0 hsl(var(--primary) / 0.6);
     transition: all 0.2s ease;
+    background: var(--gradient-primary);
   }
   
   .btn-primary:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-1px);
+    box-shadow: 0 6px 16px hsl(var(--primary) / 0.4), inset 0 1px 0 hsl(var(--primary) / 0.8);
+    transform: translateY(-2px);
   }
 
   .btn-secondary {
-    @apply bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-lg border border-border;
+    @apply bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-lg border border-border/60;
     transition: all 0.2s ease;
+    background: var(--gradient-secondary);
   }
 
-  /* Glass effect for overlays */
+  /* Spice glass effect for overlays */
   .glass-effect {
     background: var(--gradient-glass);
-    backdrop-filter: blur(12px);
-    border: 1px solid hsl(0 0% 100% / 0.2);
+    backdrop-filter: blur(16px);
+    border: 1px solid hsl(var(--primary) / 0.2);
   }
 
-  /* Subtle animations */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+  /* Spice-themed animations */
+  @keyframes spiceFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
   }
 
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(-20px); }
-    to { opacity: 1; transform: translateX(0); }
+  @keyframes warmPulse {
+    0%, 100% { 
+      box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4);
+    }
+    50% { 
+      box-shadow: 0 0 0 10px hsl(var(--primary) / 0);
+    }
   }
 
-  .animate-fade-in {
-    animation: fadeIn 0.3s ease-out;
+  .animate-spice-float {
+    animation: spiceFloat 3s ease-in-out infinite;
   }
 
-  .animate-slide-in {
-    animation: slideIn 0.3s ease-out;
+  .animate-warm-pulse {
+    animation: warmPulse 2s infinite;
   }
 
-  /* Modern badge */
-  .modern-badge {
-    @apply bg-accent/10 text-accent border border-accent/20 rounded-full px-3 py-1 text-sm font-medium;
+  /* South Indian spice badge */
+  .spice-badge {
+    @apply bg-primary/10 text-primary border border-primary/20 rounded-full px-3 py-1 text-sm font-medium;
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--accent) / 0.1));
   }
 
-  /* Professional category section */
+  /* Spice category section */
   .category-section {
-    @apply bg-gradient-to-br from-card to-secondary/50 rounded-2xl border border-border/50 p-6;
+    @apply bg-gradient-to-br from-card via-secondary/30 to-muted/20 rounded-2xl border border-border/50 p-6;
     box-shadow: var(--shadow-sm);
+    background-image: 
+      radial-gradient(circle at 20% 20%, hsl(var(--primary) / 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, hsl(var(--accent) / 0.05) 0%, transparent 50%);
+  }
+
+  /* Spice pattern background */
+  .spice-pattern {
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(var(--turmeric) / 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(var(--paprika) / 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, hsl(var(--coriander) / 0.02) 0%, transparent 60%);
+  }
+
+  /* Traditional border pattern */
+  .traditional-border {
+    position: relative;
+  }
+  
+  .traditional-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gradient-spice);
+    border-radius: 1px;
   }
 }

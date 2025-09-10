@@ -72,7 +72,7 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
             <h3 className="font-semibold text-base leading-tight flex-1 text-foreground">
               {product.name}
             </h3>
-            <div className="modern-badge ml-3 shrink-0 text-xs">
+            <div className="modern-badge ml-3 shrink-0 text-xs bg-primary/10 text-primary border border-primary/20">
               {product.weight}
             </div>
           </div>

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { MessageCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import heroImage from '@/assets/hero-spices.jpg';
+import heroImage from '@/assets/south-indian-spices-hero.jpg';
 
 interface HeroProps {
   onShopNow: () => void;
@@ -21,9 +21,9 @@ const Hero = ({ onShopNow }: HeroProps) => {
       <div className="relative z-10 container text-center text-white max-w-5xl px-6">
         <div className="space-y-8 animate-fade-in">
           <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-sm font-medium">
+            <div className="inline-flex items-center gap-2 bg-primary/15 backdrop-blur-sm border border-primary/30 rounded-full px-4 py-2 text-sm font-medium text-primary animate-warm-pulse">
               <span>🌿</span>
-              <span>100% Natural & Homemade</span>
+              <span>100% Natural & Homemade South Indian Spices</span>
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight">
@@ -43,7 +43,7 @@ const Hero = ({ onShopNow }: HeroProps) => {
             <Button 
               size="lg" 
               onClick={() => navigate('/story')}
-              className="w-full sm:w-auto bg-white text-black hover:bg-white/90 font-semibold text-base px-8 py-4 rounded-xl"
+              className="w-full sm:w-auto btn-primary font-semibold text-base px-8 py-4 rounded-xl"
             >
               Learn Our Story
             </Button>
@@ -51,7 +51,7 @@ const Hero = ({ onShopNow }: HeroProps) => {
             <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <Button
                 onClick={() => window.open('https://chat.whatsapp.com/K2G6FniggftGsF7G1fh51D?mode=ems_copy_h_t', '_blank')}
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl font-medium"
+                className="flex items-center gap-2 bg-secondary border border-primary/20 hover:bg-secondary/80 text-primary px-6 py-4 rounded-xl font-medium"
               >
                 <MessageCircle className="h-5 w-5" />
                 <span>Join Community</span>
@@ -63,7 +63,7 @@ const Hero = ({ onShopNow }: HeroProps) => {
                   const message = '👋 Hello! I would like to know more about Shree Spices products and place an order.';
                   window.open(`https://wa.me/${motherPhone}?text=${encodeURIComponent(message)}`, '_blank');
                 }}
-                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-4 rounded-xl font-medium"
+                className="flex items-center gap-2 bg-accent hover:bg-accent/90 text-accent-foreground px-6 py-4 rounded-xl font-medium"
               >
                 <MessageCircle className="h-5 w-5" />
                 <span>Contact Us</span>

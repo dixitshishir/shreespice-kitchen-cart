@@ -12,7 +12,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background spice-pattern traditional-border flex flex-col">
       <Header />
       <Hero onShopNow={scrollToProducts} />
       <div ref={productsRef} className="flex-1">

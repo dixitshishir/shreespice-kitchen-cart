@@ -63,12 +63,15 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// Spice-inspired colors
-				saffron: 'hsl(var(--saffron))',
+				// South Indian spice colors
 				turmeric: 'hsl(var(--turmeric))',
 				paprika: 'hsl(var(--paprika))',
-				cinnamon: 'hsl(var(--cinnamon))',
+				coriander: 'hsl(var(--coriander))',
+				cumin: 'hsl(var(--cumin))',
 				cardamom: 'hsl(var(--cardamom))',
+				cinnamon: 'hsl(var(--cinnamon))',
+				clove: 'hsl(var(--clove))',
+				saffron: 'hsl(var(--saffron))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

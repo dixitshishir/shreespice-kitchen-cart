@@ -20,15 +20,15 @@ const Header = () => {
       <div className="container flex h-16 items-center justify-between px-4">
         <div className="flex items-center space-x-3">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">S</span>
+            <div className="w-8 h-8 bg-gradient-to-br from-turmeric to-paprika rounded-lg flex items-center justify-center animate-warm-pulse">
+              <span className="text-white font-bold text-lg">🌶️</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">
+              <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 Shree Spices
               </h1>
               <p className="text-xs text-muted-foreground hidden sm:block">
-                Authentic Homemade
+                Authentic South Indian
               </p>
             </div>
           </div>

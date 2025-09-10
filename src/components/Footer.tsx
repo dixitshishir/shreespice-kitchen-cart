@@ -2,21 +2,26 @@ import { MessageCircle, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-secondary/50 border-t border-border">
+    <footer className="bg-gradient-to-b from-secondary/50 to-muted/60 border-t border-primary/20 traditional-border spice-pattern">
       <div className="container py-12 px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">S</span>
+              <div className="w-8 h-8 bg-gradient-to-br from-turmeric to-paprika rounded-lg flex items-center justify-center animate-warm-pulse">
+                <span className="text-white font-bold text-lg">🌶️</span>
               </div>
-              <h3 className="text-xl font-bold text-foreground">
+              <h3 className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 Shree Spices
               </h3>
             </div>
             <p className="text-muted-foreground leading-relaxed">
-              Authentic homemade spices crafted with love and tradition. Experience the pure taste of natural ingredients in every bite.
+              Authentic South Indian homemade spices crafted with love and tradition from our family kitchen in Karnataka. Experience the pure taste of natural ingredients in every bite.
             </p>
+            <div className="flex gap-2 flex-wrap">
+              <div className="spice-badge bg-turmeric/10 text-turmeric border-turmeric/30">🌿 100% Natural</div>
+              <div className="spice-badge bg-paprika/10 text-paprika border-paprika/30">🏠 Homemade</div>
+              <div className="spice-badge bg-saffron/10 text-saffron border-saffron/30">🇮🇳 South Indian</div>
+            </div>
           </div>
           
           <div className="space-y-4">
