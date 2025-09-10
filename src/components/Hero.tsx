@@ -39,19 +39,11 @@ const Hero = ({ onShopNow }: HeroProps) => {
             crafted with love using time-honored family recipes.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto sm:max-w-none pt-4">
-            <Button 
-              size="lg" 
-              onClick={() => navigate('/story')}
-              className="w-full sm:w-auto btn-primary font-semibold text-base px-8 py-4 rounded-xl"
-            >
-              Learn Our Story
-            </Button>
-            
+          <div className="flex flex-col gap-4 justify-center items-center max-w-md mx-auto sm:max-w-none pt-4">
             <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <Button
                 onClick={() => window.open('https://chat.whatsapp.com/K2G6FniggftGsF7G1fh51D?mode=ems_copy_h_t', '_blank')}
-                className="flex items-center gap-2 bg-secondary border border-primary/20 hover:bg-secondary/80 text-primary px-6 py-4 rounded-xl font-medium"
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white border border-blue-500/20 px-6 py-4 rounded-xl font-medium"
               >
                 <MessageCircle className="h-5 w-5" />
                 <span>Join Community</span>
@@ -63,12 +55,20 @@ const Hero = ({ onShopNow }: HeroProps) => {
                   const message = '👋 Hello! I would like to know more about Shree Spices products and place an order.';
                   window.open(`https://wa.me/${motherPhone}?text=${encodeURIComponent(message)}`, '_blank');
                 }}
-                className="flex items-center gap-2 bg-accent hover:bg-accent/90 text-accent-foreground px-6 py-4 rounded-xl font-medium"
+                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white border border-green-500/20 px-6 py-4 rounded-xl font-medium"
               >
                 <MessageCircle className="h-5 w-5" />
                 <span>Contact Us</span>
               </Button>
             </div>
+            
+            <Button 
+              size="lg" 
+              onClick={() => navigate('/story')}
+              className="w-full sm:w-auto btn-primary font-semibold text-base px-8 py-4 rounded-xl"
+            >
+              Learn Our Story
+            </Button>
           </div>
         </div>
       </div>

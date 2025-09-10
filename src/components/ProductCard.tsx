@@ -61,8 +61,8 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
           )}
           
           {/* Price tag */}
-          <div className="absolute bottom-3 right-3 glass-effect text-white px-3 py-1 rounded-lg shadow-md">
-            <span className="font-semibold">₹{product.price}</span>
+          <div className="absolute bottom-3 right-3 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-2 rounded-lg shadow-lg border-2 border-white/20">
+            <span className="font-bold text-lg">₹{product.price}</span>
           </div>
         </div>
         
