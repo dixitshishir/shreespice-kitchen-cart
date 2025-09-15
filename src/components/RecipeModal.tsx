@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
@@ -98,10 +98,10 @@ const RecipeModal = ({ product, isOpen, onClose }: RecipeModalProps) => {
             <ChefHat className="h-6 w-6 text-orange-500" />
             AI Recipe Assistant
           </DialogTitle>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <DialogDescription className="flex items-center gap-2 text-sm text-muted-foreground">
             <BookOpen className="h-4 w-4" />
             Traditional South Indian recipes for {product.name}
-          </div>
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
