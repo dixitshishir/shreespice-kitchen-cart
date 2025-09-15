@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useCart } from '@/contexts/CartContext';
 import { useToast } from '@/hooks/use-toast';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, ChefHat } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ProductDetailsModal from './ProductDetailsModal';
+import RecipeModal from './RecipeModal';
 
 export interface Product {
   id: string;
@@ -24,6 +25,7 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
   const { toast } = useToast();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRecipeModalOpen, setIsRecipeModalOpen] = useState(false);
 
   const handleAddToCart = () => {
     addToCart(product);
@@ -35,6 +37,10 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
 
   const handleCardClick = () => {
     setIsModalOpen(true);
+  };
+
+  const handleRecipeClick = () => {
+    setIsRecipeModalOpen(true);
   };
 
   return (
@@ -85,17 +91,35 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
             500g per unit
           </div>
           
-          {/* Add to cart button */}
-          <Button 
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAddToCart();
-            }}
-            className="btn-primary w-full py-2.5 text-sm flex items-center justify-center gap-2"
-          >
-            <ShoppingCart className="h-4 w-4" />
-            <span>Add to Cart</span>
-          </Button>
+          {/* Action buttons */}
+          <div className="space-y-2">
+            {/* Recipe button - only for powder products */}
+            {product.name.toLowerCase().includes('powder') && (
+              <Button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRecipeClick();
+                }}
+                variant="outline"
+                className="w-full py-2.5 text-sm flex items-center justify-center gap-2 border-orange-200 hover:bg-orange-50 text-orange-700"
+              >
+                <ChefHat className="h-4 w-4" />
+                <span>Get AI Recipe</span>
+              </Button>
+            )}
+            
+            {/* Add to cart button */}
+            <Button 
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAddToCart();
+              }}
+              className="btn-primary w-full py-2.5 text-sm flex items-center justify-center gap-2"
+            >
+              <ShoppingCart className="h-4 w-4" />
+              <span>Add to Cart</span>
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -103,6 +127,12 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
         product={product}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+      />
+      
+      <RecipeModal 
+        product={product}
+        isOpen={isRecipeModalOpen}
+        onClose={() => setIsRecipeModalOpen(false)}
       />
     </>
   );
