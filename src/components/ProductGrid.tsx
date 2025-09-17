@@ -107,7 +107,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 's1',
         name: 'Antina Unde',
-        kannadaName: 'ಅಂತಿನ ಉಂಡೆ',
+        kannadaName: 'ಅಂಥಿನ ಉಂಡೆ',
         price: 200,
         image: antinaUndeImage,
         description: 'Traditional sesame seed laddus made with pure ghee. Rich in flavor and nutrition.',
@@ -116,7 +116,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 's2',
         name: 'Kai Kadubu',
-        kannadaName: 'ಕೈ ಕಡುಬು',
+        kannadaName: 'ಕಾಯಿ ಕಡುಬು',
         price: 180,
         image: turmericImage,
         description: 'Steamed rice dumplings with jaggery filling. Made with pure ghee and traditional recipe.',
