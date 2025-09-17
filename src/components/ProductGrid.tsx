@@ -264,7 +264,7 @@ const productCategories: ProductCategory[] = [
 
 const ProductGrid = () => {
   return (
-    <section className="py-20 bg-gradient-to-b from-background via-secondary/20 to-muted/30 spice-pattern">
+    <section className="py-20 bg-gradient-to-b from-yellow-400 via-yellow-300 to-red-500 spice-pattern">
       <div className="container px-6">
         <div className="text-center mb-16 space-y-6">
           <div className="inline-flex items-center gap-3 spice-badge rounded-full px-8 py-4 border-2 border-primary/30 bg-gradient-to-r from-primary/10 to-accent/10">
