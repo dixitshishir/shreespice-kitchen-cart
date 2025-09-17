@@ -81,7 +81,7 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
                 {product.name}
               </h3>
               {product.kannadaName && (
-                <p className="text-sm text-primary/80 font-medium mt-1">
+                <p className="text-sm font-bold mt-1 bg-gradient-to-r from-yellow-500 to-red-600 bg-clip-text text-transparent">
                   {product.kannadaName}
                 </p>
               )}
