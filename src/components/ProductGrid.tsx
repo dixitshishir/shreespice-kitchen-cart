@@ -107,7 +107,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 's1',
         name: 'Antina Unde',
-        kannadaName: 'ಎಳ್ಳಿನ ಉಂಡೆ',
+        kannadaName: 'ಅಂತಿನ ಉಂಡೆ',
         price: 200,
         image: antinaUndeImage,
         description: 'Traditional sesame seed laddus made with pure ghee. Rich in flavor and nutrition.',
