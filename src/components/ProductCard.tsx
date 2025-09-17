@@ -9,6 +9,7 @@ import RecipeModal from './RecipeModal';
 export interface Product {
   id: string;
   name: string;
+  kannadaName?: string;
   price: number;
   image: string;
   description: string;
@@ -75,9 +76,16 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
         {/* Content */}
         <div className="p-5 flex-1 flex flex-col">
           <div className="flex items-start justify-between mb-3">
-            <h3 className="font-semibold text-base leading-tight flex-1 text-foreground">
-              {product.name}
-            </h3>
+            <div className="flex-1">
+              <h3 className="font-semibold text-base leading-tight text-foreground">
+                {product.name}
+              </h3>
+              {product.kannadaName && (
+                <p className="text-sm text-primary/80 font-medium mt-1">
+                  {product.kannadaName}
+                </p>
+              )}
+            </div>
             <div className="modern-badge ml-3 shrink-0 text-xs bg-primary/10 text-primary border border-primary/20">
               {product.weight}
             </div>

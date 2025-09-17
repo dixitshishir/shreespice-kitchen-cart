@@ -34,6 +34,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'n1',
         name: 'Homemade Protein Bar',
+        kannadaName: 'ಮನೆಯಲ್ಲಿ ಮಾಡಿದ ಪ್ರೋಟೀನ ಬಾರ್',
         price: 150,
         image: proteinBarNewImage,
         description: 'Nutritious homemade protein bar with nuts, dates, and oats. Perfect post-workout snack made with natural ingredients.',
@@ -42,6 +43,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'n2',
         name: 'Homemade Protein Powder',
+        kannadaName: 'ಮನೆಯಲ್ಲಿ ಮಾಡಿದ ಪ್ರೋಟೀನ ಪುಡಿ',
         price: 350,
         image: proteinPowderImage,
         description: 'Natural protein powder made from roasted almonds, dates, and seeds. Chemical-free and made fresh daily.',
@@ -55,6 +57,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'p1',
         name: 'Bisibelebath Powder',
+        kannadaName: 'ಬಿಸಿಬೇಳೆಬಾತ್ ಪುಡಿ',
         price: 150,
         image: turmericImage,
         description: 'Traditional Karnataka style bisibelebath powder blend. Made with authentic spices for perfect flavor.',
@@ -63,6 +66,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'p2',
         name: 'Vangibath Powder',
+        kannadaName: 'ವಂಗಿಬಾತ್ ಪುಡಿ',
         price: 140,
         image: chiliImage,
         description: 'Aromatic vangibath powder for delicious brinjal rice. Traditional recipe with perfect spice balance.',
@@ -71,6 +75,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'p3',
         name: 'Hulipudi Powder',
+        kannadaName: 'ಹುಳಿಪುಡಿ',
         price: 130,
         image: huliPudiImage,
         description: 'Tangy and spicy hulipudi powder perfect for mixing with rice. Traditional South Indian flavor.',
@@ -79,6 +84,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'p4',
         name: 'Rasam Powder',
+        kannadaName: 'ರಸಂ ಪುಡಿ',
         price: 120,
         image: rasamPowderImage,
         description: 'Authentic rasam powder blend for perfect South Indian rasam. Made with traditional spices.',
@@ -87,6 +93,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'p5',
         name: 'Kootu Powder',
+        kannadaName: 'ಕೂಟು ಪುಡಿ',
         price: 110,
         image: chiliImage,
         description: 'Traditional kootu powder for delicious vegetable kootu. Made with roasted spices.',
@@ -100,6 +107,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 's1',
         name: 'Antina Unde',
+        kannadaName: 'ಎಳ್ಳಿನ ಉಂಡೆ',
         price: 200,
         image: antinaUndeImage,
         description: 'Traditional sesame seed laddus made with pure ghee. Rich in flavor and nutrition.',
@@ -108,6 +116,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 's2',
         name: 'Kai Kadubu',
+        kannadaName: 'ಕೈ ಕಡುಬು',
         price: 180,
         image: turmericImage,
         description: 'Steamed rice dumplings with jaggery filling. Made with pure ghee and traditional recipe.',
@@ -116,6 +125,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 's3',
         name: 'Hoorna Kadubu',
+        kannadaName: 'ಹೂರ್ಣ ಕಡುಬು',
         price: 190,
         image: chiliImage,
         description: 'Sweet steamed rice dumplings with coconut and jaggery. Made with pure ghee.',
@@ -124,6 +134,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 's4',
         name: 'Mysore Pak',
+        kannadaName: 'ಮೈಸೂರು ಪಾಕ್',
         price: 250,
         image: mysorePakImage,
         description: 'Famous Mysore pak made with pure ghee and gram flour. Melts in your mouth.',
@@ -132,6 +143,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 's5',
         name: 'Besan Ladoo',
+        kannadaName: 'ಬೇಸನ್ ಲಡ್ಡು',
         price: 220,
         image: besanLadooImage,
         description: 'Classic besan laddus made with pure ghee and roasted gram flour. Traditional taste.',
@@ -140,6 +152,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 's6',
         name: 'Shenga Ladoo',
+        kannadaName: 'ಶೆಂಗ ಲಡ್ಡು',
         price: 240,
         image: shengaUndeImage,
         description: 'Nutritious peanut laddus made with jaggery and pure ghee. Healthy and delicious.',
@@ -148,6 +161,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 's7',
         name: 'Tambittu',
+        kannadaName: 'ತಂಬಿಟ್ಟು',
         price: 200,
         image: tambittuImage,
         description: 'Traditional festival sweet made with rice flour and jaggery. Prepared with pure ghee.',
@@ -161,6 +175,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'r1',
         name: 'Menthe Hittu',
+        kannadaName: 'ಮೆಂತ್ಯ ಹಿಟ್ಟು',
         price: 160,
         image: turmericImage,
         description: 'Ready to eat fenugreek powder mix. Just add hot rice and ghee for instant meal.',
@@ -169,6 +184,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'r2',
         name: 'Puliyogre Gojju',
+        kannadaName: 'ಪುಳಿಯೋಗರೆ ಗೊಜ್ಜು',
         price: 140,
         image: puliyogreGojjuImage,
         description: 'Tangy tamarind rice paste. Perfect for making instant puliyogre with rice.',
@@ -177,6 +193,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'r3',
         name: 'Shenga Chutney Pudi',
+        kannadaName: 'ಶೆಂಗ ಚಟ್ನಿ ಪುಡಿ',
         price: 120,
         image: corianderImage,
         description: 'Roasted peanut chutney powder. Mix with oil for instant chutney.',
@@ -185,6 +202,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'r4',
         name: 'Hurgadle Chutney Pudi',
+        kannadaName: 'ಹುರಗಾಳ ಚಟ್ನಿ ಪುಡಿ',
         price: 110,
         image: turmericImage,
         description: 'Roasted horse gram chutney powder. Nutritious and flavorful instant chutney mix.',
@@ -193,6 +211,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'r5',
         name: 'Dal Chutney Pudi',
+        kannadaName: 'ಬೇಳೆ ಚಟ್ನಿ ಪುಡಿ',
         price: 100,
         image: chiliImage,
         description: 'Mixed dal chutney powder. Protein-rich instant chutney mix for daily meals.',
@@ -206,6 +225,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'sn1',
         name: 'Kodbele',
+        kannadaName: 'ಕೊಡಬಲೆ',
         price: 180,
         image: kodbeleImage,
         description: 'Traditional ring-shaped snacks made with rice flour and spices. Crispy and delicious.',
@@ -214,6 +234,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'sn2',
         name: 'Avalakki',
+        kannadaName: 'ಅವಲಕ್ಕಿ',
         price: 80,
         image: avalakkiImage,
         description: 'Premium quality beaten rice flakes. Perfect for breakfast and snacks.',
@@ -222,6 +243,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'sn3',
         name: 'Shankar Pole (Masala)',
+        kannadaName: 'ಶಂಕರ್ ಪೋಲೆ (ಮಸಾಲ)',
         price: 200,
         image: shankarPoleMasalaImage,
         description: 'Crispy masala-flavored traditional snack. Perfect tea-time companion.',
@@ -230,6 +252,7 @@ const productCategories: ProductCategory[] = [
       {
         id: 'sn4',
         name: 'Shankar Pole (Sweet)',
+        kannadaName: 'ಶಂಕರ್ ಪೋಲೆ (ಸಿಹಿ)',
         price: 220,
         image: shankarPoleSweetImage,
         description: 'Sweet version of traditional shankar pole made with jaggery. Crispy and sweet.',
