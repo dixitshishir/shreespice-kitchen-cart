@@ -12,7 +12,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-yellow-400 to-red-500 spice-pattern traditional-border flex flex-col">
+    <div className="min-h-screen bg-background figma-wallpaper flex flex-col">
       <Header />
       <Hero onShopNow={scrollToProducts} />
       <div ref={productsRef} className="flex-1">
