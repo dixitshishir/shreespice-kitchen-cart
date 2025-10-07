@@ -52,7 +52,7 @@ const Hero = ({ onShopNow }: HeroProps) => {
               <Button
                 onClick={() => {
                   const motherPhone = '9986918992';
-                  const message = '👋 Hello! I would like to know more about Shree Spices products and place an order.';
+                  const message = '👋 Hello! I would like to know more about Shree Spices and Snacks products and place an order.';
                   window.open(`https://wa.me/${motherPhone}?text=${encodeURIComponent(message)}`, '_blank');
                 }}
                 className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white border border-green-500/20 px-6 py-4 rounded-xl font-medium"

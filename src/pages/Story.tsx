@@ -47,7 +47,7 @@ const Story = () => {
             <div className="max-w-sm sm:max-w-md md:max-w-lg mx-auto mb-6 sm:mb-8">
               <img 
                 src="/lovable-uploads/81fbdcac-8037-4723-b27a-cb509e6c64a1.png" 
-                alt="Our parents - Mother and Father, the founders of Shree Spices"
+                alt="Our parents - Mother and Father, the founders of Shree Spices and Snacks"
                 className="w-full h-auto rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl"
               />
             </div>
@@ -105,7 +105,7 @@ const Story = () => {
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
                   His practical support, business acumen, and unwavering faith in her culinary genius 
-                  provided the foundation needed to transform a passion project into Shree Spices. 
+                  provided the foundation needed to transform a passion project into Shree Spices and Snacks. 
                   Together, they make the perfect team.
                 </p>
               </div>
@@ -142,7 +142,7 @@ const Story = () => {
                 <h3 className="text-xl font-semibold mb-2">Going National</h3>
                 <p className="text-muted-foreground">
                   Word spread across India as more families discovered the authentic taste of our homemade spices. 
-                  From local neighborhoods to distant states, Shree Spices became a trusted name.
+                  From local neighborhoods to distant states, Shree Spices and Snacks became a trusted name.
                 </p>
               </div>
 
@@ -163,7 +163,7 @@ const Story = () => {
           <div className="text-center bg-gradient-to-br from-saffron/10 to-accent/10 rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-12">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Our Mission</h2>
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-4xl mx-auto mb-6 sm:mb-8">
-              Every product from Shree Spices carries the love, tradition, and passion of our mother's kitchen. 
+              Every product from Shree Spices and Snacks carries the love, tradition, and passion of our mother's kitchen. 
               We believe that authentic flavors should not be compromised, which is why everything is made fresh 
               to order using traditional methods and the finest ingredients. Our sweets are made with pure ghee, 
               and every spice blend maintains the authentic taste that has been passed down through generations.

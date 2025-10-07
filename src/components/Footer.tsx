@@ -11,7 +11,7 @@ const Footer = () => {
                 <span className="text-white font-bold text-lg">🌶️</span>
               </div>
               <h3 className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Shree Spices
+                Shree Spices and Snacks
               </h3>
             </div>
             <p className="text-muted-foreground leading-relaxed">
@@ -37,7 +37,7 @@ const Footer = () => {
                 <div className="w-8 h-8 bg-muted rounded-lg flex items-center justify-center">
                   <MessageCircle className="h-4 w-4" />
                 </div>
-                <span>Nalini Dixit's Shree Spices</span>
+                <span>Nalini Dixit's Shree Spices and Snacks</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 bg-muted rounded-lg flex items-center justify-center">
@@ -60,7 +60,7 @@ const Footer = () => {
         
         <div className="border-t border-border mt-12 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            &copy; 2024 Shree Spices. Made with <span className="text-accent">♥</span> for authentic taste.
+            &copy; 2024 Shree Spices and Snacks. Made with <span className="text-accent">♥</span> for authentic taste.
           </p>
         </div>
       </div>

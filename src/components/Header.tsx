@@ -10,7 +10,7 @@ const Header = () => {
   
   const handleWhatsAppContact = () => {
     const motherPhone = '9986918992';
-    const message = '👋 Hello! I would like to know more about Shree Spices products and place an order.';
+    const message = '👋 Hello! I would like to know more about Shree Spices and Snacks products and place an order.';
     const waUrl = `https://wa.me/${motherPhone}?text=${encodeURIComponent(message)}`;
     window.open(waUrl, '_blank');
   };
@@ -25,7 +25,7 @@ const Header = () => {
             </span>
             {' '}
             <span className="bg-gradient-to-r from-yellow-600 via-amber-500 to-orange-600 bg-clip-text text-transparent drop-shadow-lg">
-              Shree Spices
+              Shree Spices and Snacks
             </span>
           </h1>
         </div>

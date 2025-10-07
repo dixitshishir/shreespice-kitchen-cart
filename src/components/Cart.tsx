@@ -55,7 +55,7 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
       `${item.product.name} - ${item.quantity} unit(s) (${item.quantity * 500}g)`
     ).join('\n');
 
-    const orderMessage = `🛒 *New Order - Shree Spices*
+    const orderMessage = `🛒 *New Order - Shree Spices and Snacks*
 
 📦 *Order Items:*
 ${orderItems}
@@ -75,7 +75,7 @@ ${isDavangere ?
   '📦 *Delivery:* This order will be couriered to you. Courier charges will be calculated based on your location. Usually takes 1-2 days to prepare the order.'}
 
 ---
-*Nalini Dixit's Shree Spices* 📱 ${motherPhone}`;
+*Nalini Dixit's Shree Spices and Snacks* 📱 ${motherPhone}`;
 
     const waUrl = `https://wa.me/${motherPhone}?text=${encodeURIComponent(orderMessage)}`;
     window.open(waUrl, '_blank');
