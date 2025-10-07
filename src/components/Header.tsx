@@ -24,7 +24,7 @@ const Header = () => {
               <span className="text-white font-bold text-lg">🌶️</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              <h1 className="text-2xl font-black bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent drop-shadow-lg">
                 Shree Spices
               </h1>
               <p className="text-xs text-muted-foreground hidden sm:block">

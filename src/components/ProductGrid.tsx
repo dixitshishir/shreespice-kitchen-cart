@@ -269,11 +269,11 @@ const ProductGrid = () => {
         <div className="text-center mb-16 space-y-6">
           <div className="inline-flex items-center gap-3 spice-badge rounded-full px-8 py-4 border-2 border-primary/30 bg-gradient-to-r from-primary/10 to-accent/10">
             <span className="text-3xl animate-spice-float">🌿</span>
-            <span className="text-primary font-bold text-xl">Premium South Indian Spices</span>
+            <span className="text-primary font-black text-2xl drop-shadow-md">Premium South Indian Spices</span>
             <span className="text-3xl animate-spice-float" style={{animationDelay: '1s'}}>✨</span>
           </div>
           
-          <h2 className="text-4xl lg:text-6xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-6">
+          <h2 className="text-5xl lg:text-7xl font-black bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-6 drop-shadow-xl tracking-tight">
             Authentic Spice Collection
           </h2>
           
