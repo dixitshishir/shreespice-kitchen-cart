@@ -19,19 +19,15 @@ const Header = () => {
     <header className="sticky top-0 z-50 w-full glass-effect border-b border-border/50">
       <div className="container flex h-16 items-center justify-between px-4">
         <div className="flex items-center space-x-3">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-turmeric to-paprika rounded-lg flex items-center justify-center animate-warm-pulse">
-              <span className="text-white font-bold text-lg">🌶️</span>
-            </div>
-            <div>
-              <h1 className="text-2xl font-black bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent drop-shadow-lg">
-                Shree Spices
-              </h1>
-              <p className="text-xs text-muted-foreground hidden sm:block">
-                Authentic South Indian
-              </p>
-            </div>
-          </div>
+          <h1 className="text-2xl lg:text-3xl font-black tracking-tight">
+            <span className="bg-gradient-to-r from-amber-600 via-orange-500 to-red-600 bg-clip-text text-transparent drop-shadow-lg">
+              Nalini Dixit's
+            </span>
+            {' '}
+            <span className="bg-gradient-to-r from-yellow-600 via-amber-500 to-orange-600 bg-clip-text text-transparent drop-shadow-lg">
+              Shree Spices
+            </span>
+          </h1>
         </div>
         
         <div className="flex items-center gap-3">
