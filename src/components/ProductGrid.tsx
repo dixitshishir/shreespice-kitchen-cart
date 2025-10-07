@@ -299,26 +299,20 @@ const ProductGrid = () => {
         
         <div className="space-y-20">
           {productCategories.map((category, index) => (
-            <div key={category.name} className="category-section animate-fade-in traditional-border" style={{animationDelay: `${index * 0.1}s`}}>
+            <div key={category.name} className="category-section animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
               <div className="text-center mb-12">
                 <div className="inline-flex items-center gap-4 mb-6">
-                  <div className="text-5xl animate-spice-float" style={{animationDelay: `${index * 0.5}s`}}>
-                    {category.name === "New Items" && "🆕"}
+                  <div className="text-4xl" style={{animationDelay: `${index * 0.5}s`}}>
+                    {category.name === "New Items" && "✨"}
                     {category.name === "Powders" && "🌶️"}
                     {category.name === "Sweets" && "🍯"}
                     {category.name === "Ready to Eat" && "🍽️"}
                     {category.name === "Snacks" && "🥨"}
                   </div>
                   
-                  <h3 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                  <h3 className="text-3xl lg:text-4xl font-bold text-foreground">
                     {category.name}
                   </h3>
-                  
-                  {category.name === "New Items" && (
-                    <div className="spice-badge bg-saffron/20 text-saffron border-saffron/40 animate-warm-pulse">
-                      New
-                    </div>
-                  )}
                 </div>
               </div>
               
