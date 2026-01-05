@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Search, Send, Bot, X, Mic, MicOff } from 'lucide-react';
+import { Search, Send, Bot, X, Mic, MicOff, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
@@ -37,13 +37,12 @@ const ProductAssistant = () => {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
-    // Initialize speech recognition
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       recognitionRef.current = new SpeechRecognition();
@@ -98,7 +97,6 @@ const ProductAssistant = () => {
     } else {
       setQuestion('');
       setAnswer('');
-      setIsOpen(false);
       recognitionRef.current.start();
       setIsListening(true);
     }
@@ -109,7 +107,6 @@ const ProductAssistant = () => {
     
     if (!question.trim()) return;
     
-    // Stop listening if active
     if (isListening && recognitionRef.current) {
       recognitionRef.current.stop();
       setIsListening(false);
@@ -132,7 +129,6 @@ const ProductAssistant = () => {
       }
       
       setAnswer(data.answer);
-      setIsOpen(true);
     } catch (error) {
       console.error('Error:', error);
       toast({
@@ -148,7 +144,6 @@ const ProductAssistant = () => {
   const handleClear = () => {
     setQuestion('');
     setAnswer('');
-    setIsOpen(false);
     if (isListening && recognitionRef.current) {
       recognitionRef.current.stop();
       setIsListening(false);
@@ -162,108 +157,160 @@ const ProductAssistant = () => {
   ];
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <div className="bg-amber-50/90 backdrop-blur-sm rounded-2xl border border-amber-200 shadow-xl p-6">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 rounded-full bg-amber-700/10">
-            <Bot className="h-5 w-5 text-amber-700" />
+    <div className="fixed bottom-6 right-6 z-50">
+      {/* Chat Window */}
+      <div
+        className={`absolute bottom-20 right-0 w-[340px] sm:w-[380px] transition-all duration-300 ease-out origin-bottom-right ${
+          isChatOpen 
+            ? 'opacity-100 scale-100 translate-y-0' 
+            : 'opacity-0 scale-95 translate-y-4 pointer-events-none'
+        }`}
+      >
+        <div className="bg-amber-50 backdrop-blur-md rounded-2xl border border-amber-200 shadow-2xl overflow-hidden">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-amber-700 to-amber-600 p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-full bg-white/20">
+                <Bot className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-white text-sm">Product Assistant</h3>
+                <p className="text-xs text-amber-100">Ask about our products</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setIsChatOpen(false)}
+              className="p-1.5 hover:bg-white/20 rounded-full transition-colors"
+            >
+              <X className="h-5 w-5 text-white" />
+            </button>
           </div>
-          <div>
-            <h3 className="font-semibold text-amber-900">Product Assistant</h3>
-            <p className="text-sm text-amber-700">Ask me anything about our products</p>
+
+          {/* Chat Body */}
+          <div className="p-4 max-h-[400px] overflow-y-auto">
+            {/* Suggested Questions */}
+            {!answer && !isLoading && !isListening && (
+              <div className="space-y-2 mb-4">
+                <p className="text-xs text-amber-700 font-medium">Quick questions:</p>
+                <div className="flex flex-wrap gap-2">
+                  {suggestedQuestions.map((q, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => setQuestion(q)}
+                      className="text-xs px-3 py-1.5 rounded-full bg-amber-100 hover:bg-amber-200 text-amber-800 transition-colors"
+                    >
+                      {q}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Listening State */}
+            {isListening && (
+              <div className="p-3 rounded-xl bg-amber-100 border border-amber-300 mb-3">
+                <div className="flex items-center gap-3">
+                  <div className="relative">
+                    <Mic className="h-5 w-5 text-amber-700" />
+                    <span className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full animate-ping" />
+                  </div>
+                  <span className="text-sm text-amber-900">Listening...</span>
+                </div>
+              </div>
+            )}
+
+            {/* Loading State */}
+            {isLoading && (
+              <div className="p-3 rounded-xl bg-amber-100/50 animate-pulse mb-3">
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 rounded-full bg-amber-600 animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <div className="h-2 w-2 rounded-full bg-amber-600 animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <div className="h-2 w-2 rounded-full bg-amber-600 animate-bounce" style={{ animationDelay: '300ms' }} />
+                  <span className="text-sm text-amber-700 ml-2">Thinking...</span>
+                </div>
+              </div>
+            )}
+
+            {/* Answer */}
+            {answer && (
+              <div className="p-3 rounded-xl bg-amber-100 border border-amber-200">
+                <div className="flex items-start gap-2">
+                  <div className="p-1.5 rounded-full bg-amber-700/10 shrink-0 mt-0.5">
+                    <Bot className="h-3 w-3 text-amber-700" />
+                  </div>
+                  <p className="text-amber-900 text-sm leading-relaxed whitespace-pre-wrap">{answer}</p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Input Area */}
+          <div className="p-3 border-t border-amber-200 bg-amber-50/80">
+            <form onSubmit={handleSubmit} className="flex items-center gap-2">
+              <div className="relative flex-1">
+                <Input
+                  type="text"
+                  placeholder={isListening ? "Listening..." : "Type your question..."}
+                  value={question}
+                  onChange={(e) => setQuestion(e.target.value)}
+                  className={`pr-10 py-2.5 text-sm rounded-xl border-amber-200 bg-white text-black placeholder:text-amber-400 ${isListening ? 'border-amber-500' : ''}`}
+                  disabled={isLoading}
+                />
+                {question && !isListening && (
+                  <button
+                    type="button"
+                    onClick={handleClear}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 p-1 hover:bg-amber-100 rounded-full"
+                  >
+                    <X className="h-3 w-3 text-amber-600" />
+                  </button>
+                )}
+              </div>
+              <Button
+                type="button"
+                size="icon"
+                variant="outline"
+                onClick={toggleListening}
+                disabled={isLoading}
+                className={`h-9 w-9 rounded-xl border-amber-300 ${isListening ? 'bg-red-500 text-white border-red-500 animate-pulse' : 'text-amber-700 hover:bg-amber-100'}`}
+              >
+                {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+              </Button>
+              <Button
+                type="submit"
+                size="icon"
+                disabled={isLoading || !question.trim()}
+                className="h-9 w-9 rounded-xl bg-amber-700 hover:bg-amber-800 text-white"
+              >
+                <Send className="h-4 w-4" />
+              </Button>
+            </form>
           </div>
         </div>
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-amber-600" />
-            <Input
-              type="text"
-              placeholder={isListening ? "Listening..." : "Ask about our spices, sweets, prices..."}
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              className={`pl-12 pr-24 py-6 text-base rounded-xl border-amber-200 bg-white text-black placeholder:text-amber-400 ${isListening ? 'border-amber-500 animate-pulse' : ''}`}
-              disabled={isLoading}
-            />
-            {question && !isListening && (
-              <button
-                type="button"
-                onClick={handleClear}
-                className="absolute right-[88px] top-1/2 -translate-y-1/2 p-1 hover:bg-amber-100 rounded-full"
-              >
-                <X className="h-4 w-4 text-amber-600" />
-              </button>
-            )}
-            <Button
-              type="button"
-              size="icon"
-              variant={isListening ? "destructive" : "outline"}
-              onClick={toggleListening}
-              disabled={isLoading}
-              className={`absolute right-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg border-amber-300 text-amber-700 hover:bg-amber-100 ${isListening ? 'animate-pulse bg-red-500 text-white border-red-500' : ''}`}
-            >
-              {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-            </Button>
-            <Button
-              type="submit"
-              size="icon"
-              disabled={isLoading || !question.trim()}
-              className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg bg-amber-700 hover:bg-amber-800 text-white"
-            >
-              <Send className="h-4 w-4" />
-            </Button>
-          </div>
-          
-          {!isOpen && !isLoading && !isListening && (
-            <div className="flex flex-wrap gap-2">
-              {suggestedQuestions.map((q, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => setQuestion(q)}
-                  className="text-xs px-3 py-1.5 rounded-full bg-amber-100 hover:bg-amber-200 text-amber-800 transition-colors"
-                >
-                  {q}
-                </button>
-              ))}
-            </div>
-          )}
-        </form>
-        
-        {isListening && (
-          <div className="mt-4 p-4 rounded-xl bg-amber-100 border border-amber-300">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <Mic className="h-5 w-5 text-amber-700" />
-                <span className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full animate-ping" />
-              </div>
-              <span className="text-sm text-amber-900">Listening... Speak your question</span>
-            </div>
-          </div>
-        )}
-        
-        {isLoading && (
-          <div className="mt-4 p-4 rounded-xl bg-amber-100/50 animate-pulse">
-            <div className="flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-amber-600 animate-bounce" style={{ animationDelay: '0ms' }} />
-              <div className="h-2 w-2 rounded-full bg-amber-600 animate-bounce" style={{ animationDelay: '150ms' }} />
-              <div className="h-2 w-2 rounded-full bg-amber-600 animate-bounce" style={{ animationDelay: '300ms' }} />
-              <span className="text-sm text-amber-700 ml-2">Thinking...</span>
-            </div>
-          </div>
-        )}
-        
-        {isOpen && answer && (
-          <div className="mt-4 p-4 rounded-xl bg-amber-100 border border-amber-200">
-            <div className="flex items-start gap-3">
-              <div className="p-1.5 rounded-full bg-amber-700/10 shrink-0 mt-0.5">
-                <Bot className="h-4 w-4 text-amber-700" />
-              </div>
-              <p className="text-amber-900 text-sm leading-relaxed whitespace-pre-wrap">{answer}</p>
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* Floating Button */}
+      <button
+        onClick={() => setIsChatOpen(!isChatOpen)}
+        className={`relative w-14 h-14 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center group ${
+          isChatOpen 
+            ? 'bg-amber-700 hover:bg-amber-800' 
+            : 'bg-amber-600/70 hover:bg-amber-700 backdrop-blur-sm'
+        }`}
+      >
+        <div className={`transition-transform duration-300 ${isChatOpen ? 'rotate-90 scale-0' : 'rotate-0 scale-100'}`}>
+          <MessageCircle className="h-6 w-6 text-white" />
+        </div>
+        <div className={`absolute transition-transform duration-300 ${isChatOpen ? 'rotate-0 scale-100' : '-rotate-90 scale-0'}`}>
+          <X className="h-6 w-6 text-white" />
+        </div>
+        
+        {/* Tooltip */}
+        <span className={`absolute right-full mr-3 px-3 py-1.5 bg-amber-900 text-white text-sm rounded-lg whitespace-nowrap transition-opacity duration-200 ${isChatOpen ? 'opacity-0 pointer-events-none' : 'opacity-0 group-hover:opacity-100'}`}>
+          Ask about products
+        </span>
+      </button>
     </div>
   );
 };
