@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { MessageCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import heroImage from '@/assets/south-indian-spices-hero.jpg';
+import ProductAssistant from './ProductAssistant';
 
 interface HeroProps {
   onShopNow: () => void;
@@ -69,6 +70,11 @@ const Hero = ({ onShopNow }: HeroProps) => {
             >
               Learn Our Story
             </Button>
+          </div>
+          
+          {/* AI Product Assistant */}
+          <div className="pt-8">
+            <ProductAssistant />
           </div>
         </div>
       </div>
