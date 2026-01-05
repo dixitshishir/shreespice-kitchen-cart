@@ -163,35 +163,35 @@ const ProductAssistant = () => {
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      <div className="bg-card/80 backdrop-blur-sm rounded-2xl border border-border/50 shadow-xl p-6">
+      <div className="bg-amber-50/90 backdrop-blur-sm rounded-2xl border border-amber-200 shadow-xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 rounded-full bg-primary/10">
-            <Bot className="h-5 w-5 text-primary" />
+          <div className="p-2 rounded-full bg-amber-700/10">
+            <Bot className="h-5 w-5 text-amber-700" />
           </div>
           <div>
-            <h3 className="font-semibold text-foreground">Product Assistant</h3>
-            <p className="text-sm text-muted-foreground">Ask me anything about our products</p>
+            <h3 className="font-semibold text-amber-900">Product Assistant</h3>
+            <p className="text-sm text-amber-700">Ask me anything about our products</p>
           </div>
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-amber-600" />
             <Input
               type="text"
               placeholder={isListening ? "Listening..." : "Ask about our spices, sweets, prices..."}
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
-              className={`pl-12 pr-24 py-6 text-base rounded-xl border-border/50 bg-background/50 ${isListening ? 'border-primary animate-pulse' : ''}`}
+              className={`pl-12 pr-24 py-6 text-base rounded-xl border-amber-200 bg-white text-black placeholder:text-amber-400 ${isListening ? 'border-amber-500 animate-pulse' : ''}`}
               disabled={isLoading}
             />
             {question && !isListening && (
               <button
                 type="button"
                 onClick={handleClear}
-                className="absolute right-[88px] top-1/2 -translate-y-1/2 p-1 hover:bg-muted rounded-full"
+                className="absolute right-[88px] top-1/2 -translate-y-1/2 p-1 hover:bg-amber-100 rounded-full"
               >
-                <X className="h-4 w-4 text-muted-foreground" />
+                <X className="h-4 w-4 text-amber-600" />
               </button>
             )}
             <Button
@@ -200,7 +200,7 @@ const ProductAssistant = () => {
               variant={isListening ? "destructive" : "outline"}
               onClick={toggleListening}
               disabled={isLoading}
-              className={`absolute right-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg ${isListening ? 'animate-pulse' : ''}`}
+              className={`absolute right-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg border-amber-300 text-amber-700 hover:bg-amber-100 ${isListening ? 'animate-pulse bg-red-500 text-white border-red-500' : ''}`}
             >
               {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
             </Button>
@@ -208,7 +208,7 @@ const ProductAssistant = () => {
               type="submit"
               size="icon"
               disabled={isLoading || !question.trim()}
-              className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg"
+              className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg bg-amber-700 hover:bg-amber-800 text-white"
             >
               <Send className="h-4 w-4" />
             </Button>
@@ -221,7 +221,7 @@ const ProductAssistant = () => {
                   key={i}
                   type="button"
                   onClick={() => setQuestion(q)}
-                  className="text-xs px-3 py-1.5 rounded-full bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-xs px-3 py-1.5 rounded-full bg-amber-100 hover:bg-amber-200 text-amber-800 transition-colors"
                 >
                   {q}
                 </button>
@@ -231,35 +231,35 @@ const ProductAssistant = () => {
         </form>
         
         {isListening && (
-          <div className="mt-4 p-4 rounded-xl bg-primary/5 border border-primary/20">
+          <div className="mt-4 p-4 rounded-xl bg-amber-100 border border-amber-300">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <Mic className="h-5 w-5 text-primary" />
+                <Mic className="h-5 w-5 text-amber-700" />
                 <span className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full animate-ping" />
               </div>
-              <span className="text-sm text-foreground">Listening... Speak your question</span>
+              <span className="text-sm text-amber-900">Listening... Speak your question</span>
             </div>
           </div>
         )}
         
         {isLoading && (
-          <div className="mt-4 p-4 rounded-xl bg-muted/30 animate-pulse">
+          <div className="mt-4 p-4 rounded-xl bg-amber-100/50 animate-pulse">
             <div className="flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '0ms' }} />
-              <div className="h-2 w-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />
-              <div className="h-2 w-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '300ms' }} />
-              <span className="text-sm text-muted-foreground ml-2">Thinking...</span>
+              <div className="h-2 w-2 rounded-full bg-amber-600 animate-bounce" style={{ animationDelay: '0ms' }} />
+              <div className="h-2 w-2 rounded-full bg-amber-600 animate-bounce" style={{ animationDelay: '150ms' }} />
+              <div className="h-2 w-2 rounded-full bg-amber-600 animate-bounce" style={{ animationDelay: '300ms' }} />
+              <span className="text-sm text-amber-700 ml-2">Thinking...</span>
             </div>
           </div>
         )}
         
         {isOpen && answer && (
-          <div className="mt-4 p-4 rounded-xl bg-primary/5 border border-primary/10">
+          <div className="mt-4 p-4 rounded-xl bg-amber-100 border border-amber-200">
             <div className="flex items-start gap-3">
-              <div className="p-1.5 rounded-full bg-primary/10 shrink-0 mt-0.5">
-                <Bot className="h-4 w-4 text-primary" />
+              <div className="p-1.5 rounded-full bg-amber-700/10 shrink-0 mt-0.5">
+                <Bot className="h-4 w-4 text-amber-700" />
               </div>
-              <p className="text-foreground text-sm leading-relaxed whitespace-pre-wrap">{answer}</p>
+              <p className="text-amber-900 text-sm leading-relaxed whitespace-pre-wrap">{answer}</p>
             </div>
           </div>
         )}
