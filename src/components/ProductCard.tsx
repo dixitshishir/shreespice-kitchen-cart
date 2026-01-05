@@ -45,53 +45,37 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
         style={{animationDelay: `${delay}s`}}
         onClick={handleCardClick}
       >
-        {/* Image section */}
-        <div className="relative aspect-[4/3] overflow-hidden rounded-t-xl">
+        {/* Image section - more compact */}
+        <div className="relative aspect-square overflow-hidden rounded-t-lg">
           <img
             src={product.image}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           
           {/* New item badge */}
           {product.id.startsWith('n') && (
-            <div className="absolute top-3 left-3 bg-accent text-white px-2 py-1 rounded-lg text-xs font-semibold shadow-md">
+            <div className="absolute top-2 left-2 bg-accent text-white px-1.5 py-0.5 rounded text-[10px] font-semibold shadow-md">
               New
             </div>
           )}
           
           {/* Price tag */}
-          <div className="absolute bottom-3 right-3 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-2 rounded-lg shadow-lg border-2 border-white/20">
-            <span className="font-bold text-lg">₹{product.price}</span>
+          <div className="absolute bottom-2 right-2 bg-gradient-to-r from-orange-500 to-red-500 text-white px-2 py-1 rounded shadow-lg">
+            <span className="font-bold text-sm">₹{product.price}</span>
           </div>
         </div>
         
-        {/* Content */}
-        <div className="p-5 flex-1 flex flex-col">
-          <div className="flex items-start justify-between mb-3">
-            <div className="flex-1">
-              <h3 className="font-semibold text-base leading-tight text-foreground">
-                {product.name}
-              </h3>
-              {product.kannadaName && (
-                <p className="text-sm font-bold mt-1 bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent">
-                  {product.kannadaName}
-                </p>
-              )}
-            </div>
-            <div className="modern-badge ml-3 shrink-0 text-xs bg-primary/10 text-primary border border-primary/20">
-              {product.weight}
-            </div>
-          </div>
-          
-          <p className="text-muted-foreground text-sm mb-3 line-clamp-2 leading-relaxed flex-1">
-            {product.description}
-          </p>
-          
-          <div className="text-sm font-medium text-primary mb-4">
-            500g per unit
-          </div>
+        {/* Content - compact */}
+        <div className="p-3 flex-1 flex flex-col">
+          <h3 className="font-semibold text-sm leading-tight text-foreground line-clamp-1">
+            {product.name}
+          </h3>
+          {product.kannadaName && (
+            <p className="text-xs font-medium mt-0.5 bg-gradient-to-r from-yellow-500 to-red-500 bg-clip-text text-transparent line-clamp-1">
+              {product.kannadaName}
+            </p>
+          )}
           
           {/* Add to cart button */}
           <Button 
@@ -99,10 +83,11 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
               e.stopPropagation();
               handleAddToCart();
             }}
-            className="btn-primary w-full py-2.5 text-sm flex items-center justify-center gap-2"
+            size="sm"
+            className="btn-primary w-full mt-2 py-1.5 text-xs flex items-center justify-center gap-1.5"
           >
-            <ShoppingCart className="h-4 w-4" />
-            <span>Add to Cart</span>
+            <ShoppingCart className="h-3 w-3" />
+            <span>Add</span>
           </Button>
         </div>
       </div>

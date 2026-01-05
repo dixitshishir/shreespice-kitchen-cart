@@ -264,59 +264,56 @@ const productCategories: ProductCategory[] = [
 
 const ProductGrid = () => {
   return (
-    <section className="py-20 bg-transparent">
-      <div className="container px-6">
-        <div className="text-center mb-16 space-y-6">
-          <div className="inline-flex items-center gap-3 spice-badge rounded-full px-8 py-4 border-2 border-primary/30 bg-gradient-to-r from-primary/10 to-accent/10">
-            <span className="text-3xl animate-spice-float">🌿</span>
-            <span className="text-primary font-black text-2xl drop-shadow-md">Premium South Indian Spices</span>
-            <span className="text-3xl animate-spice-float" style={{animationDelay: '1s'}}>✨</span>
+    <section className="py-10 bg-transparent">
+      <div className="container px-4">
+        <div className="text-center mb-8 space-y-3">
+          <div className="inline-flex items-center gap-2 spice-badge rounded-full px-4 py-2 border border-primary/30 bg-gradient-to-r from-primary/10 to-accent/10">
+            <span className="text-xl">🌿</span>
+            <span className="text-primary font-bold text-base">Premium South Indian Spices</span>
+            <span className="text-xl">✨</span>
           </div>
           
-          <h2 className="text-5xl lg:text-7xl font-black bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-6 drop-shadow-xl tracking-tight">
+          <h2 className="text-3xl lg:text-4xl font-black bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
             Authentic Spice Collection
           </h2>
           
-          <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
-            <div className="spice-badge px-6 py-3 flex items-center gap-2 bg-gradient-to-r from-turmeric/10 to-paprika/10 border-turmeric/30">
-              <span className="text-xl">🍯</span>
+          <div className="flex flex-wrap justify-center gap-2 max-w-3xl mx-auto">
+            <div className="px-3 py-1.5 flex items-center gap-1.5 bg-gradient-to-r from-turmeric/10 to-paprika/10 border border-turmeric/30 rounded-full text-xs">
+              <span>🍯</span>
               <span className="font-medium text-cumin">Made to Order</span>
             </div>
-            <div className="spice-badge px-6 py-3 flex items-center gap-2 bg-gradient-to-r from-cardamom/10 to-coriander/10 border-cardamom/30">
-              <span className="text-xl">🥥</span>
+            <div className="px-3 py-1.5 flex items-center gap-1.5 bg-gradient-to-r from-cardamom/10 to-coriander/10 border border-cardamom/30 rounded-full text-xs">
+              <span>🥥</span>
               <span className="font-medium text-cumin">Pure Ghee</span>
             </div>
-            <div className="spice-badge px-6 py-3 flex items-center gap-2 bg-gradient-to-r from-coriander/10 to-turmeric/10 border-coriander/30">
-              <span className="text-xl">🌿</span>
+            <div className="px-3 py-1.5 flex items-center gap-1.5 bg-gradient-to-r from-coriander/10 to-turmeric/10 border border-coriander/30 rounded-full text-xs">
+              <span>🌿</span>
               <span className="font-medium text-cumin">100% Natural</span>
             </div>
-            <div className="spice-badge px-6 py-3 flex items-center gap-2 bg-gradient-to-r from-cinnamon/10 to-clove/10 border-cinnamon/30">
-              <span className="text-xl">🏠</span>
+            <div className="px-3 py-1.5 flex items-center gap-1.5 bg-gradient-to-r from-cinnamon/10 to-clove/10 border border-cinnamon/30 rounded-full text-xs">
+              <span>🏠</span>
               <span className="font-medium text-cumin">Homemade</span>
             </div>
           </div>
         </div>
         
-        <div className="space-y-20">
+        <div className="space-y-10">
           {productCategories.map((category, index) => (
             <div key={category.name} className="category-section animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
-              <div className="text-center mb-12">
-                <div className="inline-flex items-center gap-4 mb-6">
-                  <div className="text-4xl" style={{animationDelay: `${index * 0.5}s`}}>
-                    {category.name === "New Items" && "✨"}
-                    {category.name === "Powders" && "🌶️"}
-                    {category.name === "Sweets" && "🍯"}
-                    {category.name === "Ready to Eat" && "🍽️"}
-                    {category.name === "Snacks" && "🥨"}
-                  </div>
-                  
-                  <h3 className="text-3xl lg:text-4xl font-bold text-foreground">
-                    {category.name}
-                  </h3>
-                </div>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-2xl">
+                  {category.name === "New Items" && "✨"}
+                  {category.name === "Powders" && "🌶️"}
+                  {category.name === "Sweets" && "🍯"}
+                  {category.name === "Ready to Eat" && "🍽️"}
+                  {category.name === "Snacks" && "🥨"}
+                </span>
+                <h3 className="text-xl lg:text-2xl font-bold text-foreground">
+                  {category.name}
+                </h3>
               </div>
               
-              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+              <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-3 sm:gap-4">
                 {category.products.map((product, productIndex) => (
                   <ProductCard 
                     key={product.id} 
