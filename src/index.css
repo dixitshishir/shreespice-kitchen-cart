@@ -256,39 +256,77 @@
     background-attachment: fixed;
   }
 
-  /* Modern Figma-style wallpaper */
+  /* Gen Z iPhone-style emoji wallpaper */
   .figma-wallpaper {
     position: relative;
-    background: linear-gradient(135deg, #f5e6d3 0%, #d4a574 25%, #c19a6b 50%, #b8956a 75%, #a67c52 100%);
+    background: 
+      linear-gradient(135deg, 
+        #FFF8E7 0%, 
+        #FFE8CC 20%, 
+        #FFDAB9 40%, 
+        #F5DEB3 60%, 
+        #FFE4B5 80%, 
+        #FFEFD5 100%
+      );
     background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
+    animation: gradientShift 20s ease infinite;
   }
 
   .figma-wallpaper::before {
     content: '';
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background-image: 
-      radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
-      radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 35%),
-      radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.12) 0%, transparent 45%),
-      radial-gradient(circle at 30% 85%, rgba(255, 255, 255, 0.09) 0%, transparent 38%);
+      /* Soft glowing orbs like iOS wallpaper */
+      radial-gradient(circle at 10% 20%, rgba(255, 165, 0, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 90% 10%, rgba(255, 99, 71, 0.12) 0%, transparent 45%),
+      radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.18) 0%, transparent 50%),
+      radial-gradient(circle at 20% 70%, rgba(255, 140, 0, 0.14) 0%, transparent 45%),
+      radial-gradient(circle at 50% 50%, rgba(255, 228, 181, 0.2) 0%, transparent 60%),
+      radial-gradient(circle at 30% 30%, rgba(255, 69, 0, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 70% 40%, rgba(255, 200, 100, 0.15) 0%, transparent 50%);
     pointer-events: none;
+    z-index: 0;
   }
 
   @keyframes gradientShift {
-    0% {
+    0%, 100% {
       background-position: 0% 50%;
+    }
+    25% {
+      background-position: 100% 0%;
     }
     50% {
-      background-position: 100% 50%;
+      background-position: 100% 100%;
+    }
+    75% {
+      background-position: 0% 100%;
+    }
+  }
+
+  /* Floating emoji animation */
+  @keyframes floatUp {
+    0% {
+      transform: translateY(100vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.3;
+    }
+    90% {
+      opacity: 0.3;
     }
     100% {
-      background-position: 0% 50%;
+      transform: translateY(-100px) rotate(360deg);
+      opacity: 0;
     }
+  }
+
+  .animate-float-up {
+    animation: floatUp linear infinite;
   }
 
   /* Traditional border pattern */
@@ -305,5 +343,24 @@
     height: 2px;
     background: var(--gradient-spice);
     border-radius: 1px;
+  }
+
+  /* Gen Z glassmorphism cards */
+  .genz-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 
+      0 8px 32px rgba(255, 165, 0, 0.1),
+      0 4px 16px rgba(0, 0, 0, 0.05);
+  }
+
+  .genz-card:hover {
+    background: rgba(255, 255, 255, 0.85);
+    transform: translateY(-4px);
+    box-shadow: 
+      0 12px 40px rgba(255, 165, 0, 0.15),
+      0 8px 24px rgba(0, 0, 0, 0.08);
   }
 }
