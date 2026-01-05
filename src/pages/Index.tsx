@@ -4,6 +4,7 @@ import Hero from '@/components/Hero';
 import ProductGrid from '@/components/ProductGrid';
 import Footer from '@/components/Footer';
 import ProductAssistant from '@/components/ProductAssistant';
+import FloatingEmojis from '@/components/FloatingEmojis';
 
 const Index = () => {
   const productsRef = useRef<HTMLDivElement>(null);
@@ -14,9 +15,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background figma-wallpaper flex flex-col">
+      <FloatingEmojis />
       <Header />
       <Hero onShopNow={scrollToProducts} />
-      <div ref={productsRef} className="flex-1">
+      <div ref={productsRef} className="flex-1 relative z-10">
         <ProductGrid />
       </div>
       <Footer />
