@@ -28,19 +28,24 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
   const [showCustomerForm, setShowCustomerForm] = useState(false);
 
   const countryCodes = [
-    { code: '+91', country: '🇮🇳 India', digits: 10 },
-    { code: '+1', country: '🇺🇸 USA', digits: 10 },
-    { code: '+44', country: '🇬🇧 UK', digits: 10 },
-    { code: '+971', country: '🇦🇪 UAE', digits: 9 },
-    { code: '+65', country: '🇸🇬 Singapore', digits: 8 },
-    { code: '+61', country: '🇦🇺 Australia', digits: 9 },
-    { code: '+49', country: '🇩🇪 Germany', digits: 11 },
-    { code: '+33', country: '🇫🇷 France', digits: 9 },
+    { code: '+91', country: '🇮🇳 India', digits: 10, gradient: 'linear-gradient(135deg, #FF9933 0%, #FFFFFF 50%, #138808 100%)' },
+    { code: '+1', country: '🇺🇸 USA', digits: 10, gradient: 'linear-gradient(135deg, #3C3B6E 0%, #FFFFFF 50%, #B22234 100%)' },
+    { code: '+44', country: '🇬🇧 UK', digits: 10, gradient: 'linear-gradient(135deg, #012169 0%, #FFFFFF 50%, #C8102E 100%)' },
+    { code: '+971', country: '🇦🇪 UAE', digits: 9, gradient: 'linear-gradient(135deg, #00732F 0%, #FFFFFF 40%, #000000 70%, #FF0000 100%)' },
+    { code: '+65', country: '🇸🇬 Singapore', digits: 8, gradient: 'linear-gradient(135deg, #ED2939 0%, #FFFFFF 100%)' },
+    { code: '+61', country: '🇦🇺 Australia', digits: 9, gradient: 'linear-gradient(135deg, #00008B 0%, #FFFFFF 50%, #FF0000 100%)' },
+    { code: '+49', country: '🇩🇪 Germany', digits: 11, gradient: 'linear-gradient(135deg, #000000 0%, #DD0000 50%, #FFCC00 100%)' },
+    { code: '+33', country: '🇫🇷 France', digits: 9, gradient: 'linear-gradient(135deg, #002395 0%, #FFFFFF 50%, #ED2939 100%)' },
   ];
 
   const getPhoneDigitLimit = () => {
     const country = countryCodes.find(c => c.code === customerDetails.countryCode);
     return country?.digits || 10;
+  };
+
+  const getCountryGradient = () => {
+    const country = countryCodes.find(c => c.code === customerDetails.countryCode);
+    return country?.gradient || 'linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%)';
   };
 
   const handlePhoneChange = (value: string) => {
@@ -175,10 +180,11 @@ ${isDavangere ?
                   <select
                     value={customerDetails.countryCode}
                     onChange={(e) => handleCountryCodeChange(e.target.value)}
-                    className="h-10 px-2 rounded-lg border border-border bg-background text-sm w-24 flex-shrink-0"
+                    style={{ background: getCountryGradient() }}
+                    className="h-10 px-2 rounded-lg border border-border text-sm w-24 flex-shrink-0 font-bold text-gray-800 shadow-sm"
                   >
                     {countryCodes.map(({ code, country }) => (
-                      <option key={code} value={code}>{code}</option>
+                      <option key={code} value={code} className="bg-white text-gray-800">{code}</option>
                     ))}
                   </select>
                   <Input
