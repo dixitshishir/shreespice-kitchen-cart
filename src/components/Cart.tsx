@@ -18,6 +18,7 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
   const { toast } = useToast();
   const [customerDetails, setCustomerDetails] = useState({
     name: '',
+    countryCode: '+91',
     phone: '',
     address: '',
     landmark: '',
@@ -25,6 +26,25 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
     pincode: ''
   });
   const [showCustomerForm, setShowCustomerForm] = useState(false);
+
+  const countryCodes = [
+    { code: '+91', country: '🇮🇳 India' },
+    { code: '+1', country: '🇺🇸 USA' },
+    { code: '+44', country: '🇬🇧 UK' },
+    { code: '+971', country: '🇦🇪 UAE' },
+    { code: '+65', country: '🇸🇬 Singapore' },
+    { code: '+61', country: '🇦🇺 Australia' },
+    { code: '+49', country: '🇩🇪 Germany' },
+    { code: '+33', country: '🇫🇷 France' },
+  ];
+
+  const handlePhoneChange = (value: string) => {
+    // Only allow digits
+    const digitsOnly = value.replace(/\D/g, '');
+    // Limit to 10 digits
+    const limitedDigits = digitsOnly.slice(0, 10);
+    setCustomerDetails({ ...customerDetails, phone: limitedDigits });
+  };
 
   const handleProceedToOrder = () => {
     if (items.length === 0) {
@@ -62,7 +82,7 @@ ${orderItems}
 
 👤 *Customer Details:*
 Name: ${customerDetails.name}
-Phone: ${customerDetails.phone}
+Phone: ${customerDetails.countryCode} ${customerDetails.phone}
 
 📍 *Address:*
 ${customerDetails.address}
@@ -83,6 +103,7 @@ ${isDavangere ?
     clearCart();
     setCustomerDetails({
       name: '',
+      countryCode: '+91',
       phone: '',
       address: '',
       landmark: '',
@@ -137,13 +158,30 @@ ${isDavangere ?
 
               <div>
                 <Label htmlFor="phone" className="text-sm font-medium">Phone Number *</Label>
-                <Input
-                  id="phone"
-                  value={customerDetails.phone}
-                  onChange={(e) => setCustomerDetails({...customerDetails, phone: e.target.value})}
-                  placeholder="Enter your phone number"
-                  className="mt-1 h-10 rounded-lg border-border"
-                />
+                <div className="flex gap-2 mt-1">
+                  <select
+                    value={customerDetails.countryCode}
+                    onChange={(e) => setCustomerDetails({...customerDetails, countryCode: e.target.value})}
+                    className="h-10 px-2 rounded-lg border border-border bg-background text-sm w-24 flex-shrink-0"
+                  >
+                    {countryCodes.map(({ code, country }) => (
+                      <option key={code} value={code}>{code}</option>
+                    ))}
+                  </select>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    inputMode="numeric"
+                    value={customerDetails.phone}
+                    onChange={(e) => handlePhoneChange(e.target.value)}
+                    placeholder="10 digit number"
+                    maxLength={10}
+                    className="h-10 rounded-lg border-border flex-1"
+                  />
+                </div>
+                {customerDetails.phone.length > 0 && customerDetails.phone.length < 10 && (
+                  <p className="text-xs text-amber-600 mt-1">Enter 10 digit phone number</p>
+                )}
               </div>
 
               <div>
