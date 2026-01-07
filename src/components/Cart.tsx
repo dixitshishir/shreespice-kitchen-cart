@@ -241,47 +241,55 @@ ${isDavangere ?
             </div>
           ) : (
             <>
-              <div className="space-y-3 max-h-64 overflow-y-auto">
+              <div className="space-y-3 max-h-[50vh] overflow-y-auto pr-1">
                 {items.map(item => (
-                  <div key={item.product.id} className="figma-card p-3 flex items-center gap-3">
-                    <img 
-                      src={item.product.image} 
-                      alt={item.product.name}
-                      className="w-12 h-12 object-cover rounded-lg"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-sm truncate">{item.product.name}</h4>
-                      <p className="text-xs text-muted-foreground">₹{item.product.price}/500g</p>
-                      <p className="text-sm font-medium text-primary">
-                        {item.quantity * 500}g = ₹{item.product.price * item.quantity}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2">
+                  <div key={item.product.id} className="figma-card p-3">
+                    {/* Top row: Image, Name, Delete */}
+                    <div className="flex items-start gap-3 mb-2">
+                      <img 
+                        src={item.product.image} 
+                        alt={item.product.name}
+                        className="w-14 h-14 object-cover rounded-lg flex-shrink-0"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-semibold text-sm leading-tight line-clamp-2">{item.product.name}</h4>
+                        <p className="text-xs text-muted-foreground mt-0.5">₹{item.product.price}/500g</p>
+                      </div>
                       <Button
                         size="sm"
-                        variant="outline"
-                        onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                        className="h-8 w-8 p-0 rounded-lg"
-                      >
-                        <Minus className="h-3 w-3" />
-                      </Button>
-                      <span className="text-sm font-medium w-8 text-center">{item.quantity}</span>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                        className="h-8 w-8 p-0 rounded-lg"
-                      >
-                        <Plus className="h-3 w-3" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
+                        variant="ghost"
                         onClick={() => removeFromCart(item.product.id)}
-                        className="h-8 w-8 p-0 rounded-lg"
+                        className="h-8 w-8 p-0 text-red-500 hover:text-red-600 hover:bg-red-50 flex-shrink-0"
                       >
-                        <Trash2 className="h-3 w-3" />
+                        <Trash2 className="h-4 w-4" />
                       </Button>
+                    </div>
+                    
+                    {/* Bottom row: Quantity controls + Total */}
+                    <div className="flex items-center justify-between bg-secondary/50 rounded-lg p-2">
+                      <div className="flex items-center gap-1">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                          className="h-8 w-8 p-0 rounded-full bg-white"
+                        >
+                          <Minus className="h-3.5 w-3.5" />
+                        </Button>
+                        <span className="text-sm font-bold w-10 text-center">{item.quantity}</span>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                          className="h-8 w-8 p-0 rounded-full bg-white"
+                        >
+                          <Plus className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-xs text-muted-foreground">{item.quantity * 500}g</p>
+                        <p className="text-sm font-bold text-green-600">₹{item.product.price * item.quantity}</p>
+                      </div>
                     </div>
                   </div>
                 ))}
