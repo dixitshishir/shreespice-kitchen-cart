@@ -28,22 +28,35 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
   const [showCustomerForm, setShowCustomerForm] = useState(false);
 
   const countryCodes = [
-    { code: '+91', country: '🇮🇳 India' },
-    { code: '+1', country: '🇺🇸 USA' },
-    { code: '+44', country: '🇬🇧 UK' },
-    { code: '+971', country: '🇦🇪 UAE' },
-    { code: '+65', country: '🇸🇬 Singapore' },
-    { code: '+61', country: '🇦🇺 Australia' },
-    { code: '+49', country: '🇩🇪 Germany' },
-    { code: '+33', country: '🇫🇷 France' },
+    { code: '+91', country: '🇮🇳 India', digits: 10 },
+    { code: '+1', country: '🇺🇸 USA', digits: 10 },
+    { code: '+44', country: '🇬🇧 UK', digits: 10 },
+    { code: '+971', country: '🇦🇪 UAE', digits: 9 },
+    { code: '+65', country: '🇸🇬 Singapore', digits: 8 },
+    { code: '+61', country: '🇦🇺 Australia', digits: 9 },
+    { code: '+49', country: '🇩🇪 Germany', digits: 11 },
+    { code: '+33', country: '🇫🇷 France', digits: 9 },
   ];
+
+  const getPhoneDigitLimit = () => {
+    const country = countryCodes.find(c => c.code === customerDetails.countryCode);
+    return country?.digits || 10;
+  };
 
   const handlePhoneChange = (value: string) => {
     // Only allow digits
     const digitsOnly = value.replace(/\D/g, '');
-    // Limit to 10 digits
-    const limitedDigits = digitsOnly.slice(0, 10);
+    // Limit to country-specific digit count
+    const limitedDigits = digitsOnly.slice(0, getPhoneDigitLimit());
     setCustomerDetails({ ...customerDetails, phone: limitedDigits });
+  };
+
+  const handleCountryCodeChange = (newCode: string) => {
+    const newCountry = countryCodes.find(c => c.code === newCode);
+    const maxDigits = newCountry?.digits || 10;
+    // Trim phone number if it exceeds new country's limit
+    const trimmedPhone = customerDetails.phone.slice(0, maxDigits);
+    setCustomerDetails({ ...customerDetails, countryCode: newCode, phone: trimmedPhone });
   };
 
   const handleProceedToOrder = () => {
@@ -161,7 +174,7 @@ ${isDavangere ?
                 <div className="flex gap-2 mt-1">
                   <select
                     value={customerDetails.countryCode}
-                    onChange={(e) => setCustomerDetails({...customerDetails, countryCode: e.target.value})}
+                    onChange={(e) => handleCountryCodeChange(e.target.value)}
                     className="h-10 px-2 rounded-lg border border-border bg-background text-sm w-24 flex-shrink-0"
                   >
                     {countryCodes.map(({ code, country }) => (
@@ -174,13 +187,13 @@ ${isDavangere ?
                     inputMode="numeric"
                     value={customerDetails.phone}
                     onChange={(e) => handlePhoneChange(e.target.value)}
-                    placeholder="10 digit number"
-                    maxLength={10}
+                    placeholder={`${getPhoneDigitLimit()} digit number`}
+                    maxLength={getPhoneDigitLimit()}
                     className="h-10 rounded-lg border-border flex-1"
                   />
                 </div>
-                {customerDetails.phone.length > 0 && customerDetails.phone.length < 10 && (
-                  <p className="text-xs text-amber-600 mt-1">Enter 10 digit phone number</p>
+                {customerDetails.phone.length > 0 && customerDetails.phone.length < getPhoneDigitLimit() && (
+                  <p className="text-xs text-amber-600 mt-1">Enter {getPhoneDigitLimit()} digit phone number</p>
                 )}
               </div>
 
