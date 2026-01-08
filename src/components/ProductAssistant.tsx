@@ -168,14 +168,14 @@ const ProductAssistant = () => {
       >
         <div className="bg-amber-50 backdrop-blur-md rounded-2xl border border-amber-200 shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-amber-700 to-amber-600 p-4 flex items-center justify-between">
+          <div className="bg-gradient-to-r from-amber-700 via-orange-600 to-amber-700 p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-full bg-white/20">
-                <Bot className="h-5 w-5 text-white" />
+              <div className="p-2 rounded-full bg-white/20 animate-pulse">
+                <span className="text-xl">🌿</span>
               </div>
               <div>
-                <h3 className="font-semibold text-white text-sm">Product Assistant</h3>
-                <p className="text-xs text-amber-100">Ask about our products</p>
+                <h3 className="font-bold text-white text-base tracking-wide">SpiceSage</h3>
+                <p className="text-xs text-amber-100">Your spice & snack guide ✨</p>
               </div>
             </div>
             <button
@@ -227,7 +227,7 @@ const ProductAssistant = () => {
                   <div className="h-2 w-2 rounded-full bg-amber-600 animate-bounce" style={{ animationDelay: '0ms' }} />
                   <div className="h-2 w-2 rounded-full bg-amber-600 animate-bounce" style={{ animationDelay: '150ms' }} />
                   <div className="h-2 w-2 rounded-full bg-amber-600 animate-bounce" style={{ animationDelay: '300ms' }} />
-                  <span className="text-sm text-amber-700 ml-2">Thinking...</span>
+                  <span className="text-sm text-amber-700 ml-2">SpiceSage is thinking...</span>
                 </div>
               </div>
             )}
@@ -236,8 +236,8 @@ const ProductAssistant = () => {
             {answer && (
               <div className="p-3 rounded-xl bg-amber-100 border border-amber-200">
                 <div className="flex items-start gap-2">
-                  <div className="p-1.5 rounded-full bg-amber-700/10 shrink-0 mt-0.5">
-                    <Bot className="h-3 w-3 text-amber-700" />
+                  <div className="p-1.5 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 shrink-0 mt-0.5">
+                    <span className="text-xs">🌿</span>
                   </div>
                   <p className="text-amber-900 text-sm leading-relaxed whitespace-pre-wrap">{answer}</p>
                 </div>
@@ -251,7 +251,7 @@ const ProductAssistant = () => {
               <div className="relative flex-1">
                 <Input
                   type="text"
-                  placeholder={isListening ? "Listening..." : "Type your question..."}
+                  placeholder={isListening ? "Listening..." : "Ask SpiceSage anything..."}
                   value={question}
                   onChange={(e) => setQuestion(e.target.value)}
                   className={`pr-10 py-2.5 text-sm rounded-xl border-amber-200 bg-white text-black placeholder:text-amber-400 ${isListening ? 'border-amber-500' : ''}`}
@@ -290,25 +290,41 @@ const ProductAssistant = () => {
         </div>
       </div>
 
-      {/* Floating Button */}
+      {/* Floating Button - Enhanced with glow and animation */}
       <button
         onClick={() => setIsChatOpen(!isChatOpen)}
-        className={`relative w-14 h-14 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center group ${
+        className={`relative w-16 h-16 rounded-full shadow-2xl transition-all duration-300 flex items-center justify-center group ${
           isChatOpen 
-            ? 'bg-amber-700 hover:bg-amber-800' 
-            : 'bg-amber-600/70 hover:bg-amber-700 backdrop-blur-sm'
+            ? 'bg-gradient-to-br from-amber-700 to-orange-700 scale-90' 
+            : 'bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 hover:scale-110'
         }`}
+        style={{
+          boxShadow: isChatOpen 
+            ? '0 4px 20px rgba(180, 83, 9, 0.4)' 
+            : '0 8px 32px rgba(245, 158, 11, 0.5), 0 0 60px rgba(245, 158, 11, 0.3)'
+        }}
       >
+        {/* Animated ring */}
+        {!isChatOpen && (
+          <>
+            <span className="absolute inset-0 rounded-full border-2 border-amber-400/50 animate-ping" />
+            <span className="absolute inset-[-4px] rounded-full border-2 border-amber-300/30 animate-pulse" />
+          </>
+        )}
+        
         <div className={`transition-transform duration-300 ${isChatOpen ? 'rotate-90 scale-0' : 'rotate-0 scale-100'}`}>
-          <MessageCircle className="h-6 w-6 text-white" />
+          <span className="text-2xl">🌿</span>
         </div>
         <div className={`absolute transition-transform duration-300 ${isChatOpen ? 'rotate-0 scale-100' : '-rotate-90 scale-0'}`}>
           <X className="h-6 w-6 text-white" />
         </div>
         
-        {/* Tooltip */}
-        <span className={`absolute right-full mr-3 px-3 py-1.5 bg-amber-900 text-white text-sm rounded-lg whitespace-nowrap transition-opacity duration-200 ${isChatOpen ? 'opacity-0 pointer-events-none' : 'opacity-0 group-hover:opacity-100'}`}>
-          Ask about products
+        {/* Enhanced Tooltip */}
+        <span className={`absolute right-full mr-4 px-4 py-2 bg-gradient-to-r from-amber-800 to-orange-800 text-white text-sm font-medium rounded-xl whitespace-nowrap transition-all duration-300 shadow-lg ${isChatOpen ? 'opacity-0 pointer-events-none translate-x-2' : 'opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2'}`}>
+          <span className="flex items-center gap-2">
+            <span>✨</span> Ask SpiceSage
+          </span>
+          <span className="absolute right-[-6px] top-1/2 -translate-y-1/2 border-8 border-transparent border-l-amber-800" />
         </span>
       </button>
     </div>
