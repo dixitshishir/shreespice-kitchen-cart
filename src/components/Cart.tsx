@@ -28,15 +28,17 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
   const [showCustomerForm, setShowCustomerForm] = useState(false);
 
   const countryCodes = [
-    { code: '+91', country: '🇮🇳 India', digits: 10, gradient: 'linear-gradient(135deg, #FF9933 0%, #FFFFFF 50%, #138808 100%)' },
-    { code: '+1', country: '🇺🇸 USA', digits: 10, gradient: 'linear-gradient(135deg, #3C3B6E 0%, #FFFFFF 50%, #B22234 100%)' },
-    { code: '+44', country: '🇬🇧 UK', digits: 10, gradient: 'linear-gradient(135deg, #012169 0%, #FFFFFF 50%, #C8102E 100%)' },
-    { code: '+971', country: '🇦🇪 Dubai/UAE', digits: 9, gradient: 'linear-gradient(135deg, #00732F 0%, #FFFFFF 40%, #000000 70%, #FF0000 100%)' },
-    { code: '+49', country: '🇩🇪 Germany', digits: 11, gradient: 'linear-gradient(135deg, #000000 0%, #DD0000 50%, #FFCC00 100%)' },
-    { code: '+61', country: '🇦🇺 Australia', digits: 9, gradient: 'linear-gradient(135deg, #00008B 0%, #FFFFFF 50%, #FF0000 100%)' },
-    { code: '+65', country: '🇸🇬 Singapore', digits: 8, gradient: 'linear-gradient(135deg, #ED2939 0%, #FFFFFF 100%)' },
-    { code: '+1', country: '🇨🇦 Canada', digits: 10, gradient: 'linear-gradient(135deg, #FF0000 0%, #FFFFFF 50%, #FF0000 100%)' },
+    { code: '+91', country: '🇮🇳 India', name: 'India', digits: 10, gradient: 'linear-gradient(135deg, #FF9933 0%, #FFFFFF 50%, #138808 100%)' },
+    { code: '+1-US', country: '🇺🇸 USA', name: 'United States', digits: 10, gradient: 'linear-gradient(135deg, #3C3B6E 0%, #FFFFFF 50%, #B22234 100%)' },
+    { code: '+44', country: '🇬🇧 UK', name: 'United Kingdom', digits: 10, gradient: 'linear-gradient(135deg, #012169 0%, #FFFFFF 50%, #C8102E 100%)' },
+    { code: '+971', country: '🇦🇪 Dubai/UAE', name: 'United Arab Emirates', digits: 9, gradient: 'linear-gradient(135deg, #00732F 0%, #FFFFFF 40%, #000000 70%, #FF0000 100%)' },
+    { code: '+49', country: '🇩🇪 Germany', name: 'Germany', digits: 11, gradient: 'linear-gradient(135deg, #000000 0%, #DD0000 50%, #FFCC00 100%)' },
+    { code: '+61', country: '🇦🇺 Australia', name: 'Australia', digits: 9, gradient: 'linear-gradient(135deg, #00008B 0%, #FFFFFF 50%, #FF0000 100%)' },
+    { code: '+65', country: '🇸🇬 Singapore', name: 'Singapore', digits: 8, gradient: 'linear-gradient(135deg, #ED2939 0%, #FFFFFF 100%)' },
+    { code: '+1-CA', country: '🇨🇦 Canada', name: 'Canada', digits: 10, gradient: 'linear-gradient(135deg, #FF0000 0%, #FFFFFF 50%, #FF0000 100%)' },
   ];
+
+  const getActualCode = (code: string) => code.replace(/-US|-CA/, '');
 
   const getPhoneDigitLimit = () => {
     const country = countryCodes.find(c => c.code === customerDetails.countryCode);
@@ -100,7 +102,7 @@ ${orderItems}
 
 👤 *Customer Details:*
 Name: ${customerDetails.name}
-Phone: ${customerDetails.countryCode} ${customerDetails.phone}
+Phone: ${getActualCode(customerDetails.countryCode)} ${customerDetails.phone}
 
 📍 *Address:*
 ${customerDetails.address}
@@ -183,8 +185,8 @@ ${isDavangere ?
                     style={{ background: getCountryGradient() }}
                     className="h-10 px-2 rounded-lg border border-border text-sm w-24 flex-shrink-0 font-bold text-gray-800 shadow-sm"
                   >
-                    {countryCodes.map(({ code, country }) => (
-                      <option key={code} value={code} className="bg-white text-gray-800">{code}</option>
+                    {countryCodes.map(({ code, country, name }) => (
+                      <option key={code} value={code} title={name} className="bg-white text-gray-800">{getActualCode(code)}</option>
                     ))}
                   </select>
                   <Input
