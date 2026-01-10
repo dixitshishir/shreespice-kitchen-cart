@@ -103,7 +103,7 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
         
         {/* Content - compact */}
         <div className="p-3 flex-1 flex flex-col">
-          <h3 className="font-semibold text-sm leading-tight text-foreground line-clamp-1">
+          <h3 className="font-semibold text-sm leading-tight text-foreground line-clamp-2 min-h-[2.5rem]">
             {product.name}
           </h3>
           {product.kannadaName && (
