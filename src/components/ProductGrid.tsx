@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import ProductCard, { Product } from './ProductCard';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import turmericImage from '@/assets/turmeric-powder.jpg';
 import chiliImage from '@/assets/chili-powder.jpg';
 import corianderImage from '@/assets/coriander-powder.jpg';
@@ -262,7 +265,25 @@ const productCategories: ProductCategory[] = [
   }
 ];
 
+const INITIAL_VISIBLE_COUNT = 4;
+
 const ProductGrid = () => {
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+
+  const toggleCategory = (categoryName: string) => {
+    setExpandedCategories(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(categoryName)) {
+        newSet.delete(categoryName);
+      } else {
+        newSet.add(categoryName);
+      }
+      return newSet;
+    });
+  };
+
+  const isExpanded = (categoryName: string) => expandedCategories.has(categoryName);
+
   return (
     <section className="py-10 bg-transparent">
       <div className="container px-4">
@@ -298,32 +319,78 @@ const ProductGrid = () => {
         </div>
         
         <div className="space-y-10">
-          {productCategories.map((category, index) => (
-            <div key={category.name} className="category-section animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">
-                  {category.name === "New Items" && "✨"}
-                  {category.name === "Powders" && "🌶️"}
-                  {category.name === "Sweets" && "🍯"}
-                  {category.name === "Ready to Eat" && "🍽️"}
-                  {category.name === "Snacks" && "🥨"}
-                </span>
-                <h3 className="text-xl lg:text-2xl font-bold text-foreground">
-                  {category.name}
-                </h3>
+          {productCategories.map((category, index) => {
+            const expanded = isExpanded(category.name);
+            const visibleProducts = expanded 
+              ? category.products 
+              : category.products.slice(0, INITIAL_VISIBLE_COUNT);
+            const hasMore = category.products.length > INITIAL_VISIBLE_COUNT;
+
+            return (
+              <div key={category.name} className="category-section animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">
+                      {category.name === "New Items" && "✨"}
+                      {category.name === "Powders" && "🌶️"}
+                      {category.name === "Sweets" && "🍯"}
+                      {category.name === "Ready to Eat" && "🍽️"}
+                      {category.name === "Snacks" && "🥨"}
+                    </span>
+                    <h3 className="text-xl lg:text-2xl font-bold text-foreground">
+                      {category.name}
+                    </h3>
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                      {category.products.length} items
+                    </span>
+                  </div>
+                  
+                  {hasMore && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => toggleCategory(category.name)}
+                      className="text-primary hover:text-primary/80 hover:bg-primary/10 gap-1.5 font-medium"
+                    >
+                      {expanded ? (
+                        <>
+                          Show Less <ChevronUp className="h-4 w-4" />
+                        </>
+                      ) : (
+                        <>
+                          View All ({category.products.length}) <ChevronDown className="h-4 w-4" />
+                        </>
+                      )}
+                    </Button>
+                  )}
+                </div>
+                
+                <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-3 sm:gap-4">
+                  {visibleProducts.map((product, productIndex) => (
+                    <ProductCard 
+                      key={product.id} 
+                      product={product} 
+                      delay={productIndex * 0.1} 
+                    />
+                  ))}
+                </div>
+
+                {hasMore && !expanded && (
+                  <div className="mt-4 text-center">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => toggleCategory(category.name)}
+                      className="border-primary/30 text-primary hover:bg-primary/10 gap-2"
+                    >
+                      <span>+{category.products.length - INITIAL_VISIBLE_COUNT} more items</span>
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
               </div>
-              
-              <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-3 sm:gap-4">
-                {category.products.map((product, productIndex) => (
-                  <ProductCard 
-                    key={product.id} 
-                    product={product} 
-                    delay={productIndex * 0.1} 
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
