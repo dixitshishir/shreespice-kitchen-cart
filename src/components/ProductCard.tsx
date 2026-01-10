@@ -3,6 +3,7 @@ import { useCart } from '@/contexts/CartContext';
 import { useToast } from '@/hooks/use-toast';
 import { ShoppingCart, Plus, Minus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import ProductDetailsModal from './ProductDetailsModal';
 
 export interface Product {
@@ -68,11 +69,14 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
 
   return (
     <>
-      <div 
-        className="product-card h-full flex flex-col cursor-pointer group"
-        style={{animationDelay: `${delay}s`}}
-        onClick={handleCardClick}
-      >
+      <TooltipProvider delayDuration={300}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div 
+              className="product-card h-full flex flex-col cursor-pointer group"
+              style={{animationDelay: `${delay}s`}}
+              onClick={handleCardClick}
+            >
         {/* Image section - more compact */}
         <div className="relative aspect-square overflow-hidden rounded-t-lg">
           <img
@@ -160,7 +164,34 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
             </div>
           )}
         </div>
-      </div>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent 
+            side="top" 
+            className="max-w-[280px] p-4 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950 dark:to-orange-950 border-2 border-amber-200 dark:border-amber-800 shadow-xl rounded-xl"
+          >
+            <div className="space-y-2">
+              <h4 
+                className="font-semibold text-base text-amber-900 dark:text-amber-100"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                {product.name}
+              </h4>
+              <p 
+                className="text-sm text-amber-800 dark:text-amber-200 leading-relaxed italic"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                {product.description}
+              </p>
+              <div className="flex items-center gap-2 pt-1 border-t border-amber-200 dark:border-amber-700">
+                <span className="text-xs text-amber-600 dark:text-amber-400 font-medium">{product.weight}</span>
+                <span className="text-xs text-amber-400">•</span>
+                <span className="text-xs font-bold text-green-600 dark:text-green-400">₹{product.price}</span>
+              </div>
+            </div>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
 
       <ProductDetailsModal 
         product={product}
