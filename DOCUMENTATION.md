@@ -1,320 +1,722 @@
-# Spice & Health Products E-commerce Web Application
+# Shree Spices and Snacks - Technical Documentation
 
-## Project Overview
+## 📋 Table of Contents
+1. [Application Overview](#-application-overview)
+2. [Architecture Diagram](#-architecture-diagram)
+3. [Technology Stack](#-technology-stack)
+4. [What's Actually Used](#-whats-actually-used)
+5. [Component Flow](#-component-flow)
+6. [Database Schema](#-database-schema)
+7. [Edge Functions](#-edge-functions)
+8. [Security Implementation](#-security-implementation)
+9. [End-to-End User Flow](#-end-to-end-user-flow)
 
-A modern React-based e-commerce platform for selling spices and health products with integrated UPI payment system, order management, and admin dashboard.
+---
 
-## 🚀 Technology Stack
+## 🏠 Application Overview
 
-- **Frontend**: React 18, TypeScript, Vite
-- **Styling**: Tailwind CSS, shadcn/ui components
-- **Backend**: Supabase (PostgreSQL, Edge Functions, Authentication)
-- **Payment**: Custom UPI QR-based payment system with manual verification
-- **State Management**: React Context API
-- **Routing**: React Router DOM
-- **Notifications**: WhatsApp integration for admin alerts
+**Shree Spices and Snacks** is a family-owned e-commerce web application selling authentic homemade South Indian spices, sweets, and snacks. 
 
-## 📁 Project Structure
+### What's Live & Active:
+- ✅ **Product Catalog**: 25+ products across 5 categories
+- ✅ **Shopping Cart**: Full cart management with quantity controls
+- ✅ **WhatsApp Ordering**: Primary order method - sends orders directly to business owner
+- ✅ **AI Assistant (SpiceSage)**: Chatbot for product queries using Lovable AI
+- ⚠️ **Razorpay Integration**: Available but secondary to WhatsApp ordering
+
+---
+
+## 🏗️ Architecture Diagram
 
 ```
-src/
-├── components/
-│   ├── ui/                    # shadcn/ui base components
-│   ├── AdminLogin.tsx         # Admin authentication component
-│   ├── Cart.tsx              # Shopping cart with payment integration
-│   ├── CustomerDetailsForm.tsx # Customer information form
-│   ├── Header.tsx            # Main navigation header
-│   ├── Hero.tsx              # Landing page hero section
-│   ├── OrderHistory.tsx      # Order management for admin
-│   ├── PaymentQR.tsx         # UPI QR payment interface
-│   ├── ProductCard.tsx       # Individual product display
-│   └── ProductGrid.tsx       # Product catalog grid
-├── contexts/
-│   ├── CartContext.tsx       # Shopping cart state management
-│   └── OrderContext.tsx      # Order management state
-├── hooks/
-│   ├── use-mobile.tsx        # Mobile detection hook
-│   └── use-toast.ts          # Toast notification hook
-├── integrations/supabase/
-│   ├── client.ts             # Supabase client configuration
-│   └── types.ts              # Auto-generated database types
-├── lib/
-│   ├── supabase.ts           # Supabase utilities
-│   └── utils.ts              # General utility functions
-├── pages/
-│   ├── Admin.tsx             # Admin dashboard
-│   ├── Index.tsx             # Main landing page
-│   ├── NotFound.tsx          # 404 error page
-│   └── Story.tsx             # Brand story page
-├── assets/                   # Product images and static assets
-├── App.tsx                   # Main application component
-├── main.tsx                  # Application entry point
-└── index.css                 # Global styles and design tokens
-
-supabase/
-├── functions/
-│   └── verify-payment/       # Payment verification edge function
-├── migrations/               # Database migration files
-└── config.toml              # Supabase configuration
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              FRONTEND (React + Vite)                        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐    │
+│  │    Header    │  │     Hero     │  │ ProductGrid  │  │    Footer    │    │
+│  │  (Cart Icon) │  │   (Banner)   │  │  (Products)  │  │   (Links)    │    │
+│  └──────┬───────┘  └──────────────┘  └──────┬───────┘  └──────────────┘    │
+│         │                                    │                              │
+│         │         ┌──────────────────────────┤                              │
+│         │         │                          │                              │
+│  ┌──────▼─────────▼──┐    ┌──────────────────▼───┐    ┌──────────────────┐ │
+│  │   CartContext     │    │    ProductCard       │    │ ProductAssistant │ │
+│  │ (Global State)    │    │   (Flip Card UI)     │    │   (AI Chatbot)   │ │
+│  └──────────┬────────┘    └──────────────────────┘    └────────┬─────────┘ │
+│             │                                                   │           │
+└─────────────┼───────────────────────────────────────────────────┼───────────┘
+              │                                                   │
+              ▼                                                   ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           SUPABASE BACKEND                                  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌────────────────────────────────────────────────────────────────────┐    │
+│  │                        EDGE FUNCTIONS                               │    │
+│  ├────────────────────┬───────────────────┬───────────────────────────┤    │
+│  │ product-assistant  │  verify-payment   │  create-razorpay-order    │    │
+│  │ ✅ ACTIVE          │ ⚠️ AVAILABLE      │  ⚠️ AVAILABLE             │    │
+│  │ (AI Chat - Public) │ (Auth Required)   │  (Payment Processing)     │    │
+│  └────────────────────┴───────────────────┴───────────────────────────┘    │
+│                                                                             │
+│  ┌────────────────────────────────────────────────────────────────────┐    │
+│  │                         DATABASE TABLES                             │    │
+│  ├────────────────┬────────────────┬──────────────┬──────────────────┤    │
+│  │    profiles    │     orders     │ order_items  │    payments      │    │
+│  │  (User Info)   │  (Order Data)  │(Line Items)  │ (Payment Logs)   │    │
+│  └────────────────┴────────────────┴──────────────┴──────────────────┘    │
+│                                                                             │
+│  ┌────────────────────────────────────────────────────────────────────┐    │
+│  │                      SECURITY (RLS + RBAC)                          │    │
+│  ├────────────────────────────────────────────────────────────────────┤    │
+│  │  user_roles table + has_role() function for admin access control   │    │
+│  └────────────────────────────────────────────────────────────────────┘    │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+              │
+              ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          EXTERNAL SERVICES                                  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐      │
+│  │     WhatsApp     │    │     Razorpay     │    │  Lovable AI API  │      │
+│  │  ✅ PRIMARY      │    │  ⚠️ AVAILABLE    │    │  ✅ ACTIVE       │      │
+│  └──────────────────┘    └──────────────────┘    └──────────────────┘      │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## 🛠️ Technology Stack
+
+| Layer | Technology | Purpose | Status |
+|-------|------------|---------|--------|
+| **Frontend** | React 18 + TypeScript | UI Components & Logic | ✅ Active |
+| **Build Tool** | Vite | Fast development & bundling | ✅ Active |
+| **Styling** | Tailwind CSS + shadcn/ui | Design system & components | ✅ Active |
+| **State Management** | React Context API | Cart state management | ✅ Active |
+| **Routing** | React Router v6 | Client-side navigation | ✅ Active |
+| **Backend** | Supabase | Database, Auth, Edge Functions | ✅ Active |
+| **Database** | PostgreSQL (Supabase) | Data persistence | ✅ Active |
+| **Edge Functions** | Deno (Supabase) | Serverless backend logic | ✅ Active |
+| **AI** | Lovable AI Gateway (Gemini) | Product assistant chatbot | ✅ Active |
+| **Payments** | Razorpay | Payment processing | ⚠️ Available |
+| **Hosting** | Vercel | Frontend deployment | ✅ Active |
+| **Mobile** | Capacitor | Native app wrapper | ⚠️ Configured |
+
+---
+
+## 🎯 What's Actually Used
+
+### ✅ ACTIVELY USED
+
+| Feature | Component/File | Description |
+|---------|---------------|-------------|
+| **Product Display** | `ProductGrid.tsx`, `ProductCard.tsx` | 25+ products with flip card hover effect |
+| **Shopping Cart** | `CartContext.tsx`, `Cart.tsx` | Add/remove items, quantity management |
+| **WhatsApp Ordering** | `Cart.tsx` (handleSubmitOrder) | Primary ordering method |
+| **AI Chatbot** | `ProductAssistant.tsx` + `product-assistant/` | SpiceSage for product Q&A |
+| **Voice Input** | `ProductAssistant.tsx` | Web Speech API for voice queries |
+| **Tab Refresh Hook** | `useVisibilityRefresh.ts` | Prevents stale state after WhatsApp redirect |
+
+### ⚠️ AVAILABLE BUT SECONDARY
+
+| Feature | Files | Description |
+|---------|-------|-------------|
+| **Razorpay Payments** | `create-razorpay-order/`, `razorpay-webhook/` | Full payment flow ready |
+| **Payment Verification** | `verify-payment/` | JWT-protected payment creation |
+| **Database Orders** | `orders`, `order_items`, `payments` tables | Schema ready for future use |
+| **User Authentication** | Supabase Auth configured | Available but not required for WhatsApp flow |
+
+### ❌ NOT CURRENTLY USED
+
+| Feature | Reason |
+|---------|--------|
+| `OrderContext.tsx` | File doesn't exist (mentioned in old docs) |
+| Admin Dashboard | No admin page currently implemented |
+| `PaymentQR.tsx` | File doesn't exist |
+
+---
+
+## 🔄 Component Flow
+
+### Active Component Tree
+
+```
+App.tsx
+├── CartProvider (Context)                    # Global cart state
+│   └── Routes
+│       ├── "/" → Index.tsx
+│       │   ├── Header.tsx                    # Logo + Cart icon
+│       │   ├── Hero.tsx                      # Banner with tagline
+│       │   ├── ProductGrid.tsx               # Product categories
+│       │   │   └── ProductCard.tsx (×25+)    # Individual products
+│       │   ├── ProductAssistant.tsx          # SpiceSage AI chatbot
+│       │   └── Footer.tsx                    # Contact info
+│       │
+│       ├── "/story" → Story.tsx              # About page
+│       └── "*" → NotFound.tsx                # 404 page
+│
+└── Cart.tsx (Modal)                          # Shopping cart drawer
+    ├── Cart Items List
+    ├── Customer Details Form
+    └── WhatsApp Submit Button
+```
+
+### Data Flow Diagram
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                        USER INTERACTIONS                          │
+└──────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌──────────────────────────────────────────────────────────────────┐
+│  ProductCard                                                      │
+│  ├─ Click "Add" → addToCart(product)                              │
+│  ├─ Click "+" → updateQuantity(id, qty+1)                         │
+│  └─ Click "-" → updateQuantity(id, qty-1)                         │
+└──────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌──────────────────────────────────────────────────────────────────┐
+│  CartContext (Global State)                                       │
+│  ├─ items: CartItem[]                                             │
+│  ├─ addToCart(product)                                            │
+│  ├─ removeFromCart(productId)                                     │
+│  ├─ updateQuantity(productId, quantity)                           │
+│  ├─ clearCart()                                                   │
+│  ├─ getTotal() → number                                           │
+│  └─ getItemCount() → number                                       │
+└──────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌──────────────────────────────────────────────────────────────────┐
+│  Cart.tsx (Modal)                                                 │
+│  ├─ Display cart items with quantities                            │
+│  ├─ Customer form (name, phone, address)                          │
+│  └─ handleSubmitOrder()                                           │
+│      ├─ Validate form fields                                      │
+│      ├─ Build WhatsApp message                                    │
+│      ├─ window.open(waUrl, '_blank')                              │
+│      ├─ clearCart()                                               │
+│      └─ Show success toast                                        │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+---
 
 ## 🗄️ Database Schema
 
-### Tables
+### Entity Relationship Diagram
 
-#### `profiles`
-- `id` (UUID, Primary Key) - User ID from auth
-- `full_name` (TEXT) - User's full name
-- `phone` (TEXT) - Phone number
-- `created_at`, `updated_at` (TIMESTAMP)
-
-#### `orders`
-- `id` (UUID, Primary Key) - Order ID
-- `user_id` (UUID) - Reference to user
-- `customer_name` (TEXT) - Customer name
-- `customer_phone` (TEXT) - Customer phone
-- `customer_address` (TEXT) - Delivery address
-- `total` (NUMERIC) - Order total amount
-- `status` (TEXT) - Order status (received, processing, shipped, delivered)
-- `payment_id` (UUID) - Reference to payment
-- `created_at`, `updated_at` (TIMESTAMP)
-
-#### `order_items`
-- `id` (UUID, Primary Key)
-- `order_id` (UUID) - Reference to order
-- `product_name` (TEXT) - Product name
-- `price` (NUMERIC) - Product price
-- `quantity` (INTEGER) - Quantity ordered
-- `created_at` (TIMESTAMP)
-
-#### `payments`
-- `id` (UUID, Primary Key)
-- `order_id` (UUID) - Reference to order
-- `transaction_id` (TEXT) - UPI transaction ID
-- `amount` (NUMERIC) - Payment amount
-- `user_name` (TEXT) - Customer name
-- `user_phone` (TEXT) - Customer phone
-- `payment_method` (TEXT) - Payment method (default: UPI)
-- `status` (TEXT) - Payment status (pending, verified, rejected)
-- `verification_notes` (TEXT) - Admin verification notes
-- `created_at`, `updated_at` (TIMESTAMP)
-
-### Row Level Security (RLS) Policies
-
-- **Users** can only access their own orders and payments
-- **Admins** (phone numbers: 9986918992, 1234567890) can access all data
-- **Public** can insert payment records for verification
-
-## 🔄 Application Flows
-
-### 1. Customer Purchase Flow
-
-```mermaid
-graph TD
-    A[Browse Products] --> B[Add to Cart]
-    B --> C[Review Cart]
-    C --> D[Enter Customer Details]
-    D --> E[Proceed to Payment]
-    E --> F[View UPI QR Code]
-    F --> G[Make UPI Payment]
-    G --> H[Enter Transaction ID]
-    H --> I[Submit Payment Verification]
-    I --> J[Order Created - Pending Verification]
-    J --> K[Admin Receives WhatsApp Notification]
-    K --> L[Admin Verifies Payment]
-    L --> M[Order Status Updated]
+```
+┌──────────────┐         ┌──────────────┐         ┌─────────────┐
+│   profiles   │         │    orders    │         │ order_items │
+│──────────────│         │──────────────│         │─────────────│
+│ id (PK, FK)  │◄────────│ user_id (FK) │         │ id (PK)     │
+│ full_name    │         │ id (PK)      │◄────────│ order_id(FK)│
+│ phone        │         │ customer_*   │         │ product_name│
+│ created_at   │         │ total        │         │ quantity    │
+│ updated_at   │         │ status       │         │ price       │
+└──────────────┘         │ payment_id───│──┐      │ created_at  │
+                         │ created_at   │  │      └─────────────┘
+                         │ updated_at   │  │
+                         └──────────────┘  │
+                                           │
+┌──────────────┐                           │      ┌─────────────┐
+│  user_roles  │                           └─────►│  payments   │
+│──────────────│                                  │─────────────│
+│ id (PK)      │                                  │ id (PK)     │
+│ user_id (FK) │                                  │ order_id(FK)│
+│ role (enum)  │                                  │ amount      │
+│ created_at   │                                  │ status      │
+└──────────────┘                                  │ user_name   │
+                                                  │ user_phone  │
+                                                  └─────────────┘
 ```
 
-### 2. Admin Management Flow
+### Table Details
 
-```mermaid
-graph TD
-    A[Admin Login] --> B[View Orders Dashboard]
-    B --> C[Check Payment Verification Requests]
-    C --> D[Verify UPI Transaction]
-    D --> E{Payment Valid?}
-    E -->|Yes| F[Update Payment Status to Verified]
-    E -->|No| G[Update Payment Status to Rejected]
-    F --> H[Update Order Status]
-    G --> I[Add Verification Notes]
-    H --> J[Customer Notification]
-    I --> J
+#### `profiles` - User Information
+```sql
+id           UUID    PK, FK → auth.users(id)
+full_name    TEXT    User's display name
+phone        TEXT    Phone number
+created_at   TIMESTAMPTZ
+updated_at   TIMESTAMPTZ
 ```
 
-### 3. Payment Verification Flow
-
-```mermaid
-sequenceDiagram
-    participant C as Customer
-    participant F as Frontend
-    participant E as Edge Function
-    participant D as Database
-    participant A as Admin
-
-    C->>F: Submit payment details
-    F->>E: POST /verify-payment
-    E->>D: Insert payment record
-    E->>D: Link payment to order
-    E->>A: Send WhatsApp notification
-    E->>F: Return success + WhatsApp URL
-    F->>C: Show confirmation message
-    A->>F: Login to admin panel
-    A->>F: Verify payment manually
-    F->>D: Update payment status
+#### `user_roles` - RBAC System
+```sql
+id           UUID    PK
+user_id      UUID    FK → auth.users(id) ON DELETE CASCADE
+role         app_role ('admin' | 'user')
+created_at   TIMESTAMPTZ
+UNIQUE(user_id, role)
 ```
 
-## 🛠️ Key Features
-
-### Customer Features
-- **Product Catalog**: Browse spices and health products
-- **Shopping Cart**: Add/remove items, quantity management
-- **Secure Checkout**: Customer details form with validation
-- **UPI Payment**: QR code-based payment with manual verification
-- **Order Tracking**: View order status and history
-
-### Admin Features
-- **Order Management**: View and manage all orders
-- **Payment Verification**: Manual verification of UPI transactions
-- **Status Updates**: Update order status (processing, shipped, delivered)
-- **WhatsApp Notifications**: Automatic alerts for new payment verifications
-
-### Technical Features
-- **Responsive Design**: Mobile-first approach with Tailwind CSS
-- **Real-time Updates**: Supabase real-time subscriptions
-- **Type Safety**: Full TypeScript implementation
-- **Authentication**: Supabase auth with profile management
-- **Error Handling**: Comprehensive error handling with toast notifications
-
-## 🚀 Setup Instructions
-
-### Prerequisites
-- Node.js 18+ and npm
-- Supabase account and project
-
-### Installation
-
-1. **Clone the repository**
-```bash
-git clone <repository-url>
-cd <project-name>
+#### `orders` - Customer Orders
+```sql
+id               UUID    PK
+user_id          UUID    FK → auth.users (nullable)
+payment_id       UUID    FK → payments
+customer_name    TEXT    NOT NULL
+customer_phone   TEXT    NOT NULL
+customer_address TEXT    NOT NULL
+total            NUMERIC NOT NULL
+status           TEXT    DEFAULT 'received'
+created_at       TIMESTAMPTZ
+updated_at       TIMESTAMPTZ
 ```
 
-2. **Install dependencies**
-```bash
-npm install
+#### `order_items` - Order Line Items
+```sql
+id           UUID    PK
+order_id     UUID    FK → orders
+product_name TEXT    NOT NULL
+quantity     INTEGER NOT NULL
+price        NUMERIC NOT NULL
+created_at   TIMESTAMPTZ
 ```
 
-3. **Environment Setup**
-- Supabase URL and keys are configured in `src/integrations/supabase/client.ts`
-- No additional environment variables needed
-
-4. **Database Setup**
-- Run migrations: `npm run db:push` (if using Supabase CLI)
-- Or apply the migration files manually in Supabase dashboard
-
-5. **Start Development Server**
-```bash
-npm run dev
+#### `payments` - Payment Records
+```sql
+id                 UUID    PK
+order_id           UUID    FK → orders
+amount             NUMERIC NOT NULL
+status             TEXT    DEFAULT 'pending'
+user_name          TEXT
+user_phone         TEXT
+payment_method     TEXT    DEFAULT 'UPI'
+verification_notes TEXT
+created_at         TIMESTAMPTZ
+updated_at         TIMESTAMPTZ
 ```
 
-### Deployment
+---
 
-1. **Build the application**
-```bash
-npm run build
+## ⚡ Edge Functions
+
+### 1. product-assistant ✅ ACTIVE
+**Path**: `supabase/functions/product-assistant/index.ts`  
+**Authentication**: None required (public)  
+**Purpose**: AI-powered customer service chatbot
+
+**How It Works**:
+```
+1. User types question in SpiceSage chat
+2. Frontend calls supabase.functions.invoke('product-assistant', { body: { question } })
+3. Edge Function sends request to Lovable AI Gateway
+4. System prompt includes full product catalog (prices, descriptions)
+5. Gemini model generates contextual response
+6. Response returned to frontend and displayed
 ```
 
-2. **Deploy to your preferred platform**
-- Vercel, Netlify, or any static hosting service
-- Supabase edge functions are deployed automatically
-
-## 🔧 Configuration
-
-### Admin Access
-- Admin phone numbers are configured in RLS policies: `9986918992`, `1234567890`
-- To add more admins, update the RLS policies in the database
-
-### Payment Configuration
-- UPI ID: `shishirdixit3092003@ybl`
-- QR Code: Located in `public/lovable-uploads/`
-- WhatsApp notification phone: `9986918992`
-
-### Product Catalog
-- Products are hardcoded in `ProductGrid.tsx`
-- Images stored in `src/assets/`
-- To add products, update the products array in the component
-
-## 🔍 API Documentation
-
-### Edge Functions
-
-#### `/verify-payment`
-**POST** - Verify UPI payment and notify admin
-
-**Request Body:**
+**Request**:
 ```json
-{
-  "orderId": "string",
-  "transactionId": "string", 
-  "amount": "number",
-  "customerName": "string",
-  "customerPhone": "string"
-}
+{ "question": "What's the price of Mysore Pak?" }
 ```
 
-**Response:**
+**Response**:
 ```json
-{
-  "success": true,
-  "paymentId": "uuid",
-  "whatsappUrl": "string",
-  "message": "string"
-}
+{ "answer": "Mysore Pak costs ₹250 for 500g. It's made with pure ghee..." }
 ```
 
-## 🛡️ Security Features
+---
 
-- **Row Level Security**: Database-level access control
-- **Input Validation**: Zod schemas for form validation
-- **XSS Protection**: React's built-in XSS protection
-- **CORS Configuration**: Proper CORS headers for edge functions
-- **Authentication**: Supabase auth with secure session management
+### 2. verify-payment ⚠️ AVAILABLE
+**Path**: `supabase/functions/verify-payment/index.ts`  
+**Authentication**: JWT required  
+**Purpose**: Create payment verification records
 
-## 🐛 Troubleshooting
+**Security Features**:
+- ✅ JWT token verification
+- ✅ Order ownership check (user_id must match)
+- ✅ Amount validation (must match order total)
+- ✅ Duplicate prevention (checks if payment_id already exists)
 
-### Common Issues
+**Flow**:
+```
+1. Verify Authorization header has valid JWT
+2. Extract user ID from token
+3. Validate order exists and belongs to user
+4. Check order doesn't already have a payment
+5. Verify amount matches order total
+6. Create payment record with status='pending'
+7. Update order with payment_id
+8. Generate WhatsApp notification URL for admin
+9. Return success response
+```
 
-1. **Payment verification fails**
-   - Check edge function logs in Supabase dashboard
-   - Verify order ID format and database constraints
+---
 
-2. **Admin login issues**
-   - Ensure phone number matches RLS policy configuration
-   - Check authentication status in browser dev tools
+### 3. create-razorpay-order ⚠️ AVAILABLE
+**Path**: `supabase/functions/create-razorpay-order/index.ts`  
+**Authentication**: None (should be added)  
+**Purpose**: Create Razorpay payment orders
 
-3. **Database connection errors**
-   - Verify Supabase URL and keys in client configuration
-   - Check network connectivity and CORS settings
+**Flow**:
+```
+1. Receive order details (orderId, amount, customerName, customerPhone)
+2. Create Razorpay order via API (amount converted to paise)
+3. Store payment record in database
+4. Update order with payment_id
+5. Return Razorpay order details for frontend checkout
+```
 
-### Debugging
+---
 
-- **Frontend**: Use browser dev tools and React DevTools
-- **Backend**: Check Supabase logs and edge function logs
-- **Database**: Use Supabase SQL editor for direct queries
+### 4. razorpay-webhook ⚠️ AVAILABLE
+**Path**: `supabase/functions/razorpay-webhook/index.ts`  
+**Authentication**: Webhook signature verification  
+**Purpose**: Handle Razorpay payment confirmations
 
-## 📱 Mobile Responsiveness
+**Flow**:
+```
+1. Receive webhook from Razorpay
+2. Verify HMAC SHA256 signature
+3. Parse payment.captured event
+4. Extract order_id from payment notes
+5. Update payment status to 'completed'
+6. Update order status to 'confirmed'
+```
 
-- Fully responsive design using Tailwind CSS
-- Mobile-optimized components and layouts
-- Touch-friendly UI elements
-- Progressive Web App (PWA) ready
+---
 
-## 🔮 Future Enhancements
+## 🔐 Security Implementation
 
-- **Automated Payment Verification**: Integration with UPI payment gateways
-- **Real-time Notifications**: Push notifications for order updates
-- **Inventory Management**: Stock tracking and management
-- **Analytics Dashboard**: Sales and performance metrics
-- **Customer Reviews**: Product rating and review system
-- **Multi-language Support**: Internationalization
-- **Delivery Tracking**: Real-time delivery status
+### Role-Based Access Control (RBAC)
+
+```sql
+-- Role enum
+CREATE TYPE app_role AS ENUM ('admin', 'user');
+
+-- User roles table (separate from profiles to prevent privilege escalation)
+CREATE TABLE user_roles (
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+    role app_role NOT NULL,
+    UNIQUE (user_id, role)
+);
+
+-- Security definer function (prevents RLS recursion)
+CREATE OR REPLACE FUNCTION has_role(_user_id uuid, _role app_role)
+RETURNS boolean
+LANGUAGE sql STABLE SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM user_roles
+    WHERE user_id = _user_id AND role = _role
+  )
+$$;
+```
+
+### RLS Policy Summary
+
+| Table | SELECT | INSERT | UPDATE | DELETE |
+|-------|--------|--------|--------|--------|
+| **profiles** | Own only | Own only | Own only | ❌ |
+| **orders** | Own + Admin | Authenticated | Admin only | ❌ |
+| **order_items** | Own orders + Admin | Authenticated | ❌ | ❌ |
+| **payments** | Own orders + Admin | Authenticated | Admin only | ❌ |
+| **user_roles** | Admin only | ❌ | ❌ | ❌ |
+
+### Granting Admin Access
+
+```sql
+-- Find the user's ID first
+SELECT id, email FROM auth.users WHERE email = 'admin@example.com';
+
+-- Grant admin role
+INSERT INTO user_roles (user_id, role)
+VALUES ('user-uuid-here', 'admin');
+```
+
+---
+
+## 🛒 End-to-End User Flow
+
+### Primary Flow: WhatsApp Ordering (ACTIVE)
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         CUSTOMER JOURNEY                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+STEP 1: BROWSE PRODUCTS
+━━━━━━━━━━━━━━━━━━━━━━━
+User visits site → Sees Hero banner → Scrolls to ProductGrid
+Products organized by category: New Items, Powders, Sweets, Ready to Eat, Snacks
+
+┌────────────────────────────────────────┐
+│         ProductCard (Flip Card)        │
+│ ┌─────────────────┐ ┌────────────────┐ │
+│ │     FRONT       │ │     BACK       │ │
+│ │   [Image]       │ │ Description    │ │
+│ │   Name (EN)     │ │ in Playfair    │ │
+│ │   Name (KN)     │ │ Display font   │ │
+│ │   ₹Price        │ │                │ │
+│ │   [+ Add]       │ │ Weight: 500g   │ │
+│ └─────────────────┘ └────────────────┘ │
+│           ← HOVER TO FLIP →            │
+└────────────────────────────────────────┘
+
+
+STEP 2: ADD TO CART
+━━━━━━━━━━━━━━━━━━━
+Click "+ Add" button on ProductCard
+  │
+  ├─► CartContext.addToCart(product)
+  │     └─► Updates items[] state
+  │
+  └─► Header cart icon updates count
+
+
+STEP 3: MANAGE CART
+━━━━━━━━━━━━━━━━━━━
+Click cart icon → Cart modal opens
+  │
+  ├─► View all items with quantities
+  ├─► Adjust quantities with +/- buttons
+  ├─► Remove items with trash icon
+  └─► See running total
+
+
+STEP 4: CUSTOMER DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━
+Click "Proceed to Order" → Customer form appears
+
+┌──────────────────────────────────────┐
+│ Full Name *         [____________]   │
+│                                      │
+│ Phone *  [🇮🇳 +91 ▼] [__________]   │
+│          (Country-specific digits)   │
+│                                      │
+│ Address *           [____________]   │
+│                     [____________]   │
+│                                      │
+│ Landmark (Optional) [____________]   │
+│                                      │
+│ City *  [________]  PIN [______]     │
+│                                      │
+│ 📍 Delivery Info:                    │
+│ • Davangere: Pickup or home delivery │
+│ • Others: Courier (1-2 days prep)    │
+└──────────────────────────────────────┘
+
+
+STEP 5: SUBMIT ORDER
+━━━━━━━━━━━━━━━━━━━━
+Click "Send Order via WhatsApp"
+  │
+  ├─► Validate required fields
+  │
+  ├─► Build formatted message:
+  │   ┌──────────────────────────────────────┐
+  │   │ 🛒 *New Order - Shree Spices*        │
+  │   │                                      │
+  │   │ 📦 *Order Items:*                    │
+  │   │ Mysore Pak - 2 units (1000g)         │
+  │   │ Rasam Powder - 1 unit (500g)         │
+  │   │                                      │
+  │   │ 👤 *Customer Details:*               │
+  │   │ Name: John Doe                       │
+  │   │ Phone: +91 9876543210                │
+  │   │                                      │
+  │   │ 📍 *Address:*                        │
+  │   │ 123 Main Street                      │
+  │   │ Landmark: Near Park                  │
+  │   │ City: Bangalore                      │
+  │   │ PIN: 560001                          │
+  │   │                                      │
+  │   │ 📦 *Delivery:* Courier (1-2 days)    │
+  │   └──────────────────────────────────────┘
+  │
+  ├─► Generate WhatsApp URL:
+  │   https://wa.me/9986918992?text={encoded_message}
+  │
+  ├─► window.open(waUrl, '_blank')
+  │
+  ├─► clearCart()
+  │
+  └─► Show success toast: "Order Sent! 🎉"
+
+
+STEP 6: WHATSAPP HANDOFF
+━━━━━━━━━━━━━━━━━━━━━━━━
+WhatsApp opens with pre-filled message
+  │
+  ├─► Customer reviews and sends message
+  │
+  └─► Business owner (Nalini Dixit) receives order
+      └─► Manual fulfillment process begins
+```
+
+### AI Assistant Flow (ACTIVE)
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         SPICESAGE CHATBOT                                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+1. User clicks floating 🌿 button (bottom-right corner)
+   └─► Chat window slides up with animation
+
+2. Suggested questions shown:
+   • "What spices do you have?"
+   • "Tell me about Mysore Pak"
+   • "What's good for rasam?"
+
+3. User types question OR clicks mic for voice input
+   └─► Web Speech API converts speech to text
+
+4. handleSubmit() triggered:
+   └─► supabase.functions.invoke('product-assistant', {
+         body: { question: userQuestion }
+       })
+
+5. Edge Function processes:
+   ├─► Loads product catalog (hardcoded in function)
+   ├─► Builds system prompt with context
+   ├─► Calls Lovable AI Gateway (Gemini model)
+   └─► Returns AI-generated answer
+
+6. Response displayed in chat with typing animation
+```
+
+### Payment Flow (AVAILABLE - Secondary)
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         RAZORPAY PAYMENT FLOW                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+1. Order created in database
+   └─► INSERT INTO orders (...)
+
+2. Frontend calls create-razorpay-order Edge Function
+   └─► Creates Razorpay order via API
+   └─► Returns Razorpay order_id
+
+3. Razorpay checkout UI displayed
+   └─► Customer enters card/UPI details
+
+4. Payment completed
+   └─► Razorpay sends webhook
+
+5. razorpay-webhook Edge Function:
+   ├─► Verifies HMAC signature
+   ├─► Updates payment status → 'completed'
+   └─► Updates order status → 'confirmed'
+
+6. Customer sees confirmation
+```
+
+---
+
+## 📁 File Structure
+
+```
+shree-spices/
+├── public/
+│   └── lovable-uploads/              # Product images (PNG)
+├── src/
+│   ├── assets/                       # Local images (JPG)
+│   ├── components/
+│   │   ├── ui/                       # shadcn/ui components
+│   │   ├── Cart.tsx                  # ✅ Shopping cart + checkout
+│   │   ├── Header.tsx                # ✅ Navigation bar
+│   │   ├── Hero.tsx                  # ✅ Hero banner
+│   │   ├── ProductCard.tsx           # ✅ Flip card product
+│   │   ├── ProductGrid.tsx           # ✅ Product categories
+│   │   ├── ProductAssistant.tsx      # ✅ SpiceSage chatbot
+│   │   ├── Footer.tsx                # ✅ Footer
+│   │   ├── FloatingEmojis.tsx        # ✅ Decorative emojis
+│   │   └── ErrorBoundary.tsx         # ✅ Error handling
+│   ├── contexts/
+│   │   └── CartContext.tsx           # ✅ Cart state management
+│   ├── hooks/
+│   │   ├── use-toast.ts              # ✅ Toast notifications
+│   │   ├── use-mobile.tsx            # ✅ Mobile detection
+│   │   └── useVisibilityRefresh.ts   # ✅ Tab visibility handler
+│   ├── integrations/supabase/
+│   │   ├── client.ts                 # ✅ Supabase client
+│   │   └── types.ts                  # ✅ Auto-generated types
+│   ├── lib/
+│   │   ├── supabase.ts               # ⚠️ Duplicate client
+│   │   └── utils.ts                  # ✅ Utility functions
+│   ├── pages/
+│   │   ├── Index.tsx                 # ✅ Main page
+│   │   ├── Story.tsx                 # ✅ About page
+│   │   └── NotFound.tsx              # ✅ 404 page
+│   ├── App.tsx                       # ✅ Root component
+│   ├── main.tsx                      # ✅ Entry point
+│   └── index.css                     # ✅ Styles + flip card CSS
+├── supabase/
+│   ├── config.toml                   # ✅ Supabase config
+│   └── functions/
+│       ├── product-assistant/        # ✅ AI chatbot
+│       ├── verify-payment/           # ⚠️ Available
+│       ├── create-razorpay-order/    # ⚠️ Available
+│       ├── razorpay-webhook/         # ⚠️ Available
+│       └── generate-recipe/          # ❓ Unknown status
+├── capacitor.config.ts               # ⚠️ Mobile app config
+├── tailwind.config.ts                # ✅ Tailwind config
+├── vite.config.ts                    # ✅ Vite config
+└── vercel.json                       # ✅ Vercel routing
+```
+
+---
+
+## 🔧 Environment & Secrets
+
+### Supabase Edge Function Secrets
+
+| Secret | Purpose | Status |
+|--------|---------|--------|
+| `SUPABASE_URL` | Supabase project URL | ✅ Set |
+| `SUPABASE_ANON_KEY` | Public API key | ✅ Set |
+| `SUPABASE_SERVICE_ROLE_KEY` | Admin API key | ✅ Set |
+| `LOVABLE_API_KEY` | AI Gateway access | ✅ Set |
+| `RAZORPAY_KEY_ID` | Razorpay public key | ✅ Set |
+| `RAZORPAY_KEY_SECRET` | Razorpay secret | ✅ Set |
+| `GROK_API_KEY` | Alternative AI | ✅ Set |
+| `OPENAI_API_KEY` | Alternative AI | ✅ Set |
+
+### Frontend Configuration
+- Supabase URL/key embedded in `src/integrations/supabase/client.ts`
+- No VITE_* variables (Supabase edge functions don't support them)
+
+---
+
+## 📞 Business Information
+
+- **Business Name**: Shree Spices and Snacks
+- **Owner**: Nalini Dixit
+- **WhatsApp**: 9986918992
+- **Location**: Davangere, Karnataka, India
+- **Speciality**: Homemade South Indian spices, sweets & snacks
+- **All Products**: 500g packaging, made with pure ghee
+
+---
+
+## 🚀 Deployment
+
+### Frontend (Vercel)
+- Auto-deploys on git push
+- `vercel.json` handles SPA routing:
+  ```json
+  { "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }
+  ```
+
+### Backend (Supabase)
+- Edge Functions auto-deploy on code changes
+- Database migrations via Supabase dashboard
+- RLS policies applied via SQL migrations
+
+---
+
+*Last Updated: January 2026*
