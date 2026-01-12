@@ -20,6 +20,46 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Verify authentication
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return new Response(
+        JSON.stringify({ error: "Unauthorized", success: false }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 401,
+        }
+      );
+    }
+
+    // Create authenticated client to verify the user
+    const supabaseAuth = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
+      {
+        global: { headers: { Authorization: authHeader } },
+      }
+    );
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabaseAuth.auth.getUser();
+
+    if (authError || !user) {
+      console.error("Authentication error:", authError);
+      return new Response(
+        JSON.stringify({ error: "Invalid token", success: false }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 401,
+        }
+      );
+    }
+
+    console.log("Authenticated user:", user.id);
+
+    // Use service role for database operations
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
@@ -27,7 +67,70 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { orderId, amount, customerName, customerPhone }: PaymentVerificationRequest = await req.json();
 
-    console.log("Payment verification request:", { orderId, amount, customerName, customerPhone });
+    console.log("Payment verification request:", { orderId, amount, customerName, customerPhone, userId: user.id });
+
+    // Validate order exists and belongs to the authenticated user
+    const { data: order, error: orderCheckError } = await supabase
+      .from("orders")
+      .select("id, total, payment_id, user_id")
+      .eq("id", orderId)
+      .maybeSingle();
+
+    if (orderCheckError) {
+      console.error("Order check error:", orderCheckError);
+      return new Response(
+        JSON.stringify({ error: "Failed to verify order", success: false }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 500,
+        }
+      );
+    }
+
+    if (!order) {
+      return new Response(
+        JSON.stringify({ error: "Order not found", success: false }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 404,
+        }
+      );
+    }
+
+    // Verify the order belongs to this user
+    if (order.user_id !== user.id) {
+      console.error("User attempting to verify payment for another user's order");
+      return new Response(
+        JSON.stringify({ error: "Unauthorized - order does not belong to you", success: false }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 403,
+        }
+      );
+    }
+
+    // Check if payment already exists
+    if (order.payment_id) {
+      return new Response(
+        JSON.stringify({ error: "Payment already exists for this order", success: false }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 400,
+        }
+      );
+    }
+
+    // Validate amount matches order total
+    if (Number(order.total) !== Number(amount)) {
+      console.error("Amount mismatch:", { orderTotal: order.total, requestedAmount: amount });
+      return new Response(
+        JSON.stringify({ error: "Amount does not match order total", success: false }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 400,
+        }
+      );
+    }
 
     // Create payment record
     const { data: payment, error: paymentError } = await supabase
@@ -58,7 +161,7 @@ const handler = async (req: Request): Promise<Response> => {
       throw orderUpdateError;
     }
 
-    // Get order details for Google Sheets logging
+    // Get order details for logging
     const { data: orderData, error: orderError } = await supabase
       .from("orders")
       .select(`
@@ -71,8 +174,6 @@ const handler = async (req: Request): Promise<Response> => {
     if (orderError) {
       console.error("Error fetching order details:", orderError);
     }
-
-    // Payment verification will now be handled by Razorpay webhook
 
     // Send WhatsApp notification to admin
     const adminPhone = "9986918992";
