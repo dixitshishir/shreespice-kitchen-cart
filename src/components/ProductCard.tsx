@@ -88,8 +88,9 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
             
             {/* New item badge */}
             {product.id.startsWith('n') && (
-              <div className="absolute top-2 left-2 bg-accent text-white px-1.5 py-0.5 rounded text-[10px] font-semibold shadow-md">
-                New
+              <div className="absolute top-2 left-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-2 py-1 rounded-full text-[10px] font-bold shadow-lg flex items-center gap-1 animate-pulse">
+                <Sparkles className="h-3 w-3" />
+                NEW
               </div>
             )}
             
@@ -203,8 +204,9 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
               
               {/* New item badge */}
               {product.id.startsWith('n') && (
-                <div className="absolute top-2 left-2 bg-accent text-white px-1.5 py-0.5 rounded text-[10px] font-semibold shadow-md">
-                  New
+                <div className="absolute top-2 left-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-2 py-1 rounded-full text-[10px] font-bold shadow-lg flex items-center gap-1 animate-pulse">
+                  <Sparkles className="h-3 w-3" />
+                  NEW
                 </div>
               )}
               
