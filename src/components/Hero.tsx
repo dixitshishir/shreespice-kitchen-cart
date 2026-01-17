@@ -19,7 +19,7 @@ const Hero = ({
       <div className="relative z-10 container text-center text-white max-w-5xl px-6">
         <div className="space-y-8 animate-fade-in">
           <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 bg-primary/15 backdrop-blur-sm border rounded-full px-4 py-2 text-sm font-medium text-primary animate-warm-pulse border-muted">
+            <div className="inline-flex items-center gap-2 bg-primary/15 backdrop-blur-sm border rounded-full px-4 py-2 text-sm font-medium animate-warm-pulse border-muted text-destructive-foreground">
               <span>🌿</span>
               <span>100% Natural & Homemade South Indian Spices</span>
             </div>
