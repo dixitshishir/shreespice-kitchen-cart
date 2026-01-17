@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useCart } from '@/contexts/CartContext';
 import { useToast } from '@/hooks/use-toast';
-import { ShoppingCart, Plus, Minus, Sparkles } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { ShoppingCart, Plus, Minus, Sparkles, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ProductDetailsModal from './ProductDetailsModal';
 
@@ -23,6 +24,7 @@ interface ProductCardProps {
 const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
   const { items, addToCart, updateQuantity, removeFromCart } = useCart();
   const { toast } = useToast();
+  const isMobile = useIsMobile();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -40,7 +42,8 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
   const totalWeight = baseWeight * quantity;
   const totalAmount = product.price * quantity;
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     addToCart(product);
     toast({
       title: "Added to Cart! 🛒",
@@ -66,6 +69,118 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
     setIsModalOpen(true);
   };
 
+  // Mobile-optimized card without flip effect
+  if (isMobile) {
+    return (
+      <>
+        <div 
+          className="product-card h-full flex flex-col"
+          style={{animationDelay: `${delay}s`}}
+        >
+          {/* Image section */}
+          <div className="relative aspect-square overflow-hidden rounded-t-lg">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-full object-cover"
+              onClick={handleCardClick}
+            />
+            
+            {/* New item badge */}
+            {product.id.startsWith('n') && (
+              <div className="absolute top-2 left-2 bg-accent text-white px-1.5 py-0.5 rounded text-[10px] font-semibold shadow-md">
+                New
+              </div>
+            )}
+            
+            {/* Info button */}
+            <button
+              onClick={handleCardClick}
+              className="absolute top-2 right-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm w-7 h-7 rounded-full flex items-center justify-center shadow-md"
+            >
+              <Info className="h-4 w-4 text-muted-foreground" />
+            </button>
+            
+            {/* Price tag */}
+            <div className="absolute bottom-2 right-2 bg-gradient-to-r from-orange-500 to-red-500 text-white px-2 py-1 rounded shadow-lg">
+              <span className="font-bold text-sm">₹{product.price}</span>
+            </div>
+
+            {/* Quantity badge when in cart */}
+            {quantity > 0 && (
+              <div className="absolute bottom-2 left-2 bg-green-500 text-white px-2 py-0.5 rounded-full flex items-center gap-1 text-xs font-bold shadow-md">
+                <ShoppingCart className="h-3 w-3" />
+                {quantity}
+              </div>
+            )}
+          </div>
+          
+          {/* Content */}
+          <div className="p-3 flex-1 flex flex-col">
+            <h3 className="font-semibold text-sm leading-tight text-foreground line-clamp-2 min-h-[2.5rem]">
+              {product.name}
+            </h3>
+            {product.kannadaName && (
+              <p className="text-xs font-medium mt-0.5 bg-gradient-to-r from-yellow-500 to-red-500 bg-clip-text text-transparent line-clamp-1">
+                {product.kannadaName}
+              </p>
+            )}
+            
+            {/* Add to cart or Quantity controls - Always visible on mobile */}
+            {quantity === 0 ? (
+              <Button 
+                onClick={handleAddToCart}
+                size="sm"
+                className="btn-primary w-full mt-2 py-2 text-sm flex items-center justify-center gap-2 font-semibold"
+              >
+                <Plus className="h-4 w-4" />
+                <span>Add</span>
+              </Button>
+            ) : (
+              <div className="mt-2 space-y-1">
+                <div className="flex items-center justify-between bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 rounded-lg p-1.5">
+                  <Button
+                    onClick={handleDecrement}
+                    size="sm"
+                    variant="ghost"
+                    className="h-9 w-9 p-0 rounded-full bg-white dark:bg-gray-800 shadow-sm hover:bg-red-100 dark:hover:bg-red-900/50 active:scale-95 transition-transform"
+                  >
+                    <Minus className="h-4 w-4 text-red-600" />
+                  </Button>
+                  
+                  <span className="font-bold text-lg text-foreground min-w-[2.5rem] text-center">
+                    {quantity}
+                  </span>
+                  
+                  <Button
+                    onClick={handleIncrement}
+                    size="sm"
+                    variant="ghost"
+                    className="h-9 w-9 p-0 rounded-full bg-white dark:bg-gray-800 shadow-sm hover:bg-green-100 dark:hover:bg-green-900/50 active:scale-95 transition-transform"
+                  >
+                    <Plus className="h-4 w-4 text-green-600" />
+                  </Button>
+                </div>
+                
+                <div className="flex justify-between text-xs text-muted-foreground px-1">
+                  <span>{totalWeight}g total</span>
+                  <span className="font-semibold text-green-600 dark:text-green-400">₹{totalAmount}</span>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <ProductDetailsModal 
+          product={product}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      </>
+    );
+  }
+
+  // Desktop card with flip effect
   return (
     <>
       <div 
