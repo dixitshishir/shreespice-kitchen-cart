@@ -5,6 +5,7 @@ import ProductGrid from '@/components/ProductGrid';
 import Footer from '@/components/Footer';
 import ProductAssistant from '@/components/ProductAssistant';
 import FloatingEmojis from '@/components/FloatingEmojis';
+import MobileCartBar from '@/components/MobileCartBar';
 import useVisibilityRefresh from '@/hooks/useVisibilityRefresh';
 
 const Index = () => {
@@ -32,6 +33,7 @@ const Index = () => {
       </div>
       <Footer />
       <ProductAssistant />
+      <MobileCartBar />
     </div>
   );
 };
