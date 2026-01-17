@@ -2,26 +2,24 @@ import { Button } from '@/components/ui/button';
 import { MessageCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import heroImage from '@/assets/south-indian-spices-hero.jpg';
-
 interface HeroProps {
   onShopNow: () => void;
 }
-
-const Hero = ({ onShopNow }: HeroProps) => {
+const Hero = ({
+  onShopNow
+}: HeroProps) => {
   const navigate = useNavigate();
-  return (
-    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      >
+  return <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
+      backgroundImage: `url(${heroImage})`
+    }}>
         <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-black/40" />
       </div>
       
       <div className="relative z-10 container text-center text-white max-w-5xl px-6">
         <div className="space-y-8 animate-fade-in">
           <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 bg-primary/15 backdrop-blur-sm border border-primary/30 rounded-full px-4 py-2 text-sm font-medium text-primary animate-warm-pulse">
+            <div className="inline-flex items-center gap-2 bg-primary/15 backdrop-blur-sm border rounded-full px-4 py-2 text-sm font-medium text-primary animate-warm-pulse border-muted">
               <span>🌿</span>
               <span>100% Natural & Homemade South Indian Spices</span>
             </div>
@@ -41,39 +39,27 @@ const Hero = ({ onShopNow }: HeroProps) => {
           
           <div className="flex flex-col gap-4 justify-center items-center max-w-md mx-auto sm:max-w-none pt-4">
             <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-              <Button
-                onClick={() => window.open('https://chat.whatsapp.com/K2G6FniggftGsF7G1fh51D?mode=ems_copy_h_t', '_blank')}
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white border border-blue-500/20 px-6 py-4 rounded-xl font-medium"
-              >
+              <Button onClick={() => window.open('https://chat.whatsapp.com/K2G6FniggftGsF7G1fh51D?mode=ems_copy_h_t', '_blank')} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white border border-blue-500/20 px-6 py-4 rounded-xl font-medium">
                 <MessageCircle className="h-5 w-5" />
                 <span>Join Community</span>
               </Button>
               
-              <Button
-                onClick={() => {
-                  const motherPhone = '9986918992';
-                  const message = '👋 Hello! I would like to know more about Shree Spices and Snacks products and place an order.';
-                  window.open(`https://wa.me/${motherPhone}?text=${encodeURIComponent(message)}`, '_blank');
-                }}
-                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white border border-green-500/20 px-6 py-4 rounded-xl font-medium"
-              >
+              <Button onClick={() => {
+              const motherPhone = '9986918992';
+              const message = '👋 Hello! I would like to know more about Shree Spices and Snacks products and place an order.';
+              window.open(`https://wa.me/${motherPhone}?text=${encodeURIComponent(message)}`, '_blank');
+            }} className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white border border-green-500/20 px-6 py-4 rounded-xl font-medium">
                 <MessageCircle className="h-5 w-5" />
                 <span>Contact Us</span>
               </Button>
             </div>
             
-            <Button 
-              size="lg" 
-              onClick={() => navigate('/story')}
-              className="w-full sm:w-auto btn-primary font-semibold text-base px-8 py-4 rounded-xl"
-            >
+            <Button size="lg" onClick={() => navigate('/story')} className="w-full sm:w-auto btn-primary font-semibold text-base px-8 py-4 rounded-xl">
               Learn Our Story
             </Button>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
