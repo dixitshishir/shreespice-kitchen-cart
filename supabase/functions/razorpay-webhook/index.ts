@@ -1,11 +1,34 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
-import { crypto } from "https://deno.land/std@0.190.0/crypto/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-razorpay-signature",
 };
+
+// Helper function to compute HMAC-SHA256
+async function computeHmacSha256(secret: string, message: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const keyData = encoder.encode(secret);
+  const messageData = encoder.encode(message);
+
+  // Import the secret as a CryptoKey
+  const cryptoKey = await crypto.subtle.importKey(
+    "raw",
+    keyData,
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+
+  // Sign the message with HMAC-SHA256
+  const signature = await crypto.subtle.sign("HMAC", cryptoKey, messageData);
+
+  // Convert to hex string
+  return Array.from(new Uint8Array(signature))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
 
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
@@ -20,6 +43,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const razorpaySecret = Deno.env.get("RAZORPAY_KEY_SECRET");
     if (!razorpaySecret) {
+      console.error("RAZORPAY_KEY_SECRET not configured");
       throw new Error("RAZORPAY_KEY_SECRET not configured");
     }
 
@@ -28,26 +52,26 @@ const handler = async (req: Request): Promise<Response> => {
     const signature = req.headers.get("x-razorpay-signature");
 
     if (!signature) {
-      throw new Error("Missing Razorpay signature");
+      console.error("Missing Razorpay signature header");
+      return new Response("Missing signature", { status: 401 });
     }
 
-    // Verify the webhook signature
-    const expectedSignature = await crypto.subtle.digest(
-      "SHA-256",
-      new TextEncoder().encode(body + razorpaySecret)
-    );
-    
-    const expectedHex = Array.from(new Uint8Array(expectedSignature))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
+    // Verify the webhook signature using proper HMAC-SHA256
+    const expectedSignature = await computeHmacSha256(razorpaySecret, body);
 
-    if (signature !== expectedHex) {
-      console.error("Invalid webhook signature");
-      return new Response("Invalid signature", { status: 400 });
+    if (signature !== expectedSignature) {
+      console.error("Invalid webhook signature", {
+        received: signature.substring(0, 10) + "...",
+        expected: expectedSignature.substring(0, 10) + "..."
+      });
+      return new Response("Invalid signature", { status: 401 });
     }
 
     const event = JSON.parse(body);
-    console.log("Razorpay webhook event:", event);
+    console.log("Razorpay webhook event received:", { 
+      eventType: event.event,
+      eventId: event.id 
+    });
 
     // Handle payment success
     if (event.event === "payment.captured") {
@@ -55,6 +79,23 @@ const handler = async (req: Request): Promise<Response> => {
       const orderId = payment.notes?.order_id;
 
       if (orderId) {
+        // Verify order exists and isn't already confirmed (idempotency check)
+        const { data: existingOrder, error: orderCheckError } = await supabase
+          .from("orders")
+          .select("id, status")
+          .eq("id", orderId)
+          .single();
+
+        if (orderCheckError || !existingOrder) {
+          console.error("Order not found:", orderId);
+          return new Response("Order not found", { status: 404 });
+        }
+
+        if (existingOrder.status === "confirmed") {
+          console.log("Order already confirmed, skipping:", orderId);
+          return new Response("Already processed", { status: 200 });
+        }
+
         // Update payment status in database
         const { error: paymentError } = await supabase
           .from("payments")
@@ -78,7 +119,9 @@ const handler = async (req: Request): Promise<Response> => {
           console.error("Error updating order:", orderError);
         }
 
-        console.log(`Payment confirmed for order ${orderId}`);
+        console.log(`Payment confirmed for order ${orderId}, Razorpay Payment ID: ${payment.id}`);
+      } else {
+        console.warn("Payment captured but no order_id in notes:", payment.id);
       }
     }
 
@@ -89,7 +132,7 @@ const handler = async (req: Request): Promise<Response> => {
 
   } catch (error) {
     console.error("Error in razorpay-webhook function:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: "Internal server error" }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
