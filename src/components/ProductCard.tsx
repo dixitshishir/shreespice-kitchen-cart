@@ -165,31 +165,76 @@ const ProductCard = ({ product, delay = 0 }: ProductCardProps) => {
             </div>
           </div>
 
-          {/* Back of card - Description */}
+          {/* Back of card - Description with Add Button */}
           <div 
-            className="flip-card-back product-card h-full flex flex-col cursor-pointer p-4 justify-center"
-            onClick={handleCardClick}
+            className="flip-card-back product-card h-full flex flex-col p-3 justify-between"
           >
-            <div className="text-center space-y-3">
-              <Sparkles className="h-6 w-6 mx-auto text-amber-500" />
+            <div className="text-center space-y-2 flex-1 flex flex-col justify-center">
+              <Sparkles className="h-5 w-5 mx-auto text-amber-500" />
               <h4 
-                className="font-semibold text-base text-amber-900 dark:text-amber-100"
+                className="font-semibold text-sm text-amber-900 dark:text-amber-100 line-clamp-2"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
                 {product.name}
               </h4>
               <p 
-                className="text-sm text-amber-800 dark:text-amber-200 leading-relaxed italic line-clamp-4"
+                className="text-xs text-amber-800 dark:text-amber-200 leading-relaxed italic line-clamp-3"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
                 {product.description}
               </p>
-              <div className="flex items-center justify-center gap-3 pt-2 border-t border-amber-200 dark:border-amber-700">
-                <span className="text-xs text-amber-600 dark:text-amber-400 font-medium">{product.weight}</span>
-                <span className="text-xs text-amber-400">•</span>
-                <span className="text-sm font-bold text-green-600 dark:text-green-400">₹{product.price}</span>
+              <div className="flex items-center justify-center gap-2 pt-1 border-t border-amber-200 dark:border-amber-700">
+                <span className="text-[10px] text-amber-600 dark:text-amber-400 font-medium">{product.weight}</span>
+                <span className="text-[10px] text-amber-400">•</span>
+                <span className="text-xs font-bold text-green-600 dark:text-green-400">₹{product.price}</span>
               </div>
-              <p className="text-[10px] text-muted-foreground mt-2">Click to view details</p>
+            </div>
+            
+            {/* Add to cart controls on back */}
+            <div className="mt-2">
+              {quantity === 0 ? (
+                <Button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAddToCart();
+                  }}
+                  size="sm"
+                  className="btn-primary w-full py-2 text-xs flex items-center justify-center gap-1.5 font-semibold"
+                >
+                  <Plus className="h-4 w-4" />
+                  <span>Add to Cart</span>
+                </Button>
+              ) : (
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 rounded-lg p-1.5">
+                    <Button
+                      onClick={handleDecrement}
+                      size="sm"
+                      variant="ghost"
+                      className="h-8 w-8 p-0 rounded-full bg-white dark:bg-gray-800 shadow-sm hover:bg-red-100 dark:hover:bg-red-900/50"
+                    >
+                      <Minus className="h-4 w-4 text-red-600" />
+                    </Button>
+                    
+                    <span className="font-bold text-base text-foreground min-w-[2rem] text-center">
+                      {quantity}
+                    </span>
+                    
+                    <Button
+                      onClick={handleIncrement}
+                      size="sm"
+                      variant="ghost"
+                      className="h-8 w-8 p-0 rounded-full bg-white dark:bg-gray-800 shadow-sm hover:bg-green-100 dark:hover:bg-green-900/50"
+                    >
+                      <Plus className="h-4 w-4 text-green-600" />
+                    </Button>
+                  </div>
+                  <div className="flex justify-between text-[10px] text-muted-foreground px-1">
+                    <span>{totalWeight}g</span>
+                    <span className="font-semibold text-green-600 dark:text-green-400">₹{totalAmount}</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
