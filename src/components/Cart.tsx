@@ -168,9 +168,9 @@ ${isDavangere ?
   if (step === 'summary') {
     return (
       <Dialog open={isOpen} onOpenChange={resetAndClose}>
-        <DialogContent className="w-[92vw] max-w-md max-h-[85vh] overflow-y-auto p-5 rounded-2xl border-border/50 bg-card/98 backdrop-blur-md shadow-xl">
+        <DialogContent className="w-[92vw] max-w-md max-h-[85vh] overflow-y-auto p-5 rounded-2xl border-border bg-card backdrop-blur-md shadow-xl">
           <DialogHeader className="pb-2">
-            <DialogTitle className="text-xl font-bold text-center">Review Your Order</DialogTitle>
+            <DialogTitle className="text-xl font-bold text-center text-foreground">Review Your Order</DialogTitle>
           </DialogHeader>
           
           <StepIndicator />
@@ -241,9 +241,9 @@ ${isDavangere ?
   if (step === 'details') {
     return (
       <Dialog open={isOpen} onOpenChange={resetAndClose}>
-        <DialogContent className="w-[92vw] max-w-md max-h-[85vh] overflow-y-auto p-5 rounded-2xl border-border/50 bg-card/98 backdrop-blur-md shadow-xl">
+        <DialogContent className="w-[92vw] max-w-md max-h-[85vh] overflow-y-auto p-5 rounded-2xl border-border bg-card backdrop-blur-md shadow-xl">
           <DialogHeader className="pb-2">
-            <DialogTitle className="text-xl font-bold text-center">Your Details</DialogTitle>
+            <DialogTitle className="text-xl font-bold text-center text-foreground">Your Details</DialogTitle>
           </DialogHeader>
           
           <StepIndicator />
@@ -252,7 +252,7 @@ ${isDavangere ?
             {/* Personal Info Section */}
             <div className="space-y-3">
               <div>
-                <Label htmlFor="name" className="text-sm font-medium flex items-center gap-1">
+                <Label htmlFor="name" className="text-sm font-medium flex items-center gap-1 text-foreground">
                   <User className="h-3.5 w-3.5 text-primary" />
                   Full Name *
                 </Label>
@@ -261,21 +261,21 @@ ${isDavangere ?
                   value={customerDetails.name}
                   onChange={(e) => setCustomerDetails({...customerDetails, name: e.target.value})}
                   placeholder="Enter your full name"
-                  className="mt-1.5 h-11 rounded-xl border-border focus:ring-2 focus:ring-primary/20"
+                  className="mt-1.5 h-11 rounded-xl border-border focus:ring-2 focus:ring-primary/20 bg-background text-foreground"
                 />
               </div>
 
               <div>
-                <Label htmlFor="phone" className="text-sm font-medium">Phone Number *</Label>
+                <Label htmlFor="phone" className="text-sm font-medium text-foreground">Phone Number *</Label>
                 <div className="flex gap-2 mt-1.5">
                   <select
                     value={customerDetails.countryCode}
                     onChange={(e) => handleCountryCodeChange(e.target.value)}
                     style={{ background: getCountryGradient() }}
-                    className="h-11 px-2 rounded-xl border border-border text-sm w-24 flex-shrink-0 font-bold text-gray-800 shadow-sm cursor-pointer"
+                    className="h-11 px-2 rounded-xl border border-border text-sm w-24 flex-shrink-0 font-bold shadow-sm cursor-pointer"
                   >
                     {countryCodes.map(({ code, country, name }) => (
-                      <option key={code} value={code} title={name} className="bg-white text-gray-800">{getActualCode(code)}</option>
+                      <option key={code} value={code} title={name} className="bg-background text-foreground">{getActualCode(code)}</option>
                     ))}
                   </select>
                   <Input
@@ -286,7 +286,7 @@ ${isDavangere ?
                     onChange={(e) => handlePhoneChange(e.target.value)}
                     placeholder={`${getPhoneDigitLimit()} digit number`}
                     maxLength={getPhoneDigitLimit()}
-                    className="h-11 rounded-xl border-border flex-1"
+                    className="h-11 rounded-xl border-border flex-1 bg-background text-foreground"
                   />
                 </div>
                 {customerDetails.phone.length > 0 && customerDetails.phone.length < getPhoneDigitLimit() && (
@@ -297,9 +297,9 @@ ${isDavangere ?
 
             {/* Address Section with Highlight */}
             <div className="space-y-3">
-              <div className="flex items-center gap-2 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl p-3">
-                <AlertCircle className="h-4 w-4 text-amber-600 flex-shrink-0" />
-                <p className="text-xs text-amber-700 dark:text-amber-400">
+              <div className="flex items-center gap-2 bg-accent/20 border border-accent/40 rounded-xl p-3">
+                <AlertCircle className="h-4 w-4 text-accent flex-shrink-0" />
+                <p className="text-xs text-foreground/80">
                   <strong>Note:</strong> This address will be used for courier delivery for non-Davangere orders.
                 </p>
               </div>
@@ -314,59 +314,59 @@ ${isDavangere ?
                   value={customerDetails.address}
                   onChange={(e) => setCustomerDetails({...customerDetails, address: e.target.value})}
                   placeholder="House/Flat No, Street, Area"
-                  className="mt-1.5 rounded-xl border-border resize-none focus:ring-2 focus:ring-primary/20"
+                  className="mt-1.5 rounded-xl border-border resize-none focus:ring-2 focus:ring-primary/20 bg-background"
                   rows={2}
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label htmlFor="city" className="text-sm font-medium">City *</Label>
+                  <Label htmlFor="city" className="text-sm font-medium text-foreground">City *</Label>
                   <Input
                     id="city"
                     value={customerDetails.city}
                     onChange={(e) => setCustomerDetails({...customerDetails, city: e.target.value})}
                     placeholder="City"
-                    className="mt-1.5 h-11 rounded-xl border-border"
+                    className="mt-1.5 h-11 rounded-xl border-border bg-background text-foreground"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="pincode" className="text-sm font-medium">PIN Code</Label>
+                  <Label htmlFor="pincode" className="text-sm font-medium text-foreground">PIN Code</Label>
                   <Input
                     id="pincode"
                     value={customerDetails.pincode}
                     onChange={(e) => setCustomerDetails({...customerDetails, pincode: e.target.value})}
                     placeholder="PIN Code"
-                    className="mt-1.5 h-11 rounded-xl border-border"
+                    className="mt-1.5 h-11 rounded-xl border-border bg-background text-foreground"
                   />
                 </div>
               </div>
 
               <div>
-                <Label htmlFor="landmark" className="text-sm font-medium">Landmark (Optional)</Label>
+                <Label htmlFor="landmark" className="text-sm font-medium text-foreground">Landmark (Optional)</Label>
                 <Input
                   id="landmark"
                   value={customerDetails.landmark}
                   onChange={(e) => setCustomerDetails({...customerDetails, landmark: e.target.value})}
                   placeholder="Nearby landmark"
-                  className="mt-1.5 h-11 rounded-xl border-border"
+                  className="mt-1.5 h-11 rounded-xl border-border bg-background text-foreground"
                 />
               </div>
             </div>
 
             {/* Delivery Info */}
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 rounded-xl p-4 border border-blue-100 dark:border-blue-900">
-              <p className="text-sm font-semibold text-blue-800 dark:text-blue-300 mb-2 flex items-center gap-2">
-                <Package className="h-4 w-4" />
+            <div className="bg-secondary/60 rounded-xl p-4 border border-border">
+              <p className="text-sm font-semibold text-foreground mb-2 flex items-center gap-2">
+                <Package className="h-4 w-4 text-primary" />
                 Delivery Information
               </p>
-              <div className="space-y-2 text-xs text-blue-700 dark:text-blue-400">
+              <div className="space-y-2 text-xs text-muted-foreground">
                 <p className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold">Davangere:</span>
+                  <span className="text-primary font-bold">Davangere:</span>
                   <span>Collect from Dixit Offset Printers or from our home.</span>
                 </p>
                 <p className="flex items-start gap-2">
-                  <span className="text-orange-600 font-bold">Other Cities:</span>
+                  <span className="text-accent font-bold">Other Cities:</span>
                   <span>Orders will be couriered. Charges vary by location. 1-2 days preparation time.</span>
                 </p>
               </div>
@@ -399,9 +399,9 @@ ${isDavangere ?
   // Step 1: Cart View
   return (
     <Dialog open={isOpen} onOpenChange={resetAndClose}>
-      <DialogContent className="w-[92vw] max-w-md max-h-[85vh] overflow-y-auto p-5 rounded-2xl border-border/50 bg-card/98 backdrop-blur-md shadow-xl">
+      <DialogContent className="w-[92vw] max-w-md max-h-[85vh] overflow-y-auto p-5 rounded-2xl border-border bg-card backdrop-blur-md shadow-xl">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-xl font-bold">
+          <DialogTitle className="flex items-center gap-2 text-xl font-bold text-foreground">
             <ShoppingCart className="h-5 w-5 text-primary" />
             Your Cart
             {items.length > 0 && (
