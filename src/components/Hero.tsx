@@ -37,17 +37,6 @@ const Hero = ({ onShopNow }: HeroProps) => {
             crafted with love using time-honored family recipes.
           </p>
           
-          <div className="pt-4">
-            <Button 
-              size="lg" 
-              onClick={onShopNow}
-              className="group bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-semibold text-base px-8 py-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <ShoppingBag className="h-5 w-5 mr-2" />
-              Shop Now
-              <ArrowDown className="h-4 w-4 ml-2 group-hover:translate-y-1 transition-transform" />
-            </Button>
-          </div>
         </div>
       </div>
     </section>
