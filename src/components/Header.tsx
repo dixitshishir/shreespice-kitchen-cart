@@ -33,21 +33,21 @@ const Header = () => {
           <nav className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
             <button 
               onClick={handleJoinCommunity}
-              className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-full hover:bg-primary/10 text-muted-foreground hover:text-foreground transition-all duration-200 font-medium"
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full bg-blue-500/15 hover:bg-blue-500/25 text-blue-600 hover:text-blue-700 transition-all duration-200 font-semibold border border-blue-500/30"
             >
               <Users className="h-3.5 w-3.5" />
               <span className="hidden xs:inline">Join</span> Community
             </button>
             <button 
               onClick={handleWhatsAppContact}
-              className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-full hover:bg-primary/10 text-muted-foreground hover:text-foreground transition-all duration-200 font-medium"
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full bg-green-500/15 hover:bg-green-500/25 text-green-600 hover:text-green-700 transition-all duration-200 font-semibold border border-green-500/30"
             >
               <Phone className="h-3.5 w-3.5" />
               Contact Us
             </button>
             <button 
               onClick={() => navigate('/story')}
-              className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-full hover:bg-primary/10 text-muted-foreground hover:text-foreground transition-all duration-200 font-medium"
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full bg-amber-500/15 hover:bg-amber-500/25 text-amber-600 hover:text-amber-700 transition-all duration-200 font-semibold border border-amber-500/30"
             >
               <BookOpen className="h-3.5 w-3.5" />
               Our Story
