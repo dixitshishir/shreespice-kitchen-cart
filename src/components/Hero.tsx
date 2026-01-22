@@ -1,16 +1,14 @@
 import heroImage from '@/assets/south-indian-spices-hero.jpg';
-
 interface HeroProps {
   onShopNow: () => void;
 }
-
-const Hero = ({ onShopNow }: HeroProps) => {
-  return (
-    <section className="relative min-h-[75vh] flex items-center justify-center overflow-hidden">
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
-        style={{ backgroundImage: `url(${heroImage})` }}
-      >
+const Hero = ({
+  onShopNow
+}: HeroProps) => {
+  return <section className="relative min-h-[75vh] flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
+      backgroundImage: `url(${heroImage})`
+    }}>
         <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/50" />
       </div>
       
@@ -18,7 +16,7 @@ const Hero = ({ onShopNow }: HeroProps) => {
         <div className="space-y-6 animate-fade-in">
           <div className="space-y-4">
             {/* Premium Brand Name with Logo */}
-            <div className="flex flex-col items-center gap-3 mb-6">
+            <div className="flex flex-col items-center mb-6 mx-[16px] gap-0 px-0">
               {/* Elegant Logo */}
               <div className="relative flex items-center justify-center">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 via-yellow-300/30 to-amber-400/20 blur-2xl rounded-full scale-150" />
@@ -38,12 +36,14 @@ const Hero = ({ onShopNow }: HeroProps) => {
                       Nalini Dixit's
                     </p>
                     <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
-                      <span className="bg-gradient-to-r from-amber-200 via-yellow-300 to-amber-200 bg-clip-text text-transparent drop-shadow-lg"
-                        style={{ fontFamily: "'Playfair Display', serif" }}>
+                      <span className="bg-gradient-to-r from-amber-200 via-yellow-300 to-amber-200 bg-clip-text text-transparent drop-shadow-lg" style={{
+                      fontFamily: "'Playfair Display', serif"
+                    }}>
                         Shree Spices
                       </span>
-                      <span className="text-lg sm:text-xl lg:text-2xl font-semibold text-amber-100/80 ml-2"
-                        style={{ fontFamily: "'Playfair Display', serif" }}>
+                      <span className="text-lg sm:text-xl lg:text-2xl font-semibold text-amber-100/80 ml-2" style={{
+                      fontFamily: "'Playfair Display', serif"
+                    }}>
                         & Snacks
                       </span>
                     </h2>
@@ -79,8 +79,6 @@ const Hero = ({ onShopNow }: HeroProps) => {
           
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
